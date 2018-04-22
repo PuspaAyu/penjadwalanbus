@@ -34,7 +34,16 @@ class JadwalBus extends \yii\db\ActiveRecord
             [['tanggal', 'jam_berangkat', 'id_bus', 'id_pegawai', 'jam_datang', 'id_jurusan'], 'required'],
             [['tanggal', 'jam_berangkat', 'jam_datang'], 'safe'],
             [['id_bus', 'id_pegawai', 'id_jurusan'], 'integer'],
-            [['id_bus'], 'exist', 'skipOnError' => true, 'targetClass' => Bus::className(), 'targetAttribute' => ['id_bus' => 'id_bus']],
+            [['id_bus'], 'exist', 
+                         'skipOnError' => true, 
+                         'targetClass' => Bus::className(), 
+                         'targetAttribute' => ['id_bus' => 'id_bus'
+                ]],
+            [['id_pegawai'], 'exist', 
+                         'skipOnError' => true, 
+                         'targetClass' => Pegawai::className(), 
+                         'targetAttribute' => ['id_pegawai' => 'id_pegawai'
+                ]],
         ];
     }
 
@@ -57,5 +66,10 @@ class JadwalBus extends \yii\db\ActiveRecord
     public function getBus()
     {
         return $this->hasOne(Bus::className(), ['id_bus' => 'id_bus']);
+    }
+
+    public function getPegawai()
+    {
+        return $this->hasOne(Pegawai::className(), ['id_pegawai' => 'id_pegawai']);
     }
 }
