@@ -44,9 +44,9 @@ class Jadwal extends \yii\db\ActiveRecord
             'id_pegawai' => 'Id Pegawai',
         ];
     }
-}
 
-public function getBus()
-{
-    return $this->hasOne(Bus::className(), ['id_bus' => 'id_bus']);
+// public function getBus()
+// {
+//     return $this->hasOne(Bus::className(), ['id_bus' => 'id_bus']);
+// }
 }

@@ -44,9 +44,9 @@ class Bus extends \yii\db\ActiveRecord
         ];
     }
 
-    public function getJadwal()
-    {
-        return $this->hasMany(Jadwal::className(), ['id_bus'=>'id_bus']);
-    }
+    // public function getJadwalBus()
+    // {
+    //     return $this->hasMany(JadwalBus::className(), ['id_bus'=>'id_bus']);
+    // }
 }
 
