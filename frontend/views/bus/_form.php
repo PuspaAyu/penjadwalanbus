@@ -3,6 +3,8 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\time\TimePicker;
+use kartik\widgets\Select2;
+use frontend\models\Jurusan;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Bus */
@@ -28,6 +30,10 @@ use kartik\time\TimePicker;
 	   		]
 		]);
 	?>
+
+    <?= $form->field($model, 'id_jurusan')->textInput(['maxlength' => true]) ?>
+
+
 	<br>
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

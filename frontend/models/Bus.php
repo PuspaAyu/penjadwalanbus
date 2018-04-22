@@ -7,9 +7,10 @@ use Yii;
 /**
  * This is the model class for table "bus".
  *
- * @property integer $id_bus
+ * @property int $id_bus
  * @property string $no_polisi
  * @property string $jam_operasional
+ * @property int $id_jurusan
  */
 class Bus extends \yii\db\ActiveRecord
 {
@@ -27,8 +28,15 @@ class Bus extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['no_polisi', 'jam_operasional'], 'required'],
+            [['no_polisi', 'jam_operasional', 'id_jurusan'], 'required'],
+            [['id_jurusan'], 'integer'],
             [['no_polisi', 'jam_operasional'], 'string', 'max' => 10],
+            //[['id_jurusan'], 'string', 'max' => 50],
+            // [['id_jurusan'], 'exist', 
+            //          'skipOnError' => true, 
+            //            'targetClass' => Jurusan::className(), 
+            //            'targetAttribute' => ['id_jurusan' => 'id_jurusan'
+            //  ]],
         ];
     }
 
@@ -41,12 +49,12 @@ class Bus extends \yii\db\ActiveRecord
             'id_bus' => 'Id Bus',
             'no_polisi' => 'No Polisi',
             'jam_operasional' => 'Jam Operasional',
+            'id_jurusan' => 'Id Jurusan',
         ];
     }
 
-    // public function getJadwalBus()
+    // public function getJurusan()
     // {
-    //     return $this->hasMany(JadwalBus::className(), ['id_bus'=>'id_bus']);
+    //     return $this->hasOne(Jurusan::className(),['id_jurusan' => 'id_jurusan']);
     // }
 }
-

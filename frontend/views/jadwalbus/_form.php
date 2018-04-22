@@ -4,6 +4,9 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\date\DatePicker;
 use kartik\time\TimePicker;
+use kartik\widgets\Select2;
+use frontend\models\Bus;
+use frontend\models\Pegawai;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Jadwalbus */
@@ -42,9 +45,23 @@ use kartik\time\TimePicker;
         ]);
     ?>
 
-    <?= $form->field($model, 'id_bus')->textInput() ?>
+    <!-- <?= $form->field($model, 'id_bus')->textInput() ?> -->
+    <?= $form->field($model, 'id_bus')->widget(Select2::className(),[
+            'data' => \yii\helpers\ArrayHelper::map(Bus::find()->all(),'id_bus','no_polisi'),
+            'options' => ['placeholder' => 'Pilih Bus...'],
+            'pluginOptions' => [
+                'allowClear' => true
+            ],
+        ]) ?>
 
-    <?= $form->field($model, 'id_pegawai')->textInput() ?>
+    <!-- <?= $form->field($model, 'id_pegawai')->textInput() ?> -->
+    <?= $form->field($model, 'id_pegawai')->widget(Select2::className(),[
+            'data' => \yii\helpers\ArrayHelper::map(Pegawai::find()->all(),'id_pegawai','nama'),
+            'options' => ['placeholder' => 'Pilih Nama Pegawai...'],
+            'pluginOptions' => [
+                'allowClear' => true
+            ],
+        ]) ?>
 
     <?= $form->field($model, 'jam_datang')->textInput(['maxlength' => true]) ?>
 
