@@ -31,9 +31,9 @@ class JadwalBus extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['tanggal', 'jam_berangkat', 'id_bus', 'id_pegawai', 'jam_datang', 'id_jurusan'], 'required'],
+            [['tanggal', 'jam_berangkat', 'id_bus', 'id_pegawai', 'jam_datang', 'id_jurusan', 'id_sopir', 'id_kondektur'], 'required'],
             [['tanggal', 'jam_berangkat', 'jam_datang'], 'safe'],
-            [['id_bus', 'id_pegawai', 'id_jurusan'], 'integer'],
+            [['id_bus', 'id_pegawai', 'id_jurusan', 'id_sopir', 'id_kondektur'], 'integer'],
             [['id_bus'], 'exist', 
                          'skipOnError' => true, 
                          'targetClass' => Bus::className(), 
@@ -42,8 +42,8 @@ class JadwalBus extends \yii\db\ActiveRecord
             [['id_pegawai'], 'exist', 
                          'skipOnError' => true, 
                          'targetClass' => Pegawai::className(), 
-                         'targetAttribute' => ['id_pegawai' => 'id_pegawai'
-                ]],
+                         'targetAttribute' => ['id_pegawai' => 'id_pegawai']
+            ],
         ];
     }
 
@@ -60,6 +60,8 @@ class JadwalBus extends \yii\db\ActiveRecord
             'id_pegawai' => 'Id Pegawai',
             'jam_datang' => 'Jam Datang',
             'id_jurusan' => 'Id Jurusan',
+            'id_sopir' => 'Id Sopir',
+            'id_kondektur' => 'Id Kondektur',
         ];
     }
 

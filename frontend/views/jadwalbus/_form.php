@@ -67,6 +67,10 @@ use frontend\models\Pegawai;
 
     <?= $form->field($model, 'id_jurusan')->textInput() ?>
 
+    <?= $form->field($model, 'id_sopir')->textInput() ?>
+
+    <?= $form->field($model, 'id_kondektur')->textInput() ?>
+
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>

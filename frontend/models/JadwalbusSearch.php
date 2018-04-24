@@ -20,6 +20,7 @@ class JadwalbusSearch extends Jadwalbus
         return [
             [['id_jadwal', 'id_bus', 'id_pegawai', 'id_jurusan'], 'integer'],
             [['tanggal', 'jam_berangkat', 'jam_datang'], 'safe'],
+            [['bus', 'pegawai'], 'safe'],
         ];
     }
 

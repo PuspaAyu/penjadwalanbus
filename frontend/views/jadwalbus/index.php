@@ -2,6 +2,9 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\models\Jadwalbus;
+use yii\models\Bus;
+use yii\models\Pegawai;
 
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\JadwalbusSearch */
@@ -21,19 +24,29 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id_jadwal',
-            'tanggal',
-            'jam_berangkat',
-            'id_bus',
-            'id_pegawai',
-            //'jam_datang',
-            //'id_jurusan',
+            ['attribute'=>'No Polisi',
+            'value'=>'bus.no_polisi',
+            ],
+
+            ['attribute'=>'Nama Pegawai',
+            'value'=>'pegawai.nama',
+            ],
+
+            // 'id_jadwal',
+            // 'tanggal',
+            // 'jam_berangkat',
+            // 'id_bus',
+            // //'id_pegawai',
+            // //'jam_datang',
+            // //'id_jurusan',
+            // 'id_sopir',
+            // 'id_kondektur',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
+  
 </div>

@@ -8,7 +8,9 @@ use frontend\models\JadwalbusSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use yii\models\Bus;
+use yii\models\Pegawai;
+use yii\data\ActiveDataProvider;
 /**
  * JadwalbusController implements the CRUD actions for Jadwalbus model.
  */
@@ -36,11 +38,12 @@ class JadwalbusController extends Controller
     public function actionIndex()
     {
         $this->layout = 'layout_admin';
-        $searchModel = new JadwalbusSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+ 
+         $dataProvider = new ActiveDataProvider([
+            'query' => Jadwalbus::find(),
+        ]);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
