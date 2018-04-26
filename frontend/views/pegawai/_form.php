@@ -24,9 +24,9 @@ use frontend\models\Jabatan;
 
     <?= $form->field($model, 'no_tlp')->textInput() ?>
 
-    <!-- <?= $form->field($model, 'jabatan')->textInput() ?> -->
+    <!-- <?= $form->field($model, 'id_jabatan')->textInput() ?> -->
 
-    <?= $form->field($model, 'jabatan')->widget(Select2::className(),[
+    <?= $form->field($model, 'id_jabatan')->widget(Select2::className(),[
             'data' => \yii\helpers\ArrayHelper::map(Jabatan::find()->all(),'jenis_jabatan','jenis_jabatan'),
             'options' => ['placeholder' => 'Pilih Jenis Jabatan...'],
             'pluginOptions' => [

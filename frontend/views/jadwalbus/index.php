@@ -22,47 +22,27 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Create Jadwalbus', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            ['attribute'=>'Jam Berangkat',
-            'value'=>'bus.jam_operasional',
-            ],
-
-            ['attribute'=>'No Polisi',
-            'value'=>'bus.no_polisi',
-            ],
-
-            ['attribute'=>'Nama Pegawai',
-            'value'=>'pegawai.nama',
-            ],
-
-            ['attribute'=>'Sopir',
-            'value'=>'pegawai.id_jabatan',
-            ],
-
-            ['attribute'=>'Kondektur',
-            'value'=>'pegawai.id_jabatan',
-            ],
-
-            ['attribute'=>'Jurusan',
-            'value'=>'bus.id_jurusan',
-            ],
-
-            // 'id_jadwal',
-            // 'tanggal',
-            // 'jam_berangkat',
-            // 'id_bus',
-            // //'id_pegawai',
-            // //'jam_datang',
-            // //'id_jurusan',
-            // 'id_sopir',
-            // 'id_kondektur',
-
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
+        <table class="table table-stripped">
+      <thead>
+        <tr>
+          <th>No Polisi</th>
+          <th>Jam Operasional</th>
+          <th>Sopir</th>
+          <th>Kondektur</th>
+          <th>Jurusan</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php foreach ($jadwal as $item): ?>
+          <tr>
+            <td><?= $item['jam_operasional']; ?></td>
+            <td><?= $item['no_polisi']; ?></td>
+            <td><?= $item['sopir']; ?></td>
+            <td><?= $item['kondektur']; ?></td>
+            <td><?= $item['jurusan']; ?></td>
+          </tr>
+        <?php endforeach; ?>
+      </tbody>
+    </table>
   
 </div>

@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'no_induk',
             'alamat',
             'no_tlp',
-            // 'jabatan',
+            // 'id_jabatan',
             // 'riwayat_pendidikan',
             // 'riwayat_pekerjaan',
             // 'tgl_masuk',

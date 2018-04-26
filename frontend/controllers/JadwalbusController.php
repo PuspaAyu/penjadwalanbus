@@ -12,6 +12,7 @@ use yii\models\Bus;
 use yii\models\Pegawai;
 use yii\data\ActiveDataProvider;
 use yii\db\Query;
+
 /**
  * JadwalbusController implements the CRUD actions for Jadwalbus model.
  */
@@ -39,30 +40,24 @@ class JadwalbusController extends Controller
     public function actionIndex()
     {
         $this->layout = 'layout_admin';
-        // $idmg=Yii::$app->db->createCommand('SELECT b.no_polisi, b.jam_operasional, p.nama as sopir, (select nama from pegawai pp where jb.id_kondektur=pp.id_pegawai) kondektur FROM bus b, pegawai p, jadwal_bus jb WHERE jb.id_bus = b.id_bus AND jb.id_sopir = p.id_pegawai ORDER BY b.no_polisi')->queryScalar();
 
         $query = new Query;
-        $subQuery = new Query;
-        $subQuery->select(['nama'])
-                ->from('pegawai')
-                ->where('jadwal_bus.id_kondektur=pegawai.id_pegawai');
-        $query->select(['bus.no_polisi', 'bus.jam_operasional', 'pegawai.nama' => 'sopir', '.$subQuery.', 'kondektur'])
-              ->from('bus', 'pegawai', 'jadwal_bus')
-              ->where('jadwal_bus.id_bus = bus.id_bus')
-              ->where('jadwal_bus.id_sopir = pegawai.id_pegawai');
+        $query->select(['bus.jam_operasional', 'bus.no_polisi', 'sopir.nama as sopir', 'kondektur.nama as kondektur', 'jurusan.jurusan'])
+              ->from('jadwal_bus')
+              ->join('LEFT JOIN', 'pegawai sopir', 'sopir.id_pegawai = jadwal_bus.id_sopir')
+              ->join('LEFT JOIN', 'pegawai kondektur', 'kondektur.id_pegawai = jadwal_bus.id_kondektur')
+              ->join('LEFT JOIN', 'bus', 'bus.id_bus = jadwal_bus.id_bus')
+              ->join('LEFT JOIN', 'jurusan', 'jurusan.id_jurusan = bus.id_jurusan')
+              ->orderBy('bus.jam_operasional');
 
-        $command = $query->createCommand();
+        $command = $query->createCommand(); 
         $data = $command->queryAll();
 
- 
-         $dataProvider = new ActiveDataProvider([
-            'query' => Jadwalbus::find(),
-        ]);
-
         return $this->render('index', [
-            'dataProvider' => $dataProvider,
+            'jadwal' => $data,
         ]);
     }
+
 
     /**
      * Displays a single Jadwalbus model.
