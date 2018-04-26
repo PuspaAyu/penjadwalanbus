@@ -11,6 +11,7 @@ use yii\filters\VerbFilter;
 use yii\models\Bus;
 use yii\models\Pegawai;
 use yii\data\ActiveDataProvider;
+use yii\db\Query;
 /**
  * JadwalbusController implements the CRUD actions for Jadwalbus model.
  */
@@ -38,6 +39,21 @@ class JadwalbusController extends Controller
     public function actionIndex()
     {
         $this->layout = 'layout_admin';
+        // $idmg=Yii::$app->db->createCommand('SELECT b.no_polisi, b.jam_operasional, p.nama as sopir, (select nama from pegawai pp where jb.id_kondektur=pp.id_pegawai) kondektur FROM bus b, pegawai p, jadwal_bus jb WHERE jb.id_bus = b.id_bus AND jb.id_sopir = p.id_pegawai ORDER BY b.no_polisi')->queryScalar();
+
+        $query = new Query;
+        $subQuery = new Query;
+        $subQuery->select(['nama'])
+                ->from('pegawai')
+                ->where('jadwal_bus.id_kondektur=pegawai.id_pegawai');
+        $query->select(['bus.no_polisi', 'bus.jam_operasional', 'pegawai.nama' => 'sopir', '.$subQuery.', 'kondektur'])
+              ->from('bus', 'pegawai', 'jadwal_bus')
+              ->where('jadwal_bus.id_bus = bus.id_bus')
+              ->where('jadwal_bus.id_sopir = pegawai.id_pegawai');
+
+        $command = $query->createCommand();
+        $data = $command->queryAll();
+
  
          $dataProvider = new ActiveDataProvider([
             'query' => Jadwalbus::find(),

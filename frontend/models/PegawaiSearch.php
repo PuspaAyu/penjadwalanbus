@@ -18,8 +18,8 @@ class PegawaiSearch extends Pegawai
     public function rules()
     {
         return [
-            [['id_pegawai', 'no_induk', 'no_tlp'], 'integer'],
-            [['nama', 'alamat', 'jabatan', 'riwayat_pendidikan', 'riwayat_pekerjaan', 'tgl_masuk', 'jenis_kelamin', 'status', 'agama', 'kota', 'ktp_habis', 'sim_habis'], 'safe'],
+            [['id_pegawai', 'no_induk', 'no_tlp', 'id_jabatan'], 'integer'],
+            [['nama', 'alamat', 'id_jabatan', 'riwayat_pendidikan', 'riwayat_pekerjaan', 'tgl_masuk', 'jenis_kelamin', 'status', 'agama', 'kota', 'ktp_habis', 'sim_habis'], 'safe'],
         ];
     }
 
@@ -69,7 +69,7 @@ class PegawaiSearch extends Pegawai
 
         $query->andFilterWhere(['like', 'nama', $this->nama])
             ->andFilterWhere(['like', 'alamat', $this->alamat])
-            ->andFilterWhere(['like', 'jabatan', $this->jabatan])
+            ->andFilterWhere(['like', 'id_jabatan', $this->id_jabatan])
             ->andFilterWhere(['like', 'riwayat_pendidikan', $this->riwayat_pendidikan])
             ->andFilterWhere(['like', 'riwayat_pekerjaan', $this->riwayat_pekerjaan])
             ->andFilterWhere(['like', 'jenis_kelamin', $this->jenis_kelamin])

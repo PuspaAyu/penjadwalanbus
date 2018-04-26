@@ -39,11 +39,11 @@ class Pegawai extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nama', 'no_induk', 'alamat', 'no_tlp', 'jabatan', 'riwayat_pendidikan', 'riwayat_pekerjaan', 'tgl_masuk', 'jenis_kelamin', 'status', 'agama', 'kota', 'ktp_habis', 'sim_habis'], 'required'],
-            [['no_induk', 'no_tlp'], 'integer'],
+            [['nama', 'no_induk', 'alamat', 'no_tlp', 'id_jabatan', 'riwayat_pendidikan', 'riwayat_pekerjaan', 'tgl_masuk', 'jenis_kelamin', 'status', 'agama', 'kota', 'ktp_habis', 'sim_habis'], 'required'],
+            [['no_induk', 'no_tlp', 'id_jabatan'], 'integer'],
             [['tgl_masuk', 'ktp_habis', 'sim_habis'], 'safe'],
             [['nama', 'alamat', 'riwayat_pendidikan', 'riwayat_pekerjaan', 'kota'], 'string', 'max' => 20],
-            [['jabatan', 'jenis_kelamin', 'status', 'agama'], 'string', 'max' => 10],
+            [['jenis_kelamin', 'status', 'agama'], 'string', 'max' => 10],
         ];
     }
 
@@ -58,7 +58,7 @@ class Pegawai extends \yii\db\ActiveRecord
             'no_induk' => 'No Induk',
             'alamat' => 'Alamat',
             'no_tlp' => 'No Tlp',
-            'jabatan' => 'Jabatan',
+            'id_jabatan' => 'Jabatan',
             'riwayat_pendidikan' => 'Riwayat Pendidikan',
             'riwayat_pekerjaan' => 'Riwayat Pekerjaan',
             'tgl_masuk' => 'Tgl Masuk',

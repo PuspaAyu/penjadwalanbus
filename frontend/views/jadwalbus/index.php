@@ -27,12 +27,28 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
+            ['attribute'=>'Jam Berangkat',
+            'value'=>'bus.jam_operasional',
+            ],
+
             ['attribute'=>'No Polisi',
             'value'=>'bus.no_polisi',
             ],
 
             ['attribute'=>'Nama Pegawai',
             'value'=>'pegawai.nama',
+            ],
+
+            ['attribute'=>'Sopir',
+            'value'=>'pegawai.id_jabatan',
+            ],
+
+            ['attribute'=>'Kondektur',
+            'value'=>'pegawai.id_jabatan',
+            ],
+
+            ['attribute'=>'Jurusan',
+            'value'=>'bus.id_jurusan',
             ],
 
             // 'id_jadwal',
