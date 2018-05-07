@@ -1,16 +1,18 @@
 <?php
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use kartik\date\DatePicker;
+use frontend\models\JadwalBus;
 /* @var $this yii\web\View */
 
 $this->title = 'Penjadwalan SMPN 3 Taman';
 ?>
 
-<div class="mapel-form">
+<div class="jadwalbus-form">
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <input type="text" name="tahunAjar" id="tahunAjar" class="form-control">
+    <input type="text" name="tanggalJadwal" id="tanggalJadwal" class="form-control">
 
     <div class="form-group">
         <?= Html::submitButton('Create', ['class' => 'btn btn-primary']) ?>

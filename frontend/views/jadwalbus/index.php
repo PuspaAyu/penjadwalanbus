@@ -12,7 +12,10 @@ use yii\models\Pegawai;
 
 $this->title = 'Jadwalbuses';
 $this->params['breadcrumbs'][] = $this->title;
+
 ?>
+
+
 <div class="jadwalbus-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
@@ -21,28 +24,37 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Create Jadwalbus', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
+    
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h4>Tanggal : </h4>
+            
+        </div>
+        <div class = "panel-body">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Jam Operasional</th>
+                  <th>No Polisi</th>
+                  <th>Sopir</th>
+                  <th>Kondektur</th>
+                  <th>Jurusan</th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php foreach ($jadwal as $item): ?>
+                  <tr>
+                    <td><?= $item['jam_operasional']; ?></td>
+                    <td><?= $item['no_polisi']; ?></td>
+                    <td><?= $item['sopir']; ?></td>
+                    <td><?= $item['kondektur']; ?></td>
+                    <td><?= $item['jurusan']; ?></td>
+                  </tr>
+                <?php endforeach; ?>
+              </tbody>
+            </table>
+        </div>
 
-        <table class="table table-stripped">
-      <thead>
-        <tr>
-          <th>No Polisi</th>
-          <th>Jam Operasional</th>
-          <th>Sopir</th>
-          <th>Kondektur</th>
-          <th>Jurusan</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php foreach ($jadwal as $item): ?>
-          <tr>
-            <td><?= $item['jam_operasional']; ?></td>
-            <td><?= $item['no_polisi']; ?></td>
-            <td><?= $item['sopir']; ?></td>
-            <td><?= $item['kondektur']; ?></td>
-            <td><?= $item['jurusan']; ?></td>
-          </tr>
-        <?php endforeach; ?>
-      </tbody>
-    </table>
-  
+    </div>
+   
 </div>
