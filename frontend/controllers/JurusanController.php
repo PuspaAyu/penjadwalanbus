@@ -3,17 +3,16 @@
 namespace frontend\controllers;
 
 use Yii;
-use frontend\models\Izin;
-use frontend\models\IzinSearch;
+use frontend\models\Jurusan;
+use frontend\models\JurusanSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
-
 /**
- * IzinController implements the CRUD actions for Izin model.
+ * JurusanController implements the CRUD actions for Jurusan model.
  */
-class IzinController extends Controller
+class JurusanController extends Controller
 {
     /**
      * @inheritdoc
@@ -31,13 +30,13 @@ class IzinController extends Controller
     }
 
     /**
-     * Lists all Izin models.
+     * Lists all Jurusan models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $this->layout = 'layout_admin';
-        $searchModel = new IzinSearch();
+    	$this->layout = 'layout_admin';
+        $searchModel = new JurusanSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -47,83 +46,87 @@ class IzinController extends Controller
     }
 
     /**
-     * Displays a single Izin model.
+     * Displays a single Jurusan model.
      * @param integer $id
      * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionView($id)
     {
-        $this->layout = 'layout_admin';
+    	$this->layout = 'layout_admin';
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
     }
 
     /**
-     * Creates a new Izin model.
+     * Creates a new Jurusan model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $this->layout = 'layout_admin';
-        $model = new Izin();
+    	$this->layout = 'layout_admin';
+        $model = new Jurusan();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+            return $this->redirect(['view', 'id' => $model->id_jurusan]);
         }
+
+        return $this->render('create', [
+            'model' => $model,
+        ]);
     }
 
     /**
-     * Updates an existing Izin model.
+     * Updates an existing Jurusan model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionUpdate($id)
     {
-        $this->layout = 'layout_admin';
+    	$this->layout = 'layout_admin';
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_izin]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+            return $this->redirect(['view', 'id' => $model->id_jurusan]);
         }
+
+        return $this->render('update', [
+            'model' => $model,
+        ]);
     }
 
     /**
-     * Deletes an existing Izin model.
+     * Deletes an existing Jurusan model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionDelete($id)
     {
+    	$this->layout = 'layout_admin';
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
     }
 
     /**
-     * Finds the Izin model based on its primary key value.
+     * Finds the Jurusan model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Izin the loaded model
+     * @return Jurusan the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Izin::findOne($id)) !== null) {
+        if (($model = Jurusan::findOne($id)) !== null) {
             return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
         }
+
+        throw new NotFoundHttpException('The requested page does not exist.');
     }
 }

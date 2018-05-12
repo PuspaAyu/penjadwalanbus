@@ -9,10 +9,9 @@ use Yii;
  *
  * @property int $id_jadwal
  * @property string $tanggal
- * @property string $jam_berangkat
  * @property int $id_bus
- * @property int $id_pegawai
- * @property string $jam_datang
+ * @property int $id_sopir
+ * @property int $id_kondektur
  * @property int $id_jurusan
  */
 class JadwalBus extends \yii\db\ActiveRecord
@@ -31,19 +30,19 @@ class JadwalBus extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['tanggal', 'jam_berangkat', 'id_bus', 'id_pegawai', 'jam_datang', 'id_jurusan', 'id_sopir', 'id_kondektur'], 'required'],
-            [['tanggal', 'jam_berangkat', 'jam_datang'], 'safe'],
-            [['id_bus', 'id_pegawai', 'id_jurusan', 'id_sopir', 'id_kondektur'], 'integer'],
+            [['tanggal'], 'required'],
+            [['tanggal'],'safe'],
+            [['id_bus', 'id_jurusan', 'id_sopir', 'id_kondektur'], 'integer'],
             [['id_bus'], 'exist', 
                          'skipOnError' => true, 
                          'targetClass' => Bus::className(), 
                          'targetAttribute' => ['id_bus' => 'id_bus'
                 ]],
-            [['id_pegawai'], 'exist', 
-                         'skipOnError' => true, 
-                         'targetClass' => Pegawai::className(), 
-                         'targetAttribute' => ['id_pegawai' => 'id_pegawai']
-            ],
+            // [['id_pegawai'], 'exist', 
+            //              'skipOnError' => true, 
+            //              'targetClass' => Pegawai::className(), 
+            //              'targetAttribute' => ['id_pegawai' => 'id_pegawai']
+            // ],
         ];
     }
 
@@ -55,10 +54,7 @@ class JadwalBus extends \yii\db\ActiveRecord
         return [
             'id_jadwal' => 'Id Jadwal',
             'tanggal' => 'Tanggal',
-            'jam_berangkat' => 'Jam Berangkat',
             'id_bus' => 'Id Bus',
-            'id_pegawai' => 'Id Pegawai',
-            'jam_datang' => 'Jam Datang',
             'id_jurusan' => 'Id Jurusan',
             'id_sopir' => 'Id Sopir',
             'id_kondektur' => 'Id Kondektur',
@@ -70,8 +66,8 @@ class JadwalBus extends \yii\db\ActiveRecord
         return $this->hasOne(Bus::className(), ['id_bus' => 'id_bus']);
     }
 
-    public function getPegawai()
-    {
-        return $this->hasOne(Pegawai::className(), ['id_pegawai' => 'id_pegawai']);
-    }
+    // public function getPegawai()
+    // {
+    //     return $this->hasOne(Pegawai::className(), ['id_pegawai' => 'id_pegawai']);
+    // }
 }

@@ -24,10 +24,16 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id_bus',
+            // 'id_bus',
             'no_polisi',
             'jam_operasional',
-            'id_jurusan',
+            [
+                'label'=>'Jurusan',
+                'value'=> function($model){
+                    return $model->getJurusan();
+                }
+            ],
+            // 'id_jurusan',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

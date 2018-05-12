@@ -3,6 +3,7 @@
 namespace frontend\models;
 
 use Yii;
+use frontend\models\Jabatan;
 
 /**
  * This is the model class for table "pegawai".
@@ -69,5 +70,10 @@ class Pegawai extends \yii\db\ActiveRecord
             'ktp_habis' => 'Ktp Habis',
             'sim_habis' => 'Sim Habis',
         ];
+    }
+
+    public function getJabatan(){
+        $jabatan = Jabatan::find()->where(['id_jabatan'=>$this->id_jabatan])->one();
+            return $jabatan->jenis_jabatan;
     }
 }

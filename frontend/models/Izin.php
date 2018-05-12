@@ -47,4 +47,9 @@ class Izin extends \yii\db\ActiveRecord
             'id_pegawai' => 'Id Pegawai',
         ];
     }
+
+    public function getPegawai(){
+        $pegawai=Pegawai::find()->where(['id_pegawai'=>$this->id_pegawai])->one();
+        return $pegawai->nama;
+    }
 }

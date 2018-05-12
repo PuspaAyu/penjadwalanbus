@@ -58,31 +58,13 @@ TemplateAsset::register($this);
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
-                        <li>
-                            <a href="<?=Yii::$app->homeUrl?>admin"><i class="fa fa-dashboard fa-fw"></i> Home</a>
-                        </li>
-                        <li>
-                            <a href="<?=Yii::$app->homeUrl?>/jadwalbus/index"><i class="fa fa-table fa-fw"></i> Jadwal</a>
-                        </li>
-                        <li>
-                            <a href="<?=Yii::$app->homeUrl?>/izin/index"><i class="fa fa-edit fa-fw"></i> Izin</a>
-                        </li>
-                                                
-                        <li>
-                            <a href="<?=Yii::$app->homeUrl?>/bus/index"><i class="fa fa-sitemap fa-fw"></i> Bus</span></a>
-                            <!-- /.nav-second-level -->
-                        </li>
-
-                        <li>
-                            <a href="<?=Yii::$app->homeUrl?>/komplain/index"><i class="fa fa-wrench fa-fw"></i> Komplain</span></a>
-                        </li>
-                            
-                        <li>
-                            <a href="<?=Yii::$app->homeUrl?>/pegawai/index"><i class="fa fa-files-o fa-fw"></i> Pegawai</span></a>
-                            
-                        </li>
-                        
-                    
+                        <li><?= Html::a('<i class="fa fa-dashboard fa-fw"></i> Home', ['site/index']); ?></li>
+                        <li><?= Html::a('<i class="fa fa-table fa-fw"></i> Jadwal', ['jadwalbus/index']); ?></li>
+                        <li><?= Html::a('<i class="fa fa-table fa-fw"></i> Bus', ['bus/index']); ?></li>
+                        <li><?= Html::a('<i class="fa fa-table fa-fw"></i> Jurusan', ['jurusan/index']); ?></li>
+                        <li><?= Html::a('<i class="fa fa-table fa-fw"></i> Pegawai', ['pegawai/index']); ?></li>
+                        <li><?= Html::a('<i class="fa fa-table fa-fw"></i> Izin', ['izin/index']); ?></li>
+                        <li><?= Html::a('<i class="fa fa-table fa-fw"></i> Komplain', ['komplain/index']); ?></li>
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->

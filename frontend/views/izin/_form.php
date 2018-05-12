@@ -3,6 +3,8 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\date\DatePicker;
+use kartik\widgets\Select2;
+use frontend\models\Pegawai;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Izin */
@@ -12,6 +14,14 @@ use kartik\date\DatePicker;
 <div class="izin-form">
 
     <?php $form = ActiveForm::begin(); ?>
+
+    <?= $form->field($model, 'id_pegawai')->widget(Select2::className(),[
+            'data' => \yii\helpers\ArrayHelper::map(Pegawai::find()->all(),'id_pegawai','nama'),
+            'options' => ['placeholder' => 'Pilih Nama'],
+            'pluginOptions' => [
+                'allowClear' => true
+            ],
+        ]) ?>
 
     <!-- <?= $form->field($model, 'tgl_izin')->textInput() ?> -->
     <?php echo '<label class="control-label">Tanggal Izin</label>';

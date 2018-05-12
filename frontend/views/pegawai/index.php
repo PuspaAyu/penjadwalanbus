@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 
+
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\PegawaiSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -25,12 +26,18 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id_pegawai',
+            //'id_pegawai',
             'nama',
             'no_induk',
             'alamat',
             'no_tlp',
-            // 'id_jabatan',
+            //'id_jabatan',
+            [
+                'label' => 'jabatan',
+                'value' => function($model){
+                    return $model->getJabatan();
+                }
+            ],
             // 'riwayat_pendidikan',
             // 'riwayat_pekerjaan',
             // 'tgl_masuk',

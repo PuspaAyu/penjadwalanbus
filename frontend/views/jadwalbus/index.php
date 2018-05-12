@@ -16,39 +16,37 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 
-<div class="jadwalbus-index">
+<div class="jadwalbus-index2">
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
         <?= Html::a('Create Jadwalbus', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Generate', ['create'], ['class' => 'btn btn-primary']) ?>
     </p>
     
     <div class="panel panel-primary">
         <div class="panel-heading">
-            <h4>Tanggal : </h4>
-            
+          <input class="form-control" type="text" value="<?= date('Y-m-d');?>" />
         </div>
         <div class = "panel-body">
             <table class="table table-bordered">
               <thead>
                 <tr>
-                  <th>Jam Operasional</th>
-                  <th>No Polisi</th>
-                  <th>Sopir</th>
-                  <th>Kondektur</th>
-                  <th>Jurusan</th>
+                  <th>No</th>
+                  <!-- <th>Id Jadwal</th> -->
+                  <th>Tanggal Berangkat</th>
+                  <th>Aksi</th>
                 </tr>
               </thead>
               <tbody>
-                <?php foreach ($jadwal as $item): ?>
+                <?php $n=0; foreach ($query as $jadwal): $n++?>
                   <tr>
-                    <td><?= $item['jam_operasional']; ?></td>
-                    <td><?= $item['no_polisi']; ?></td>
-                    <td><?= $item['sopir']; ?></td>
-                    <td><?= $item['kondektur']; ?></td>
-                    <td><?= $item['jurusan']; ?></td>
+                    <td><?= $n; ?></td>
+                    <!-- <td><?= $jadwal['id_jadwal'] ?></td> -->
+                    <td><?= $jadwal['tanggal'] ?></td>
+                    <td><?= Html::a('Lihat',['show', 'tanggal'=>$jadwal['tanggal']], ['class' => 'btn btn-success']) ?></td>
                   </tr>
                 <?php endforeach; ?>
               </tbody>

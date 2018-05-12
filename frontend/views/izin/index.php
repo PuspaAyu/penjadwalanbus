@@ -24,7 +24,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id_izin',
+            [
+                'label'=>'Nama Pegawai',
+                'value'=>function($model){
+                    return $model->getPegawai();
+                }
+            ],
             'tgl_izin',
             'jenis_izin',
 

@@ -26,7 +26,8 @@ class Komplain extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['isi_komplain'], 'required'],
+            [['isi_komplain','tanggal'], 'required'],
+            [['tanggal'], 'safe'],
             [['isi_komplain'], 'string', 'max' => 20],
         ];
     }
@@ -39,6 +40,7 @@ class Komplain extends \yii\db\ActiveRecord
         return [
             'id_komplain' => 'Id Komplain',
             'isi_komplain' => 'Isi Komplain',
+            'tanggal' => 'Tanggal'
         ];
     }
 }

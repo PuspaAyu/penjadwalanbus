@@ -3,6 +3,9 @@
 namespace frontend\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
+
+use frontend\models\Jurusan;
 
 /**
  * This is the model class for table "bus".
@@ -53,8 +56,11 @@ class Bus extends \yii\db\ActiveRecord
         ];
     }
 
-    // public function getJurusan()
-    // {
-    //     return $this->hasOne(Jurusan::className(),['id_jurusan' => 'id_jurusan']);
-    // }
+    public function getJurusan()
+    {
+        $jurusan = Jurusan::find()->where(['id_jurusan'=>$this->id_jurusan])->one();
+        if($this->id_jurusan != 0){
+            return $jurusan->jurusan;
+        }
+    }
 }

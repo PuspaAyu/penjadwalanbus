@@ -20,11 +20,11 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
+        //'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id_komplain',
+            'tanggal',
             'isi_komplain',
 
             ['class' => 'yii\grid\ActionColumn'],
