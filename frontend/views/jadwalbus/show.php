@@ -22,8 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Jadwalbus', ['create'], ['class' => 'btn btn-success']) ?>
-        <?= Html::a('Generate', ['create'], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Kirim SMS', ['create'], ['class' => 'btn btn-primary']) ?>
     </p>
     
     <div class="panel panel-primary">
@@ -44,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 </tr>
               </thead>
               <tbody>
-                <?php $n=0; foreach ($jadwal as $item): $n++;?>
+                <?php $n=0; foreach ($jadwal as $item): $n++;?>            
                   <tr>
                   <form method="post" action="<?= Url::to(['jadwalbus/save', 'id' => $item['id_jadwal']]); ?>">
                     <input type="hidden" name="<?= Yii::$app->request->csrfParam; ?>" value="<?= Yii::$app->request->csrfToken; ?>" />
@@ -57,14 +56,25 @@ $this->params['breadcrumbs'][] = $this->title;
                     <td><?= $item['jurusan']; ?></td>
                     <!-- <td><?= $item['sopir']; ?></td> -->
                     <td>
-                      <?= Html::dropDownList('supir', null, $supir, ['name'=> 'Sopir', 'prompt'=>'-select supir-', 'class'=>'form-control', 'id'=>'jadwal-supir'.$n, 'onchange'=>'$.post("supir/"+$(this).val(), function(data){ $("select#jadwal-supir").html(data)});']); ?>
+                      <?php if($item['id_sopir'] == 0){ ?>
+                      <?= Html::dropDownList('supir', null, $supir, ['prompt'=>'-select supir-', 'class'=>'form-control']); ?>
+                      <?php } else { 
+                        echo $item['sopir']; 
+                        echo Html::input('hidden', 'sopir', $item['id_sopir']);
+                      } ?>
                     </td>
                     <!-- <td><?= $item['kondektur']; ?></td> -->
                     <td>
-                      <?= Html::dropDownList('kondektur', null, $kondektur, ['prompt'=>'-select kondektur-', 'class'=>'form-control', 'name'=>'Kondektur']); ?>
+                      <?php if($item['id_kondektur'] == 0) { ?>
+                      <?= Html::dropDownList('kondektur', null, $kondektur, ['prompt'=>'-select kondektur-', 'class'=>'form-control']); ?>
+                      <?php } else { 
+                        echo $item['kondektur']; 
+                        echo Html::input('hidden', 'kondektur', $item['id_kondektur']);
+                      } ?>
                     </td>
                     <td>
                       <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+                      <?= Html::submitButton('Edit', ['class' => 'btn btn-primary']) ?>
                     </td>
                   </form>
                   </tr>

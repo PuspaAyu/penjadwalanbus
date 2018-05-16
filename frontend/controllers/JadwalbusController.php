@@ -57,14 +57,63 @@ class JadwalbusController extends Controller
     {
         $this->layout = 'layout_admin';
 
-        $dtsupir = Pegawai::find()->where(['id_jabatan'=>'1'])->all();
-        $supir = ArrayHelper::map($dtsupir, 'id_pegawai', 'nama');
+        //join->dimana tanggal di tabel jadwal bus apakah ada id pegawai di tabel pegawai
+        $querysopir = new Query;
+        $querysopir->select(['pegawai.id_pegawai'])
+                  ->from('pegawai')
+                  ->join('JOIN', 'jadwal_bus', 'jadwal_bus.id_sopir=pegawai.id_pegawai')
+                  ->where(['pegawai.id_jabatan' => '1', 'jadwal_bus.tanggal' => $tanggal]);
+        $commandsopir = $querysopir->createCommand();
+        $datasopir = $commandsopir->queryAll();
 
-        $dtkond = Pegawai::find()->where(['id_jabatan'=>'2'])->all();
+        //menampung data sopir untuk dilooping dan memasukkan ke dalah wadah
+        $tempsopir = array();
+        for ($i=0; $i < count($datasopir); $i++) { 
+          array_push($tempsopir, $datasopir[$i]['id_pegawai']);
+        }
+
+        $querykondektur = new Query;
+        $querykondektur->select(['pegawai.id_pegawai'])
+                  ->from('pegawai')
+                  ->join('JOIN', 'jadwal_bus', 'jadwal_bus.id_kondektur=pegawai.id_pegawai')
+                  ->where(['pegawai.id_jabatan' => '2', 'jadwal_bus.tanggal' => $tanggal]);
+
+        $commandkondektur = $querykondektur->createCommand();
+        $datakondektur = $commandkondektur->queryAll();
+        $tempkondektur = array();
+        for ($i=0; $i < count($datakondektur); $i++) { 
+          array_push($tempkondektur, $datakondektur[$i]['id_pegawai']);
+        }
+
+        //minimal ada 1 maka dia akan menampilkan
+        if (count($datasopir) > 0){
+           $dtsupir = Pegawai::find()->where(['id_jabatan'=>'1'])
+          ->andWhere("id_pegawai NOT IN (".implode(',', $tempsopir).")")
+          ->all();
+        
+        } else {
+           $dtsupir = Pegawai::find()->where(['id_jabatan'=>'1'])
+          // ->andWhere("id_pegawai NOT IN (".implode(',', $tempsopir).")")
+          ->all();
+        }
+        
+       
+        if (count($datakondektur) > 0){
+           $dtkond = Pegawai::find()->where(['id_jabatan'=>'2'])
+          ->andWhere("id_pegawai NOT IN (".implode(',', $tempkondektur).")")
+          ->all();
+        
+        } else {
+           $dtkond = Pegawai::find()->where(['id_jabatan'=>'2'])
+          // ->andWhere("id_pegawai NOT IN (".implode(',', $tempkondektur).")")
+          ->all();
+        }
+        
+        $supir = ArrayHelper::map($dtsupir, 'id_pegawai', 'nama');
         $kondektur = ArrayHelper::map($dtkond, 'id_pegawai', 'nama');
 
         $query = new Query;
-        $query->select(['jadwal_bus.id_jadwal','bus.jam_operasional', 'bus.no_polisi', 'sopir.nama as sopir', 'kondektur.nama as kondektur', 'jurusan.jurusan'])
+        $query->select(['jadwal_bus.id_jadwal', 'jadwal_bus.id_sopir','jadwal_bus.id_kondektur','bus.jam_operasional', 'bus.no_polisi', 'sopir.nama as sopir', 'kondektur.nama as kondektur', 'jurusan.jurusan'])
               ->from('jadwal_bus')
               ->where(['jadwal_bus.tanggal' => $tanggal])
               ->join('LEFT JOIN', 'pegawai sopir', 'sopir.id_pegawai = jadwal_bus.id_sopir')
@@ -76,14 +125,14 @@ class JadwalbusController extends Controller
         $command = $query->createCommand(); 
         $data = $command->queryAll();
 
-        // $rand = rand(1,137);
-        // $randomJadwal = rand([$data]);
-        // echo $randomJadwal;
-
         return $this->render('show', [
             'jadwal' => $data,  
             'supir'=>$supir,
             'kondektur'=>$kondektur,
+            'tempsopir'=>implode(',', $tempsopir),
+            'tempkondektur'=>implode(',', $tempkondektur),
+            // 'datasopir'=>$datasopir,
+            // 'datakondektur'=>$datakondektur,
             // 'model' => $this->findModel($id)
         ]);
 
@@ -108,7 +157,7 @@ class JadwalbusController extends Controller
 
             $request = Yii::$app->request->post();
 
-            foreach ($bus as $key) {
+            foreach ($bus as $key) {              
               $model = new Jadwalbus();
               $model->tanggal = $request['JadwalBus']['tanggal'];
               $model->id_bus = $key->id_bus;
@@ -132,9 +181,13 @@ class JadwalbusController extends Controller
 
       $request = Yii::$app->request->post();
       if (Yii::$app->request->post()) {
-
-          $model->id_sopir = $request['supir'];
-          $model->id_kondektur = $request['kondektur'];
+          if(!empty($request['sopir']) AND !empty($request['kondektur'])){
+             $model->id_sopir = 0;
+             $model->id_kondektur = 0;
+          } else {
+              $model->id_sopir = $request['supir'];
+              $model->id_kondektur = $request['kondektur'];
+          }
           $model->update();
 
           return $this->refresh();
@@ -146,7 +199,45 @@ class JadwalbusController extends Controller
         //     'model' => $model,
         // ]);
       }
-      
+    }
+
+    public function actionSalinjadwal($id){
+       $this->layout = 'layout_admin';
+        $totalBus = Jadwalbus::find()->where(['tanggal'=>$id])->count();
+        $bus = Jadwalbus::find()->where(['tanggal'=>$id])->all();
+
+        if (Yii::$app->request->post()) {
+
+            $request = Yii::$app->request->post();
+
+            foreach ($bus as $key) {              
+              $model = new Jadwalbus();
+              $model->tanggal = $request['JadwalBus']['tanggal'];
+              $model->id_bus = $key->id_bus;
+              $model->id_jurusan = $key->id_jurusan;
+              $model->id_sopir = $key->id_sopir;
+              $model->id_kondektur = $key->id_kondektur;
+              $model->save();
+            }
+
+            return $this->redirect(['index']);
+        } else {
+            $model = new Jadwalbus();
+            return $this->render('salinjadwal', [
+                'model' => $model,
+                'salintanggal' => $id,
+            ]);
+
+        }
+    }
+
+    public function actionHapusjadwal($id){
+      $model = Jadwalbus::find()->where(['tanggal'=>$id])->all();
+      foreach ($model as $key) {
+        $key->delete();
+      }
+        return $this->redirect(['index']);
+        
     }
 
 

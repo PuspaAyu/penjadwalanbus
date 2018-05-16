@@ -23,12 +23,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a('Create Jadwalbus', ['create'], ['class' => 'btn btn-success']) ?>
-        <?= Html::a('Generate', ['create'], ['class' => 'btn btn-primary']) ?>
     </p>
     
     <div class="panel panel-primary">
         <div class="panel-heading">
-          <input class="form-control" type="text" value="<?= date('Y-m-d');?>" />
+          <h4>List Jadwal</h4>  
         </div>
         <div class = "panel-body">
             <table class="table table-bordered">
@@ -45,8 +44,12 @@ $this->params['breadcrumbs'][] = $this->title;
                   <tr>
                     <td><?= $n; ?></td>
                     <!-- <td><?= $jadwal['id_jadwal'] ?></td> -->
-                    <td><?= $jadwal['tanggal'] ?></td>
-                    <td><?= Html::a('Lihat',['show', 'tanggal'=>$jadwal['tanggal']], ['class' => 'btn btn-success']) ?></td>
+                    <td><?= date("d-F-Y", strtotime($jadwal['tanggal'])); ?></td>
+                    <td>
+                      <?= Html::a('Lihat',['show', 'tanggal'=>$jadwal['tanggal']], ['class' => 'btn btn-success']) ?>
+                      <?= Html::a('Salin jadwal',['salinjadwal', 'id'=>$jadwal['tanggal']], ['class' => 'btn btn-primary']) ?>
+                      <?= Html::a('Hapus',['hapusjadwal', 'id'=>$jadwal['tanggal']], ['class' => 'btn btn-danger']) ?>
+                    </td>
                   </tr>
                 <?php endforeach; ?>
               </tbody>

@@ -15,28 +15,43 @@ use frontend\models\Jadwalbus;
 ?>
 
 <div class="jadwalbus-form">
+    <!-- <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                </div> -->
+                <div class="col-lg-4">
+                    <?php $form = ActiveForm::begin(); ?>
 
-    <?php $form = ActiveForm::begin(); ?>
+                    <?php echo '<label class="control-label">Tanggal</label>';
+                            echo DatePicker::widget([
+                                'model' => $model,
+                                'attribute' => 'tanggal',
+                                'name' => 'dp_3',
+                                'type' => DatePicker::TYPE_COMPONENT_APPEND,
+                                'value' => '23-Feb-1982',
+                                'pluginOptions' => [
+                                    'autoclose'=>true,
+                                    'format' => 'dd-mm-yyyy'
+                                ]
+                            ]); 
+                    ?>
+                    <br>
 
-   <?php echo '<label class="control-label">Tanggal</label>';
-            echo DatePicker::widget([
-                'model' => $model,
-                'attribute' => 'tanggal',
-                'name' => 'dp_3',
-                'type' => DatePicker::TYPE_COMPONENT_APPEND,
-                'value' => '23-Feb-1982',
-                'pluginOptions' => [
-                    'autoclose'=>true,
-                    'format' => 'yyyy-mm-dd'
-                ]
-            ]); 
-    ?>
-    <br>
+                    <div class="form-group">
+                        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+                    </div>
 
-    <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
-    </div>
+                    <?php ActiveForm::end(); ?>
 
-    <?php ActiveForm::end(); ?>
-
+                  <!--   <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
 </div>

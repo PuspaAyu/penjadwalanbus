@@ -46,7 +46,7 @@ TemplateAsset::register($this);
                         <i class="fa fa-tasks fa-fw"></i>
                     </a> -->
                     <?= Html::a(
-                        '<i class="fa fa-tasks fa-fw"></i>',
+                        '<i class="fa fa-sign-out"></i>',
                         ['/site/logout'],
                         ['data-method' => 'post']
                     )?>
@@ -58,13 +58,13 @@ TemplateAsset::register($this);
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
-                        <li><?= Html::a('<i class="fa fa-dashboard fa-fw"></i> Home', ['site/index']); ?></li>
+                        <li><?= Html::a('<i class="fa fa-dashboard fa-fw"></i> Home', ['site/indexadmin']); ?></li>
                         <li><?= Html::a('<i class="fa fa-table fa-fw"></i> Jadwal', ['jadwalbus/index']); ?></li>
-                        <li><?= Html::a('<i class="fa fa-table fa-fw"></i> Bus', ['bus/index']); ?></li>
-                        <li><?= Html::a('<i class="fa fa-table fa-fw"></i> Jurusan', ['jurusan/index']); ?></li>
-                        <li><?= Html::a('<i class="fa fa-table fa-fw"></i> Pegawai', ['pegawai/index']); ?></li>
-                        <li><?= Html::a('<i class="fa fa-table fa-fw"></i> Izin', ['izin/index']); ?></li>
-                        <li><?= Html::a('<i class="fa fa-table fa-fw"></i> Komplain', ['komplain/index']); ?></li>
+                        <li><?= Html::a('<i class="fa fa-bus fa-fw"></i> Bus', ['bus/index']); ?></li>
+                        <li><?= Html::a('<i class="fa fa-road fa-fw"></i> Jurusan', ['jurusan/index']); ?></li>
+                        <li><?= Html::a('<i class="fa fa-user fa-fw"></i> Pegawai', ['pegawai/index']); ?></li>
+                        <li><?= Html::a('<i class="fa fa-exclamation-triangle fa-fw"></i> Izin', ['izin/index']); ?></li>
+                        <li><?= Html::a('<i class="fa fa-comment fa-fw"></i> Komplain', ['komplain/index']); ?></li>
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->

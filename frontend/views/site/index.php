@@ -5,7 +5,7 @@ use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 $this->title = 'Penjadwalan EKA MIRA';
 ?>
-<div class="site-index">
+<div class="site-index" >
 
     <div class="jumbotron">
         <h1>SELAMAT DATANG</h1>
@@ -18,32 +18,32 @@ $this->title = 'Penjadwalan EKA MIRA';
         <?php $form = ActiveForm::begin(['action' => Yii::$app->homeUrl.'site/view-jadwal']); ?>
         <div class="row">
             <div class="col-lg-3">
-                <center><?= Html::submitButton('Jadwal', ['class' => 'btn btn-lg btn-success','value'=>1, 'name'=>'jadwal']); ?></center>
+                <center><?= Html::a('Jadwal', ['view-jadwal'], ['class' => 'btn btn-lg btn-success']); ?></center>
             </div>
             <div class="col-lg-3">
-                <center><?= Html::submitButton('Izin', ['class' => 'btn btn-lg btn-success','value'=>2, 'name'=>'izin']); ?></center>
+                <center><?= Html::a('Izin', ['view-izin'], ['class' => 'btn btn-lg btn-success']); ?></center>
             </div>
             <div class="col-lg-3">
-                <center><?= Html::submitButton('Bus', ['class' => 'btn btn-lg btn-success','value'=>3, 'name'=>'bus']); ?></center>
+                <center><?= Html::a('Bus',['view-bus'], ['class' => 'btn btn-lg btn-success']); ?></center>
             </div>
             <div class="col-lg-3">
-                <center><?= Html::submitButton('Komplain', ['class' => 'btn btn-lg btn-success','value'=>3, 'name'=>'komplain']); ?></center>
+                <center><?= Html::a('Komplain',['view-komplain'], ['class' => 'btn btn-lg btn-success']); ?></center>
             </div>
         </div>
         <?php ActiveForm::end(); ?>
         <!-- <div class="row"> -->
         <div class="row" style="margin-top: 5%">
             <div class="col-lg-3">
-                <center><?= Html::submitButton('Rekap Keuangan', ['class' => 'btn btn-lg btn-success','value'=>1, 'name'=>'rekapuang']); ?></center>
+                <center><?= Html::a('Rekap Keuangan',['view-rekapuang'], ['class' => 'btn btn-lg btn-success']); ?></center>
             </div>
             <div class="col-lg-3">
-                <center><?= Html::submitButton('Rekap Karcis', ['class' => 'btn btn-lg btn-success','value'=>2, 'name'=>'rekapkarcis']); ?></center>
+                <center><?= Html::a('Rekap Karcis', ['view-rekapkarcis'], ['class' => 'btn btn-lg btn-success']); ?></center>
             </div>
             <div class="col-lg-3">
-                <center><?= Html::submitButton('Rekap Gaji', ['class' => 'btn btn-lg btn-success','value'=>3, 'name'=>'rekapgaji']); ?></center>
+                <center><?= Html::a('Rekap Gaji', ['view-rekapgaji'], ['class' => 'btn btn-lg btn-success']); ?></center>
             </div>
             <div class="col-lg-3">
-                <center><?= Html::submitButton('Tilangan', ['class' => 'btn btn-lg btn-success','value'=>3, 'name'=>'Tilangan']); ?></center>
+                <center><?= Html::a('Tilangan', ['view-tilangan'], ['class' => 'btn btn-lg btn-success']); ?></center>
             </div>
         </div>
 

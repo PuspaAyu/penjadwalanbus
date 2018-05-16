@@ -12,6 +12,10 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
+use frontend\models\Jadwalbus;
+use frontend\models\Bus;
+use frontend\models\Jurusan;
+use frontend\models\Pegawai;
 
 /**
  * Site controller
@@ -91,6 +95,27 @@ class SiteController extends Controller
         }        
     }
 
+    public function actionIndexadmin()
+    {
+        $user = Yii::$app->user->isGuest;
+        if ($user) {
+            return $this->render('index');
+        }else {
+            
+            $level = Yii::$app->user->identity->level;
+            if ($level == 1) {
+                $this->layout = 'layout_admin';
+                return $this->render('indexadmin');
+            }else if ($level == 2) {
+                $this->layout = 'layout_admin2';
+                return $this->render('index2');
+            }else if ($level == 3) {
+                $this->layout = 'layout_admin3';
+                return $this->render('index3');
+            }     
+        }        
+    }
+
     /**
      * Logs in a user.
      *
@@ -104,7 +129,7 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->redirect(['index']);
+            return $this->redirect(['site/indexadmin']);
         } else {
             return $this->render('login', [
                 'model' => $model,
@@ -224,6 +249,26 @@ class SiteController extends Controller
 
         return $this->render('resetPassword', [
             'model' => $model,
+        ]);
+    }
+
+    public function actionViewJadwal(){
+        // $jadwal = Jadwalbus::find()->where(['tanggal'=>'2018-06-09'])->all();
+        $jadwal = Jadwalbus::find()->where(['tanggal'=>date('Y-m-d')])->all();
+
+        $tempviewjadwal = array();
+        foreach ($jadwal as $key) {
+            $bus = Bus::find()->where(['id_bus'=>$key->id_bus])->one();
+            array_push($tempviewjadwal, [
+                'jam'=>$bus->jam_operasional,
+                'id_bus'=>$bus->no_polisi, 
+                'id_jurusan'=>$key->id_jurusan,
+                'id_sopir'=>$key->id_sopir, 
+                'id_kondektur'=>$key->id_kondektur
+            ]);
+        }
+        return $this->render('viewjadwal',
+        ['tempviewjadwal'=>$tempviewjadwal,
         ]);
     }
 }

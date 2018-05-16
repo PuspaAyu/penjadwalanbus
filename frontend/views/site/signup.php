@@ -8,30 +8,40 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
 $this->title = 'Signup';
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="site-signup">
-    <h1><?= Html::encode($this->title) ?></h1>
+    <br>
+    <br>
+    
+    <div class="container">
+    <div class="col-md-4 col-md-offset-4">
+        <div class="login-panel panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">SIGN UP</h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
 
-    <p>Please fill out the following fields to signup:</p>
+                        <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
 
-    <div class="row">
-        <div class="col-lg-5">
-            <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
+                        <?= $form->field($model, 'email') ?>
 
-                <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
+                        <?= $form->field($model, 'password')->passwordInput() ?>
 
-                <?= $form->field($model, 'email') ?>
+                        <?= $form->field($model, 'userLevel')->dropDownList(['1'=> 'Kabag', '2'=> 'Keuangan', '3'=> 'Ketiga']) ?>                
 
-                <?= $form->field($model, 'password')->passwordInput() ?>
+                        <div class="form-group">
+                            <?= Html::submitButton('Signup', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
+                        </div>
 
-                <?= $form->field($model, 'userLevel')->dropDownList(['1'=> 'Kabag', '2'=> 'Keuangan', '3'=> 'Ketiga']) ?>                
-
-                <div class="form-group">
-                    <?= Html::submitButton('Signup', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
+                        <?php ActiveForm::end(); ?>
+                    </div>
                 </div>
-
-            <?php ActiveForm::end(); ?>
+            </div>
         </div>
     </div>
+</div>
 </div>
