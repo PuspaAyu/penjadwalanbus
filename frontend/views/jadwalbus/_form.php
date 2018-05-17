@@ -9,13 +9,14 @@ use frontend\models\Bus;
 use frontend\models\Pegawai;
 use frontend\models\Jadwalbus;
 
+
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Jadwalbus */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
 <div class="jadwalbus-form">
-    <!-- <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <<!-- div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -34,7 +35,7 @@ use frontend\models\Jadwalbus;
                                 'value' => '23-Feb-1982',
                                 'pluginOptions' => [
                                     'autoclose'=>true,
-                                    'format' => 'dd-mm-yyyy'
+                                    'format' => 'yyyy-mm-dd'
                                 ]
                             ]); 
                     ?>
@@ -46,12 +47,12 @@ use frontend\models\Jadwalbus;
 
                     <?php ActiveForm::end(); ?>
 
-                  <!--   <div class="modal-footer">
+                    <!-- <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         <button type="button" class="btn btn-primary">Save changes</button>
                     </div>
                 </div>
             </div>
-        </div>
-    </div> -->
+        </div> -->
+    </div>
 </div>

@@ -10,7 +10,6 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
 use yii\db\Query;
-
 use frontend\models\Bus;
 use yii\helpers\ArrayHelper;
 use frontend\models\Pegawai;
@@ -41,6 +40,7 @@ class JadwalbusController extends Controller
      */
     public function actionIndex(){
       $this->layout = 'layout_admin';
+      $model = Jadwalbus::find()->all();
 
       $query = (new \yii\db\Query())
          ->select(['*'])
@@ -48,7 +48,8 @@ class JadwalbusController extends Controller
          ->groupBy('tanggal')
          ->all();
       return $this->render('index',[
-        'query'=>$query
+        'query'=>$query,
+        'model'=>$model
       ]);
     }
 
@@ -135,8 +136,6 @@ class JadwalbusController extends Controller
             // 'datakondektur'=>$datakondektur,
             // 'model' => $this->findModel($id)
         ]);
-
-
     }
 
     public function actionSupir($id)
@@ -159,7 +158,8 @@ class JadwalbusController extends Controller
 
             foreach ($bus as $key) {              
               $model = new Jadwalbus();
-              $model->tanggal = $request['JadwalBus']['tanggal'];
+              $model->tanggal = $request['tanggal'];
+
               $model->id_bus = $key->id_bus;
               $model->id_jurusan = $key->id_jurusan;
               $model->save();
@@ -239,6 +239,4 @@ class JadwalbusController extends Controller
         return $this->redirect(['index']);
         
     }
-
-
 }
