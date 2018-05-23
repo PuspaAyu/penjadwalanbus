@@ -12,12 +12,12 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
+    <!-- <?= $form->field($model, 'id_stok')->textInput() ?> -->
+
     <?= $form->field($model, 'tipe_karcis')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'stok_jmlh_karcis')->textInput() ?>
-
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

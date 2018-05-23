@@ -30,7 +30,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id_stok',
             'tipe_karcis',
-            'stok_jmlh_karcis',
         ],
     ]) ?>
 

@@ -35,14 +35,27 @@ class BusController extends Controller
      */
     public function actionIndex()
     {
-        $this->layout = 'layout_admin';
-        $searchModel = new BusSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        // $this->layout = 'layout_admin';
+        // $searchModel = new BusSearch();
+        // $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+        // return $this->render('index', [
+        //     'searchModel' => $searchModel,
+        //     'dataProvider' => $dataProvider,
+        // ]);
+        $this->layout = 'layout_admin';
+          $model = Bus::find()->all();
+
+          $query = (new \yii\db\Query())
+             ->select(['bus.id_bus', 'bus.jam_operasional', 'bus.no_polisi', 'jurusan.jurusan'])
+             ->from('bus')
+             ->join('LEFT JOIN', 'jurusan', 'jurusan.id_jurusan=bus.id_jurusan')
+             ->groupBy('id_bus')
+             ->all();
+          return $this->render('index',[
+            'query'=>$query,
+            'model'=>$model,
+          ]);
     }
 
     /**

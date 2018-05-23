@@ -27,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
     
     <div class="panel panel-primary">
         <div class="panel-heading">
-          <input class="form-control" type="text" value="<?= date('Y-m-d');?>" />
+          List Jadwal
         </div>
         <div class = "panel-body">
             <table class="table table-bordered">

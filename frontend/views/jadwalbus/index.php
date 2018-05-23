@@ -14,8 +14,8 @@ use yii\helpers\Url;
 /* @var $searchModel frontend\models\JadwalbusSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Jadwalbuses';
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Jadwal Bus';
+// $this->params['breadcrumbs'][] = $this->title;
 
 ?>
 
@@ -26,53 +26,49 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">Open Modal</button>
+        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">Create Jadwal Bus</button>
     </p>
 
-          <div class="container">
-            <!-- Modal -->
-            <div class="modal fade" id="myModal" role="dialog">
-              <div class="modal-dialog">
-                <!-- Modal content-->
-                <div class="modal-content" >
-                  <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Masukkan Tanggal Jadwal Bus</h4>
-                  </div>
-                  <div class="modal-body" style="height: 150px;">
-                    <div class="col-lg-4">
-                    <!-- <?php $form = ActiveForm::begin(); ?> -->
-                    <form method="post" action="<?= Url::to(['jadwalbus/create']); ?>">
-                      <input type="hidden" name="<?= Yii::$app->request->csrfParam; ?>" value="<?= Yii::$app->request->csrfToken; ?>" />
-                      <?= Html::csrfMetaTags() ?>
-                      <?php echo '<label class="control-label">Tanggal</label>';
-                          echo DatePicker::widget([
-                              'model' => $model,
-                              'attribute' => 'tanggal',
-                              'name' => 'tanggal',
-                              'type' => DatePicker::TYPE_COMPONENT_APPEND,
-                              'value' => date("Y-m-d"),
-                              'pluginOptions' => [
-                                  'autoclose'=>true,
-                                  'format' => 'yyyy-mm-dd'
-                              ]
-                          ]); 
-                      ?>
-                      <br>
-                      <div class="form-group">
-                          <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
-                      </div>
+    <div class="container">
+      <!-- Modal -->
+      <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+          <!-- Modal content-->
+          <div class="modal-content" >
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Masukkan Tanggal Jadwal Bus</h4>
+            </div>
 
-                 <!--    <?php ActiveForm::end(); ?> -->
-                    </form>
-                  </div>
-                  </div>
+            <div class="modal-body" style="height: 150px;">
+              <div class="col-lg-5">
+                <form method="post" action="<?= Url::to(['jadwalbus/create']); ?>">
+                  <input type="hidden" name="<?= Yii::$app->request->csrfParam; ?>" value="<?= Yii::$app->request->csrfToken; ?>" />
+                  <?= Html::csrfMetaTags() ?>
+                  <?php echo '<label class="control-label">Tanggal</label>';
+                        echo DatePicker::widget([
+                          'model' => $model,
+                          'attribute' => 'tanggal',
+                          'name' => 'tanggal',
+                          'type' => DatePicker::TYPE_COMPONENT_APPEND,
+                          'value' => date("Y-m-d"),
+                          'pluginOptions' => [
+                            'autoclose'=>true,
+                            'format' => 'yyyy-mm-dd'
+                          ]
+                        ]); 
+                  ?>
+                <br>
+                <div class="form-group">
+                  <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
                 </div>
-                
+                </form>
               </div>
             </div>
-            
           </div>
+        </div>
+      </div>
+    </div>
 
     
     <div class="panel panel-primary">

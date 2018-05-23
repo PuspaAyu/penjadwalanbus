@@ -7,8 +7,8 @@ use yii\grid\GridView;
 /* @var $searchModel frontend\models\StokSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Stoks';
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Stok';
+// $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="stok-index">
 
@@ -18,6 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Create Stok', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
+
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         //'filterModel' => $searchModel,
@@ -26,7 +27,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id_stok',
             'tipe_karcis',
-            'stok_jmlh_karcis',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
