@@ -8,7 +8,7 @@ use yii\data\ActiveDataProvider;
 use frontend\models\Stok;
 
 /**
- * StokSearch represents the model behind the search form about `frontend\models\Stok`.
+ * StokSearch represents the model behind the search form of `frontend\models\Stok`.
  */
 class StokSearch extends Stok
 {
@@ -18,7 +18,7 @@ class StokSearch extends Stok
     public function rules()
     {
         return [
-            [['id_stok', 'stok_jmlh_karcis'], 'integer'],
+            [['id_stok'], 'integer'],
             [['tipe_karcis'], 'safe'],
         ];
     }
@@ -60,7 +60,7 @@ class StokSearch extends Stok
         // grid filtering conditions
         $query->andFilterWhere([
             'id_stok' => $this->id_stok,
-            'stok_jmlh_karcis' => $this->stok_jmlh_karcis,
+            
         ]);
 
         $query->andFilterWhere(['like', 'tipe_karcis', $this->tipe_karcis]);

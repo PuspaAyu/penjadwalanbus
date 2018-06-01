@@ -18,19 +18,20 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Create Setoran', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
+
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        //'filterModel' => $searchModel,
+        'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            //'id_setoran',
-            'pendapatan_kotor',
-            'pendapatan_bersih',
-            'pinjaman',
-            'solar',
-            'ongkos',
-            'tgl_setor',
+            'id_setoran',
+            'id_karcis',
+            'id_bon',
+            'id_tpr',
+            'id_pengeluaran',
+            //'pendapatan_kotor',
+            //'bersih_perjalanan',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

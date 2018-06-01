@@ -59,19 +59,12 @@ TemplateAsset::register($this);
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
                         <li>
-                            <a href="<?=Yii::$app->homeUrl?>adminkarcis/index"><i class="fa fa-dashboard fa-fw"></i> Home</a>
+                            <a href="<?=Yii::$app->homeUrl?>site/index3"><i class="fa fa-dashboard fa-fw"></i> Home</a>
                         </li>
-                        <li>
-                            <a href="<?=Yii::$app->homeUrl?>/karcis/index"><i class="fa fa-table fa-fw"></i> Karcis</a>
-                        </li>
-                        <li>
-                            <a href="<?=Yii::$app->homeUrl?>/stok/index"><i class="fa fa-edit fa-fw"></i> Stok</a>
-                        </li>
-                                                
-                        <li>
-                            <a href="<?=Yii::$app->homeUrl?>/tilangan/index"><i class="fa fa-sitemap fa-fw"></i> Tilangan</span></a>
-                            <!-- /.nav-second-level -->
-                        </li>
+                        <li><?= Html::a('<i class="fa fa-table fa-fw"></i> Create Karcis', ['karcis/createkarcis?tanggal='.date("2018-04-27")]); ?></li>
+                        <!-- <li><?= Html::a('<i class="fa fa-table fa-fw"></i> Karcis', ['karcis/index?tanggal='.date("2018-04-27")]); ?></li> -->
+                        <li><?= Html::a('<i class="fa fa-edit fa-fw"></i> Stok', ['stok/index']); ?></li>
+                        <li><?= Html::a('<i class="fa fa-sitemap fa-fw"></i> Tilangan', ['tilangan/index']); ?></li>
                     
                     </ul>
                 </div>

@@ -27,8 +27,7 @@ class Stok extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['tipe_karcis', 'stok_jmlh_karcis'], 'required'],
-            [['stok_jmlh_karcis'], 'integer'],
+            [['tipe_karcis'], 'required'],
             [['tipe_karcis'], 'string', 'max' => 10],
         ];
     }
@@ -41,7 +40,6 @@ class Stok extends \yii\db\ActiveRecord
         return [
             'id_stok' => 'Id Stok',
             'tipe_karcis' => 'Tipe Karcis',
-            'stok_jmlh_karcis' => 'Stok Jmlh Karcis',
         ];
     }
 }

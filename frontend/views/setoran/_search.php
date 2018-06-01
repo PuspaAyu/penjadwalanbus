@@ -17,17 +17,17 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id_setoran') ?>
 
-    <?= $form->field($model, 'pendapatan_kotor') ?>
+    <?= $form->field($model, 'id_karcis') ?>
 
-    <?= $form->field($model, 'pendapatan_bersih') ?>
+    <?= $form->field($model, 'id_bon') ?>
 
-    <?= $form->field($model, 'pinjaman') ?>
+    <?= $form->field($model, 'id_tpr') ?>
 
-    <?= $form->field($model, 'solar') ?>
+    <?= $form->field($model, 'id_pengeluaran') ?>
 
-    <?php // echo $form->field($model, 'ongkos') ?>
+    <?php // echo $form->field($model, 'pendapatan_kotor') ?>
 
-    <?php // echo $form->field($model, 'tgl_setor') ?>
+    <?php // echo $form->field($model, 'bersih_perjalanan') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

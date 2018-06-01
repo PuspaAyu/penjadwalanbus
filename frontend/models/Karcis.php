@@ -27,8 +27,9 @@ class Karcis extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['karcis_pergi', 'karcis_pulang'], 'required'],
-            [['karcis_pergi', 'karcis_pulang'], 'integer'],
+            [['id_stok', 'pergi_awal', 'pergi_akhir', 'pulang_awal', 'pulang_akhir'], 'required'],
+            [['id_stok', 'pergi_awal', 'pergi_akhir', 'pulang_awal', 'pulang_akhir'], 'default', 'value' => null],
+            [['pergi_awal', 'pergi_akhir', 'pulang_awal', 'pulang_akhir'], 'integer'],
         ];
     }
 
@@ -39,8 +40,12 @@ class Karcis extends \yii\db\ActiveRecord
     {
         return [
             'id_karcis' => 'Id Karcis',
-            'karcis_pergi' => 'Karcis Pergi',
-            'karcis_pulang' => 'Karcis Pulang',
+            'id_stok' => 'Id Stok',
+            'id_jadwal' => 'Id Jadwal',
+            'pergi_awal' => 'Awal',
+            'pergi_akhir' => 'Akhir',
+            'pulang_awal' => 'Awal',
+            'pulang_akhir' => 'Akhir',
         ];
     }
 }

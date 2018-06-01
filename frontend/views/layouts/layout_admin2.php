@@ -64,18 +64,19 @@ TemplateAsset::register($this);
                         <li>
                             <a href="<?=Yii::$app->homeUrl?>/setoran/index"><i class="fa fa-table fa-fw"></i> Setoran</a>
                         </li>
+                        <li><?= Html::a('<i class="fa fa-edit fa-fw"></i> Tpr', ['tpr/index']); ?></li>
+                        <li>
+                            <a href="<?=Yii::$app->homeUrl?>/setoran/index"><i class="fa fa-table fa-fw"></i> Setoran</a>
+                        </li>
                         <li>
                             <a href="<?=Yii::$app->homeUrl?>/gaji/index"><i class="fa fa-edit fa-fw"></i> Gaji</a>
                         </li>
                                                 
                         <li>
                             <a href="<?=Yii::$app->homeUrl?>/hutang/index"><i class="fa fa-sitemap fa-fw"></i> Hutang</span></a>
-                            <!-- /.nav-second-level -->
                         </li>
-                    
                     </ul>
                 </div>
-                <!-- /.sidebar-collapse -->
             </div>
             <!-- /.navbar-static-side -->
         </nav>

@@ -27,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
     
     <div class="panel panel-primary">
         <div class="panel-heading">
-          <input class="form-control" type="text" value="<?= date('Y-m-d');?>" />
+          List Jadwal
         </div>
         <div class = "panel-body">
             <table class="table table-bordered">
@@ -36,6 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
                   <th>No</th>
                   <th>Jam Operasional</th>
                   <th>No Polisi</th>
+                  <th>Status</th>
                   <th>Jurusan</th>
                   <th>Sopir</th>
                   <th>Kondektur</th>
@@ -53,6 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
                       <span style="float: right;"><?= ($n > 43) ? 'malam': 'pagi'; ?></span>
                     </td>
                     <td><?= $item['no_polisi']; ?></td>
+                    <td><?= $item['status']; ?></td>
                     <td><?= $item['jurusan']; ?></td>
                     <!-- <td><?= $item['sopir']; ?></td> -->
                     <td>
