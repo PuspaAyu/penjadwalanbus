@@ -35,7 +35,6 @@ class SetoranController extends Controller
      */
     public function actionIndex()
     {
-        $this->layout = 'layout_admin2';
         $searchModel = new SetoranSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -49,10 +48,10 @@ class SetoranController extends Controller
      * Displays a single Setoran model.
      * @param integer $id
      * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionView($id)
     {
-        $this->layout = 'layout_admin2';
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -65,16 +64,15 @@ class SetoranController extends Controller
      */
     public function actionCreate()
     {
-        $this->layout = 'layout_admin2';
         $model = new Setoran();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id_setoran]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
         }
+
+        return $this->render('create', [
+            'model' => $model,
+        ]);
     }
 
     /**
@@ -82,19 +80,19 @@ class SetoranController extends Controller
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionUpdate($id)
     {
-        $this->layout = 'layout_admin2';
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id_setoran]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
         }
+
+        return $this->render('update', [
+            'model' => $model,
+        ]);
     }
 
     /**
@@ -102,6 +100,7 @@ class SetoranController extends Controller
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionDelete($id)
     {
@@ -121,8 +120,8 @@ class SetoranController extends Controller
     {
         if (($model = Setoran::findOne($id)) !== null) {
             return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
         }
+
+        throw new NotFoundHttpException('The requested page does not exist.');
     }
 }

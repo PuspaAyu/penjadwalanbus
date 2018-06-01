@@ -61,11 +61,10 @@ TemplateAsset::register($this);
                         <li>
                             <a href="<?=Yii::$app->homeUrl?>site/index3"><i class="fa fa-dashboard fa-fw"></i> Home</a>
                         </li>
-                        <li><?= Html::a('<i class="fa fa-table fa-fw"></i> Karcis', ['karcis/index?tanggal='.date("2018-04-27")]); ?></li>
+                        <li><?= Html::a('<i class="fa fa-table fa-fw"></i> Create Karcis', ['karcis/createkarcis?tanggal='.date("2018-04-27")]); ?></li>
+                        <!-- <li><?= Html::a('<i class="fa fa-table fa-fw"></i> Karcis', ['karcis/index?tanggal='.date("2018-04-27")]); ?></li> -->
                         <li><?= Html::a('<i class="fa fa-edit fa-fw"></i> Stok', ['stok/index']); ?></li>
                         <li><?= Html::a('<i class="fa fa-sitemap fa-fw"></i> Tilangan', ['tilangan/index']); ?></li>
-                        <li><?= Html::a('<i class="fa fa-sitemap fa-fw"></i> Create Karcis', ['karcis/createkarcis?tanggal='.date("2018-04-27")]); ?></li>
-                        
                     
                     </ul>
                 </div>

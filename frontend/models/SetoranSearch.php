@@ -8,7 +8,7 @@ use yii\data\ActiveDataProvider;
 use frontend\models\Setoran;
 
 /**
- * SetoranSearch represents the model behind the search form about `frontend\models\Setoran`.
+ * SetoranSearch represents the model behind the search form of `frontend\models\Setoran`.
  */
 class SetoranSearch extends Setoran
 {
@@ -18,8 +18,7 @@ class SetoranSearch extends Setoran
     public function rules()
     {
         return [
-            [['id_setoran', 'pendapatan_kotor', 'pendapatan_bersih', 'pinjaman', 'solar', 'ongkos'], 'integer'],
-            [['tgl_setor'], 'safe'],
+            [['id_setoran', 'id_karcis', 'id_bon', 'id_tpr', 'id_pengeluaran', 'pendapatan_kotor', 'bersih_perjalanan'], 'integer'],
         ];
     }
 
@@ -60,12 +59,12 @@ class SetoranSearch extends Setoran
         // grid filtering conditions
         $query->andFilterWhere([
             'id_setoran' => $this->id_setoran,
+            'id_karcis' => $this->id_karcis,
+            'id_bon' => $this->id_bon,
+            'id_tpr' => $this->id_tpr,
+            'id_pengeluaran' => $this->id_pengeluaran,
             'pendapatan_kotor' => $this->pendapatan_kotor,
-            'pendapatan_bersih' => $this->pendapatan_bersih,
-            'pinjaman' => $this->pinjaman,
-            'solar' => $this->solar,
-            'ongkos' => $this->ongkos,
-            'tgl_setor' => $this->tgl_setor,
+            'bersih_perjalanan' => $this->bersih_perjalanan,
         ]);
 
         return $dataProvider;

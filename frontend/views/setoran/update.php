@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Setoran */
 
-$this->title = 'Update Setoran: ' . $model->id_setoran;
+$this->title = 'Update Setoran: {nameAttribute}';
 $this->params['breadcrumbs'][] = ['label' => 'Setorans', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id_setoran, 'url' => ['view', 'id' => $model->id_setoran]];
 $this->params['breadcrumbs'][] = 'Update';

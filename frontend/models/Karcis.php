@@ -28,6 +28,7 @@ class Karcis extends \yii\db\ActiveRecord
     {
         return [
             [['id_stok', 'pergi_awal', 'pergi_akhir', 'pulang_awal', 'pulang_akhir'], 'required'],
+            [['id_stok', 'pergi_awal', 'pergi_akhir', 'pulang_awal', 'pulang_akhir'], 'default', 'value' => null],
             [['pergi_awal', 'pergi_akhir', 'pulang_awal', 'pulang_akhir'], 'integer'],
         ];
     }

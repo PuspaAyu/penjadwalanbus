@@ -136,27 +136,74 @@ class KarcisController extends Controller
         $tipe_karcis = Stok::find()->all();
         $tpkarcis = ArrayHelper::map($tipe_karcis, 'id_stok', 'tipe_karcis');
 
-        $model = new Karcis;
+        // echo $tipe_karcis[0]->tipe_karcis;
+        // die();
 
-        $tempviewjadwal = array();
-        foreach ($jadwal as $key) {
-            $karcis = Karcis::find()->where(['id_jadwal'=>$key->id_jadwal])->one();
-            $bus = Bus::find()->where(['id_bus'=>$key->id_bus])->one();
-            
-            array_push($tempviewjadwal, [
-                'jam'=>$bus->jam_operasional,
-                'id_bus'=>$bus->no_polisi, 
-                'id_jurusan'=>$key->id_jurusan,
-                'id_sopir'=>$key->id_sopir, 
-                'id_kondektur'=>$key->id_kondektur,
-                'id_karcis'=>7
+        if ($tanggal) {
+
+            // Ketika submit save button
+            if (Yii::$app->request->post()) {
+                $request = Yii::$app->request->post();
+                $model = Karcis::find()->where(['id_karcis' => $request['id_karcis']])->one();
+
+                $model->id_stok = $request['tipe_karcis'];
+                $model->pergi_awal = $request['Karcis']['pergi_awal'];
+                $model->pergi_akhir = $request['Karcis']['pergi_akhir'];
+                $model->pulang_awal = $request['Karcis']['pulang_awal'];
+                $model->pulang_akhir = $request['Karcis']['pulang_akhir'];
+                $model->update();
+            }
+
+
+            $tempviewjadwal = array();
+            foreach ($jadwal as $key) {
+
+                //insert to database
+                $model = new Karcis();
+
+                $model->id_jadwal = $key['id_jadwal'];
+                $model->id_stok = 0;
+                $model->pergi_awal = 0;
+                $model->pergi_akhir = 0;
+                $model->pulang_awal = 0;
+                $model->pulang_akhir = 0;
+
+                $id_jadwal = Karcis::find()->where(['id_jadwal' => $key['id_jadwal']])->one();
+
+                if ($id_jadwal == null) {
+                    $model->save();
+                }
+
+                $karcis = Karcis::find()->where(['id_jadwal'=>$key->id_jadwal])->one();
+                $bus = Bus::find()->where(['id_bus'=>$key->id_bus])->one();
+                
+                array_push($tempviewjadwal, [
+                    'jam'=>$bus->jam_operasional,
+                    'id_bus'=>$bus->no_polisi, 
+                    'id_jurusan'=>$key->id_jurusan,
+                    'id_sopir'=>$key->id_sopir, 
+                    'id_kondektur'=>$key->id_kondektur,
+                    'id_karcis'=> $karcis->id_karcis,
+                    'pulang_awal'=> $karcis->pulang_awal,
+                    'pergi_awal'=> $karcis->pergi_awal,
+                    'pergi_akhir'=> $karcis->pergi_akhir,
+                    'pulang_akhir'=> $karcis->pulang_akhir,
+                    'id_stok' => $karcis->id_stok,
+                ]);
+            }
+
+            return $this->render('createkarcis', [
+                'tempviewjadwal'=> $tempviewjadwal,
+                'tipe_karcis' => $tpkarcis,
+                'model' => new Karcis(),
+            ]);
+        } else {
+            $model = new Karcis();
+            return $this->render('createkarcis', [
+                'model' => $model,
+                'tanggal' => $tanggal,
             ]);
         }
-        return $this->render('createkarcis',
-        ['tempviewjadwal'=>$tempviewjadwal,
-        'tipe_karcis' => $tpkarcis,
-        'model' => $model,
-        ]);
     }
 
     public function actionSave($id)

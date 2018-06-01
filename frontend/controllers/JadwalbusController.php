@@ -86,15 +86,30 @@ class JadwalbusController extends Controller
           array_push($tempkondektur, $datakondektur[$i]['id_pegawai']);
         }
 
+        //Query sopir izin
+        $querysopirizin = new Query;
+        $querysopirizin->select(['pegawai.id_pegawai'])
+                    ->from('pegawai')
+                    ->join('JOIN', 'izin', 'izin.id_pegawai=pegawai.id_pegawai')
+                    ->where(['pegawai.id_jabatan' => '1']);
+        $commandsopirizin = $querysopirizin->createCommand();
+        $datasopirizin = $commandsopirizin->queryAll();
+
+        $tempsopirizin = array();
+          for ($i=0; $i < count($datasopirizin); $i++) { 
+            array_push($tempsopirizin, $datasopirizin[$i]['id_pegawai']);
+          }
+
         //minimal ada 1 maka dia akan menampilkan
         if (count($datasopir) > 0){
            $dtsupir = Pegawai::find()->where(['id_jabatan'=>'1'])
           ->andWhere("id_pegawai NOT IN (".implode(',', $tempsopir).")")
+          ->andWhere("id_pegawai NOT IN (".implode(',', $tempsopirizin).")")
           ->all();
         
         } else {
            $dtsupir = Pegawai::find()->where(['id_jabatan'=>'1'])
-          // ->andWhere("id_pegawai NOT IN (".implode(',', $tempsopir).")")
+          ->where("id_pegawai NOT IN (".implode(',', $tempsopirizin).")")
           ->all();
         }
         
@@ -114,9 +129,10 @@ class JadwalbusController extends Controller
         $kondektur = ArrayHelper::map($dtkond, 'id_pegawai', 'nama');
 
         $query = new Query;
-        $query->select(['jadwal_bus.id_jadwal', 'jadwal_bus.id_sopir','jadwal_bus.id_kondektur','bus.jam_operasional', 'bus.no_polisi', 'sopir.nama as sopir', 'kondektur.nama as kondektur', 'jurusan.jurusan'])
+        $query->select(['jadwal_bus.id_jadwal', 'jadwal_bus.id_sopir','jadwal_bus.id_kondektur','bus.jam_operasional', 'bus.no_polisi', 'sopir.nama as sopir', 'kondektur.nama as kondektur', 'jurusan.jurusan', 'bus.status'])
               ->from('jadwal_bus')
               ->where(['jadwal_bus.tanggal' => $tanggal])
+
               ->join('LEFT JOIN', 'pegawai sopir', 'sopir.id_pegawai = jadwal_bus.id_sopir')
               ->join('LEFT JOIN', 'pegawai kondektur', 'kondektur.id_pegawai = jadwal_bus.id_kondektur')
               ->join('LEFT JOIN', 'bus', 'bus.id_bus = jadwal_bus.id_bus')

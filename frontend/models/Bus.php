@@ -32,7 +32,7 @@ class Bus extends \yii\db\ActiveRecord
     {
         return [
             [['no_polisi', 'jam_operasional', 'id_jurusan'], 'required'],
-            [['id_jurusan'], 'integer'],
+            [['id_jurusan', 'status'], 'integer'],
             [['no_polisi', 'jam_operasional'], 'string', 'max' => 10],
             //[['id_jurusan'], 'string', 'max' => 50],
             // [['id_jurusan'], 'exist', 
@@ -53,6 +53,7 @@ class Bus extends \yii\db\ActiveRecord
             'no_polisi' => 'No Polisi',
             'jam_operasional' => 'Jam Operasional',
             'id_jurusan' => 'Id Jurusan',
+            'status' => 'status',
         ];
     }
 
