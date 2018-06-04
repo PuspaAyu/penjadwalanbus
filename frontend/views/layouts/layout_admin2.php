@@ -61,13 +61,14 @@ TemplateAsset::register($this);
                         <li>
                             <a href="<?=Yii::$app->homeUrl?>keuangan"><i class="fa fa-dashboard fa-fw"></i> Home</a>
                         </li>
-                        <li>
+                        <li><?= Html::a('<i class="fa fa-table fa-fw"></i> Setoran', ['setoran/createsetoran?tanggal='.date("2018-04-27")]); ?></li>
+                        <!-- <li>
                             <a href="<?=Yii::$app->homeUrl?>/setoran/index"><i class="fa fa-table fa-fw"></i> Setoran</a>
-                        </li>
+                        </li> -->
                         <li><?= Html::a('<i class="fa fa-edit fa-fw"></i> Tpr', ['tpr/index']); ?></li>
-                        <li>
+                       <!--  <li>
                             <a href="<?=Yii::$app->homeUrl?>/setoran/index"><i class="fa fa-table fa-fw"></i> Setoran</a>
-                        </li>
+                        </li> -->
                         <li>
                             <a href="<?=Yii::$app->homeUrl?>/gaji/index"><i class="fa fa-edit fa-fw"></i> Gaji</a>
                         </li>

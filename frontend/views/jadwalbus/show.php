@@ -25,12 +25,13 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Kirim SMS', ['create'], ['class' => 'btn btn-primary']) ?>
     </p>
     
-    <div class="panel panel-primary">
+    <div class="panel panel-primary responsive">
         <div class="panel-heading">
           List Jadwal
         </div>
-        <div class = "panel-body">
-            <table class="table table-bordered">
+        <div class = "panel-body responsive">
+          <div class="table-responsive">
+            <table class="table table-bordered table-responsive">
               <thead>
                 <tr>
                   <th>No</th>
@@ -83,6 +84,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php endforeach; ?>
               </tbody>
             </table>
+          </div>
         </div>
 
     </div>

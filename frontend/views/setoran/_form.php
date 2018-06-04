@@ -12,7 +12,12 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
+    <?= $form->field($model, 'id_karcis')->textInput() ?>
+    <?= $form->field($model, 'id_bon')->textInput() ?>
+    <?= $form->field($model, 'id_tpr')->textInput() ?>
+    <?= $form->field($model, 'id_pengeluaran')->textInput() ?>
     <?= $form->field($model, 'pendapatan_kotor')->textInput() ?>
+    <?= $form->field($model, 'bersih_perjalanan')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
@@ -21,3 +26,4 @@ use yii\widgets\ActiveForm;
     <?php ActiveForm::end(); ?>
 
 </div>
+

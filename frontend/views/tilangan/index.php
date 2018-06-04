@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel frontend\models\TilanganSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Tilangans';
+$this->title = 'Tilangan';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="tilangan-index">
@@ -18,21 +18,24 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Create Tilangan', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        //'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+    
+    <div class="table-responsive">
+        <?= GridView::widget([
+            'dataProvider' => $dataProvider,
+            //'filterModel' => $searchModel,
+            'columns' => [
+                ['class' => 'yii\grid\SerialColumn'],
 
-            'id_tilangan',
-            'tanggal_tilangan',
-            'denda',
-            'jenis_pelanggaran',
-            'tempat_kejadian',
-            // 'tanggal_batas_tilang',
-            // 'status',
+                'id_tilangan',
+                'tanggal_tilangan',
+                'denda',
+                'jenis_pelanggaran',
+                'tempat_kejadian',
+                // 'tanggal_batas_tilang',
+                // 'status',
 
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
+                ['class' => 'yii\grid\ActionColumn'],
+            ],
+        ]); ?>
+    </div>
 </div>

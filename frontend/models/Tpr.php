@@ -28,8 +28,8 @@ class Tpr extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['terminal', 'tpr', 'kemandoran'], 'required'],
-            [['terminal', 'tpr', 'kemandoran'], 'integer'],
+            [['id_terminal', 'id_bus', 'tpr', 'kemandoran'], 'required'],
+            [['id_terminal', 'id_bus', 'tpr', 'kemandoran'], 'integer'],
         ];
     }
 
@@ -40,7 +40,7 @@ class Tpr extends \yii\db\ActiveRecord
     {
         return [
             'id_tpr' => 'Id Tpr',
-            'terminal' => 'Terminal',
+            'id_terminal' => 'Terminal',
             'tpr' => 'Tpr',
             'kemandoran' => 'Kemandoran',
         ];

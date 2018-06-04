@@ -24,6 +24,7 @@ $this->title = 'Karcis';
         </div>
 
   <div class = "panel-body">
+    <div class="table-responsive">
     <table class="table table-bordered table-responsive">
       <tr>
         <th rowspan="2" style="text-align: center; padding-top: 25px">No</th>
@@ -84,13 +85,11 @@ $this->title = 'Karcis';
           <?php ActiveForm::end(); ?>
         </tr>
       <?php 
-        if($i == count($tipe_karcis)-1)
-          $i=$i;
-        else
           $i++;
         endforeach; 
       ?>
     </table>
+  </div>
     
   </div>
 

@@ -49,7 +49,7 @@ TemplateAsset::register($this);
                         '<i class="fa fa-sign-out"></i>',
                         ['/site/logout'],
                         ['data-method' => 'post']
-                    )?>
+                    )   ?>
                 </li>
                 <!-- /.dropdown -->
             </ul>

@@ -18,7 +18,7 @@ $this->title = 'Stok';
     <p>
         <?= Html::a('Create Stok', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-
+<div class="table-responsive">
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         //'filterModel' => $searchModel,
@@ -31,4 +31,5 @@ $this->title = 'Stok';
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
+</div>
 </div>

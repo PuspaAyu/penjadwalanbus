@@ -58,9 +58,7 @@ TemplateAsset::register($this);
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
-                        <li>
-                            <a href="<?=Yii::$app->homeUrl?>site/index3"><i class="fa fa-dashboard fa-fw"></i> Home</a>
-                        </li>
+                        <li><?= Html::a('<i class="fa fa-dashboard fa-fw"></i> Home', ['site/index']); ?></li>
                         <li><?= Html::a('<i class="fa fa-table fa-fw"></i> Create Karcis', ['karcis/createkarcis?tanggal='.date("2018-04-27")]); ?></li>
                         <!-- <li><?= Html::a('<i class="fa fa-table fa-fw"></i> Karcis', ['karcis/index?tanggal='.date("2018-04-27")]); ?></li> -->
                         <li><?= Html::a('<i class="fa fa-edit fa-fw"></i> Stok', ['stok/index']); ?></li>

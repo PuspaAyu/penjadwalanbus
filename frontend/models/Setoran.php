@@ -31,9 +31,9 @@ class Setoran extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['pendapatan_kotor', 'pendapatan_bersih', 'pinjaman', 'solar', 'ongkos', 'tgl_setor'], 'required'],
-            [['pendapatan_kotor', 'pendapatan_bersih', 'pinjaman', 'solar', 'ongkos'], 'integer'],
-            [['tgl_setor'], 'safe'],
+            [['id_jadwal','id_karcis','id_bon','id_tpr','id_pengeluaran','bersih_perjalanan','pendapatan_kotor'], 'required'],
+            [['id_jadwal','id_karcis','id_bon','id_tpr','id_pengeluaran','bersih_perjalanan','pendapatan_kotor'], 'integer'],
+            
         ];
     }
 
@@ -44,12 +44,14 @@ class Setoran extends \yii\db\ActiveRecord
     {
         return [
             'id_setoran' => 'Id Setoran',
+            'id_jadwal' => 'Id Jadwal',
+            'id_karcis' => 'Id Karcis',
+            'id_bon' => 'Id Bon',
+            'id_tpr' => 'Id Tpr',
+            'id_pengeluaran' => 'Id Pengeluaran',
+            'bersih_perjalanan' => 'Bersih Perjalanan',
             'pendapatan_kotor' => 'Pendapatan Kotor',
-            'pendapatan_bersih' => 'Pendapatan Bersih',
-            'pinjaman' => 'Pinjaman',
-            'solar' => 'Solar',
-            'ongkos' => 'Ongkos',
-            'tgl_setor' => 'Tgl Setor',
+           
         ];
     }
 }

@@ -10,7 +10,7 @@ use frontend\model\Jurusan;
 /* @var $searchModel frontend\models\BusSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Buses';
+$this->title = 'Bus';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -41,7 +41,8 @@ $this->params['breadcrumbs'][] = $this->title;
                             DATA BUS
                         </div>
                         <!-- /.panel-heading -->
-                        <div class="panel-body">
+                        <div class="panel-body responsive">
+                        <div class="table-responsive">
                             <table width="100%" class="table table-striped table-bordered table-hover" id="tabel_bus">
                                 <thead>
                                     <tr>
@@ -69,6 +70,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 </tbody>
                             </table>
                         </div>
+                    </div>
                     </div>
                     </div>
                 </div>
