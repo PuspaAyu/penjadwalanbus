@@ -27,8 +27,9 @@ class Bon extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['bon_sopir', 'bon_kondektur'], 'required'],
-            [['bon_sopir', 'bon_kondektur'], 'integer'],
+            [['id_pegawai','tgl','nominal','tipe'], 'required'],
+            [['id_pegawai','nominal','tipe'], 'integer'],
+            [['tgl'],'safe'],
         ];
     }
 
@@ -39,8 +40,10 @@ class Bon extends \yii\db\ActiveRecord
     {
         return [
             'id_bon' => 'Id Bon',
-            'bon_sopir' => 'Bon Sopir',
-            'bon_kondektur' => 'Bon Kondektur',
+            'id_pegawai' => 'Id Pegawai',
+            'tgl' => 'Tanggal',
+            'nominal' => 'Nominal',
+            'tipe' => 'Tipe'
         ];
     }
 }

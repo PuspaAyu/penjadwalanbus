@@ -50,6 +50,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                         <th>Jam Operasional</th>
                                         <th>No Polisi</th>
                                         <th>Jurusan</th>
+                                        <th>Shift</th>
+                                        <th>Karcis</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -60,6 +62,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                         <td><?= $item['jam_operasional']; ?></td>
                                         <td><?= $item['no_polisi']; ?></td>
                                         <td><?= $item['jurusan']; ?></td>
+                                        <td><?= ($item['status'] == 1) ? "Pagi" : "Malam"; ?></td>
+                                        <td><?= $item['seri']; ?></td>
                                         <td>
                                             <?= Html::a('<i class="fa fa-eye"></i>', ['view', 'id'=>$item['id_bus']]) ?>
                                             <?= Html::a('<i class="fa fa-pencil"></i>', ['update', 'id'=>$item['id_bus']]) ?>

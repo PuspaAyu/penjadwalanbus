@@ -45,10 +45,8 @@ class KarcisController extends Controller
         
 
           $query = (new \yii\db\Query())
-             ->select(['stok.tipe_karcis', 'karcis.id_karcis', 'karcis.id_jadwal', 'karcis.id_stok', 'karcis.pergi_awal', 'karcis.pergi_akhir', 'karcis.pulang_awal','karcis.pulang_akhir'])
+             ->select(['karcis.seri', 'karcis.id_karcis'])
              ->from('karcis')
-             ->join('LEFT JOIN', 'stok', 'stok.id_stok=karcis.id_stok')
-             ->groupBy('id_karcis')
              ->all();
           return $this->render('index',[
             'query'=>$query,

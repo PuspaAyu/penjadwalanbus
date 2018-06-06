@@ -18,8 +18,8 @@ class JadwalbusSearch extends Jadwalbus
     public function rules()
     {
         return [
-            [['id_jadwal', 'id_bus', 'id_pegawai', 'id_jurusan'], 'integer'],
-            [['tanggal', 'jam_berangkat', 'jam_datang'], 'safe'],
+            [['id_jadwal', 'id_bus', 'id_sopir', 'id_kondektur', 'id_karcis', 'pergi_awal', 'pergi_akhir', 'pulang_akhir', 'pulang_awal'], 'integer'],
+            [['tanggal'], 'safe'],
             [['bus', 'pegawai'], 'safe'],
         ];
     }
@@ -62,11 +62,13 @@ class JadwalbusSearch extends Jadwalbus
         $query->andFilterWhere([
             'id_jadwal' => $this->id_jadwal,
             'tanggal' => $this->tanggal,
-            'jam_berangkat' => $this->jam_berangkat,
             'id_bus' => $this->id_bus,
             'id_pegawai' => $this->id_pegawai,
-            'jam_datang' => $this->jam_datang,
-            'id_jurusan' => $this->id_jurusan,
+            'id_karcis' => $this->id_karcis,
+            'pergi_awal' => $this->pergi_awal,
+            'pergi_akhir' => $this->pergi_akhir,
+            'pulang_awal' => $this->pulang_awal,
+            'pulang_akhir' => $this->pulang_akhir,
         ]);
 
         return $dataProvider;

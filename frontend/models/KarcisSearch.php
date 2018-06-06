@@ -18,7 +18,8 @@ class KarcisSearch extends Karcis
     public function rules()
     {
         return [
-            [['id_karcis', 'karcis_pergi', 'karcis_pulang'], 'integer'],
+            [['id_karcis'], 'integer'],
+            [['seri'], 'safe'],
         ];
     }
 
@@ -59,8 +60,7 @@ class KarcisSearch extends Karcis
         // grid filtering conditions
         $query->andFilterWhere([
             'id_karcis' => $this->id_karcis,
-            'karcis_pergi' => $this->karcis_pergi,
-            'karcis_pulang' => $this->karcis_pulang,
+            'seri' => $this->seri
         ]);
 
         return $dataProvider;

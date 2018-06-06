@@ -18,7 +18,8 @@ class BonSearch extends Bon
     public function rules()
     {
         return [
-            [['id_bon', 'bon_sopir', 'bon_kondektur'], 'integer'],
+            [['id_bon', 'id_pegawai','nominal','tipe'], 'integer'],
+            [['tgl'],'safe'],
         ];
     }
 
@@ -59,8 +60,10 @@ class BonSearch extends Bon
         // grid filtering conditions
         $query->andFilterWhere([
             'id_bon' => $this->id_bon,
-            'bon_sopir' => $this->bon_sopir,
-            'bon_kondektur' => $this->bon_kondektur,
+            'id_pegawai' => $this->id_pegawai,
+            'tgl' => $this->tgl,
+            'nominal' => $this->nominal,
+            'tipe' => $this->tipe
         ]);
 
         return $dataProvider;

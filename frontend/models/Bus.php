@@ -31,9 +31,10 @@ class Bus extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['no_polisi', 'jam_operasional', 'id_jurusan'], 'required'],
-            [['id_jurusan', 'status'], 'integer'],
+            [['no_polisi', 'jam_operasional', 'id_jurusan','is_karcis'], 'required'],
+            [['id_jurusan', 'status', 'id_karcis'], 'integer'],
             [['no_polisi', 'jam_operasional'], 'string', 'max' => 10],
+            
             //[['id_jurusan'], 'string', 'max' => 50],
             // [['id_jurusan'], 'exist', 
             //          'skipOnError' => true, 
@@ -52,8 +53,10 @@ class Bus extends \yii\db\ActiveRecord
             'id_bus' => 'Id Bus',
             'no_polisi' => 'No Polisi',
             'jam_operasional' => 'Jam Operasional',
-            'id_jurusan' => 'Id Jurusan',
+            'id_jurusan' => 'Jurusan',
             'status' => 'status',
+            'seri' => 'seri',
+            'id_karcis' => 'Karcis'
         ];
     }
 

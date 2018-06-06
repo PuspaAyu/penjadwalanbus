@@ -17,14 +17,6 @@ use frontend\models\Bus;
     <?php $form = ActiveForm::begin(); ?>
 
     
-        <?= $form->field($model, 'id_bus')->widget(Select2::className(),[
-                'data' => \yii\helpers\ArrayHelper::map(Bus::find()->all(),'id_bus','no_polisi'),
-                'options' => ['placeholder' => 'Pilih Bus'],
-                'pluginOptions' => [
-                    'allowClear' => true
-                ],
-            ]) ?>
-    
         <?= $form->field($model, 'id_terminal')->widget(Select2::className(),[
                 'data' => \yii\helpers\ArrayHelper::map(Terminal::find()->all(),'id_terminal','terminal'),
                 'options' => ['placeholder' => 'Pilih Terminal'],

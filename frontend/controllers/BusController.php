@@ -47,9 +47,10 @@ class BusController extends Controller
           $model = Bus::find()->all();
 
           $query = (new \yii\db\Query())
-             ->select(['bus.id_bus', 'bus.jam_operasional', 'bus.no_polisi', 'jurusan.jurusan'])
+             ->select(['bus.id_bus', 'bus.jam_operasional', 'bus.no_polisi','bus.status', 'jurusan.jurusan', 'karcis.seri'])
              ->from('bus')
              ->join('LEFT JOIN', 'jurusan', 'jurusan.id_jurusan=bus.id_jurusan')
+             ->join('LEFT JOIN', 'karcis', 'karcis.id_karcis=bus.id_karcis')
              ->groupBy('id_bus')
              ->all();
           return $this->render('index',[
@@ -102,7 +103,7 @@ class BusController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_bus]);
+            return $this->redirect(['index', 'id' => $model->id_bus]);
         } else {
             return $this->render('update', [
                 'model' => $model,

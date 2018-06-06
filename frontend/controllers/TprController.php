@@ -44,7 +44,7 @@ class TprController extends Controller
         $this->layout = 'layout_admin2';
         $model = Tpr::find()->all();
         $query = (new \yii\db\Query())
-             ->select(['tpr.id_tpr', 'tpr.tpr', 'tpr.kemandoran', 'tpr.id_bus', 'terminal.terminal'])
+             ->select(['tpr.id_tpr', 'tpr.tpr', 'tpr.kemandoran', 'tpr.id_setor', 'terminal.terminal'])
              ->from('tpr')          
              ->join('LEFT JOIN', 'terminal', 'terminal.id_terminal=tpr.id_terminal')
              ->groupBy('id_tpr')

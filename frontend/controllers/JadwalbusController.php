@@ -13,6 +13,9 @@ use yii\db\Query;
 use frontend\models\Bus;
 use yii\helpers\ArrayHelper;
 use frontend\models\Pegawai;
+use DateTime;
+use DateInterval;
+use DatePeriod;
 
 /**
  * JadwalbusController implements the CRUD actions for Jadwalbus model.
@@ -169,19 +172,20 @@ class JadwalbusController extends Controller
         $bus = Bus::find()->all();
 
         if (Yii::$app->request->post()) {
+          $range = $this->generateJadwal(Yii::$app->request->post()['tanggal'], Yii::$app->request->post()['tanggal2']);
+          var_dump($range);
+            // $request = Yii::$app->request->post();
 
-            $request = Yii::$app->request->post();
+            // foreach ($bus as $key) {              
+            //   $model = new Jadwalbus();
+            //   $model->tanggal = $request['tanggal'];
 
-            foreach ($bus as $key) {              
-              $model = new Jadwalbus();
-              $model->tanggal = $request['tanggal'];
+            //   $model->id_bus = $key->id_bus;
+             
+            //   $model->save();
+            // }
 
-              $model->id_bus = $key->id_bus;
-              $model->id_jurusan = $key->id_jurusan;
-              $model->save();
-            }
-
-            return $this->redirect(['index']);
+            // return $this->redirect(['index']);
         } else {
             $model = new Jadwalbus();
             return $this->render('create', [
@@ -254,5 +258,21 @@ class JadwalbusController extends Controller
       }
         return $this->redirect(['index']);
         
+    }
+
+    private function generateJadwal($begin, $end){
+      $begin = new DateTime($begin);
+      $end = new DateTime($end);
+      $end = $end->modify( '+1 day'); // menambahkan 1 hari
+
+      $interval = new DateInterval('P1D'); // 1 Day
+      $dateRange = new DatePeriod($begin, $interval, $end);
+
+      $range = [];
+      foreach ($dateRange as $date) {
+           $range[] = $date->format('Y-m-d');
+      }
+
+      return $range;
     }
 }

@@ -32,7 +32,7 @@ class JadwalBus extends \yii\db\ActiveRecord
         return [
             [['tanggal'], 'required'],
             [['tanggal'],'safe'],
-            [['id_bus', 'id_jurusan', 'id_sopir', 'id_kondektur'], 'integer'],
+            [['id_bus', 'id_sopir', 'id_kondektur', 'id_karcis', 'pergi_awal', 'pergi_akhir', 'pulang_akhir', 'pulang_awal'], 'integer'],
             [['id_bus'], 'exist', 
                          'skipOnError' => true, 
                          'targetClass' => Bus::className(), 
@@ -55,9 +55,12 @@ class JadwalBus extends \yii\db\ActiveRecord
             'id_jadwal' => 'Id Jadwal',
             'tanggal' => 'Tanggal',
             'id_bus' => 'Id Bus',
-            'id_jurusan' => 'Id Jurusan',
-            'id_sopir' => 'Id Sopir',
-            'id_kondektur' => 'Id Kondektur',
+            'id_karcis' => 'Id Karcis',
+            'pergi_awal' => 'Pergi Awal',
+            'pergi_akhir' => 'Pergi AKhir',
+            'pulang_awal' => 'Pulang Awal',
+            'pulang_akhir' => 'Pulang Akhir'
+            
         ];
     }
 

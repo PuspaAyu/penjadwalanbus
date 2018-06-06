@@ -20,6 +20,7 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'no_polisi') ?>
 
     <?= $form->field($model, 'jam_operasional') ?>
+ 
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

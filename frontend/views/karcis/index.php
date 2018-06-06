@@ -47,10 +47,6 @@ $this->params['breadcrumbs'][] = $this->title;
                                     <tr>
                                         <th>No</th>
                                         <th>Tipe Karcis</th>
-                                        <th>Pergi Awal</th>
-                                        <th>Pergi Akhir</th>
-                                        <th>Pulang Awal</th>
-                                        <th>Pulang AKhir</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -58,11 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     <?php $n=0; foreach ($query as $item): $n++;?>
                                     <tr>
                                         <td><?= $n; ?></td>
-                                        <td><?= $item['tipe_karcis']; ?></td>
-                                        <td><?= $item['pergi_awal']; ?></td>
-                                        <td><?= $item['pergi_akhir']; ?></td>
-                                        <td><?= $item['pulang_awal']; ?></td>
-                                        <td><?= $item['pulang_akhir']; ?></td>
+                                        <td><?= $item['seri']; ?></td>
 
                                         <td>
                                             <?= Html::a('<i class="fa fa-eye"></i>', ['view', 'id'=>$item['id_karcis']]) ?>

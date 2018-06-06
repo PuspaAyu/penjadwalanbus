@@ -35,6 +35,7 @@ class BonController extends Controller
      */
     public function actionIndex()
     {
+        $this->layout = 'layout_admin3';
         $searchModel = new BonSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -64,6 +65,7 @@ class BonController extends Controller
      */
     public function actionCreate()
     {
+        $this->layout = 'layout_admin3';
         $model = new Bon();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -84,6 +86,7 @@ class BonController extends Controller
      */
     public function actionUpdate($id)
     {
+        $this->layout = 'layout_admin3';
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {

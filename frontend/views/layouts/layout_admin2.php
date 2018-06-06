@@ -62,7 +62,7 @@ TemplateAsset::register($this);
                        <!--  <li><?= Html::a('<i class="fa fa-table fa-fw"></i> Setoran', ['setoran/createsetoran?tanggal='.date("2018-04-27")]); ?></li> -->
                         <li><?= Html::a('<i class="fa fa-copy fa-fw"></i> Setor', ['setor/createsetor?tanggal='.date("2018-04-27")]); ?></li>
                         <li><?= Html::a('<i class="fa fa-edit fa-fw"></i> Tpr', ['tpr/index']); ?></li>
-                        <li><?= Html::a('<i class="fa fa-money fa-fw"></i> Gaji', ['gaji/index']); ?></li>
+                        <!-- <li><?= Html::a('<i class="fa fa-money fa-fw"></i> Gaji', ['gaji/index']); ?></li> -->
                     </ul>
                 </div>
             </div>

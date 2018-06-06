@@ -35,10 +35,10 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Bus</th>
                                         <th>Terminal</th>
                                         <th>Tpr</th>
                                         <th>Kemandoran</th>
+                                        <th>Id Setor</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -46,10 +46,10 @@ $this->params['breadcrumbs'][] = $this->title;
                                     <?php $n=0; foreach ($query as $item): $n++;?>
                                     <tr>
                                         <td><?= $n; ?></td>
-                                        <td><?= $item['id_bus']; ?></td>
                                         <td><?= $item['terminal']; ?></td>
                                         <td><?= $item['tpr']; ?></td>
                                         <td><?= $item['kemandoran']; ?></td>
+                                        <td><?= $item['id_setor']; ?></td>
                                         <td>
                                             <?= Html::a('<i class="fa fa-eye"></i>', ['view', 'id'=>$item['id_tpr']]) ?>
                                             <?= Html::a('<i class="fa fa-pencil"></i>', ['update', 'id'=>$item['id_tpr']]) ?>
