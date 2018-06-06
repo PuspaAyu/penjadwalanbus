@@ -5,12 +5,12 @@ namespace frontend\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use frontend\models\Pengeluaran;
+use frontend\models\Setor;
 
 /**
- * PengeluaranSearch represents the model behind the search form of `frontend\models\Pengeluaran`.
+ * SetorSearch represents the model behind the search form of `frontend\models\Setor`.
  */
-class PengeluaranSearch extends Pengeluaran
+class SetorSearch extends Setor
 {
     /**
      * @inheritdoc
@@ -18,7 +18,7 @@ class PengeluaranSearch extends Pengeluaran
     public function rules()
     {
         return [
-            [['id_pengeluaran', 'solar_pergi', 'solar_pulang', 'um_sopir', 'um_kondektur', 'cuci bis', 'tpr', 'tol', 'siaran', 'parkir', 'lain_lain', 'uang_minuman'], 'integer'],
+            [['id_setor', 'id_jadwal', 'solar_pergi', 'nom_solar_pergi', 'solar_plg', 'nom_solar_plg', 'um_sopir', 'um_kond', 'cuci_bis', 'tpr', 'tol', 'siaran', 'lain_lain', 'potong_minum', 'pendapatan_kotor', 'bersih_perjalanan', 'total_bersih'], 'integer'],
         ];
     }
 
@@ -40,7 +40,7 @@ class PengeluaranSearch extends Pengeluaran
      */
     public function search($params)
     {
-        $query = Pengeluaran::find();
+        $query = Setor::find();
 
         // add conditions that should always apply here
 
@@ -58,18 +58,23 @@ class PengeluaranSearch extends Pengeluaran
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id_pengeluaran' => $this->id_pengeluaran,
+            'id_setor' => $this->id_setor,
+            'id_jadwal' => $this->id_jadwal,
             'solar_pergi' => $this->solar_pergi,
-            'solar_pulang' => $this->solar_pulang,
+            'nom_solar_pergi' => $this->nom_solar_pergi,
+            'solar_plg' => $this->solar_plg,
+            'nom_solar_plg' => $this->nom_solar_plg,
             'um_sopir' => $this->um_sopir,
-            'um_kondektur' => $this->um_kondektur,
-            'cuci bis' => $this->cuci bis,
+            'um_kond' => $this->um_kond,
+            'cuci_bis' => $this->cuci_bis,
             'tpr' => $this->tpr,
             'tol' => $this->tol,
             'siaran' => $this->siaran,
-            'parkir' => $this->parkir,
             'lain_lain' => $this->lain_lain,
-            'uang_minuman' => $this->uang_minuman,
+            'potong_minum' => $this->potong_minum,
+            'pendapatan_kotor' => $this->pendapatan_kotor,
+            'bersih_perjalanan' => $this->bersih_perjalanan,
+            'total_bersih' => $this->total_bersih,
         ]);
 
         return $dataProvider;

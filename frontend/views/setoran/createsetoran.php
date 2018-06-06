@@ -27,24 +27,30 @@ $this->title = 'Setoran';
     <div class="table-responsive">
     <table class="table table-bordered table-responsive">
       <tr>
-        <th>No</th>
-        <th>Jam</th>
-        <th>No Polisi</th>
-        <th>Jurusan</th>
-        <th>Sopir</th>
-        <th>Kondektur</th>
-        <th>Aksi</th>
+        <th rowspan="2" style="text-align: center; padding-top: 25px">No</th>
+        <th rowspan="2" style="text-align: center; padding-top: 25px">Jam</th>
+        <th rowspan="2" style="text-align: center; padding-top: 25px">No Polisi</th>
+        <th rowspan="2" style="text-align: center; padding-top: 25px">Jurusan</th>
+        <th rowspan="2" style="text-align: center; padding-top: 25px">Sopir</th>
+        <th rowspan="2" style="text-align: center; padding-top: 25px">Kondektur</th>
+        <th rowspan="2" style="text-align: center; padding-top: 25px">Tipe Karcis</th>
+        <th colspan="4" style="text-align: center">Karcis</th>
+        <th rowspan="2" style="text-align: center; padding-top: 25px">Aksi</th>
+      </tr>
+      <tr style="text-align: center">
+        <td colspan="2">Pergi</td>
+        <td colspan="2">Pulang</td>
       </tr>
 
 
-      <?php $i=0; foreach ($tempviewjadwal as $tempviewjadwal):?>  
+ <?php $i=0; foreach ($tempviewjadwal as $tempviewjadwal):?>  
         <?php $nmsopir = Pegawai::find()->where(['id_pegawai'=>$tempviewjadwal['id_sopir']])->one();?>
         <?php $nmkonde = Pegawai::find()->where(['id_pegawai'=>$tempviewjadwal['id_kondektur']])->one();?>
         <?php $jur = Jurusan::find()->where(['id_jurusan'=>$tempviewjadwal['id_jurusan']])->one(); ?>
         <tr>
-          <?php $form = ActiveForm::begin(); ?>
+          
 
-          <input type="hidden" name="id_setoran" value="<?=  $tempviewjadwal['id_setoran'];  ?>" />
+          <input type="hidden" name="id_karcis" value="<?=  $tempviewjadwal['id_karcis'];  ?>" />
           <td><?= $i+1 ?></td>
           <td><?= $tempviewjadwal['jam'] ?></td>
           <td><?= $tempviewjadwal['id_bus'] ?></td>
@@ -52,9 +58,40 @@ $this->title = 'Setoran';
           <td><?= $nmsopir['nama'] ?></td>
           <td><?= $nmkonde['nama'] ?></td>
           <td>
-            <?= Html::a('Lihat',['index'], ['class' => 'btn btn-success']) ?>
+            <?php 
+              if($tempviewjadwal['id_stok'] > 0){
+                echo $tipe_karcis[$tempviewjadwal['id_stok']]; 
+              }
+               ?>
+           
           </td>
-          <?php ActiveForm::end(); ?>
+          <td>
+            <?php 
+              echo $tempviewjadwal['pergi_awal']; 
+              
+            ?>
+          </td>
+          <td>
+            <?php 
+              echo $tempviewjadwal['pergi_akhir']; 
+              
+            ?>
+          </td>
+          <td>
+            <?php 
+              echo $tempviewjadwal['pulang_awal']; 
+             
+            ?>            
+          </td>
+          <td>
+          <?php
+              echo $tempviewjadwal['pulang_akhir']; 
+            ?>
+          </td>
+          <td>
+            <a href="update?id=<?php echo ($tempviewjadwal['id_setoran'].'&'.'idkarcis='.$tempviewjadwal['id_karcis']) ?>" class="btn btn-success">Setor</a>
+          </td>
+          
         </tr>
       <?php 
           $i++;
@@ -64,7 +101,6 @@ $this->title = 'Setoran';
   </div>
     
   </div>
-
  
     </table>
   </div>

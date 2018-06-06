@@ -39,14 +39,6 @@ class KarcisController extends Controller
      */
     public function actionIndex()
     {
-        // $this->layout = 'layout_admin3';
-        // $searchModel = new KarcisSearch();
-        // $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        // return $this->render('index', [
-        //     'searchModel' => $searchModel,
-        //     'dataProvider' => $dataProvider,
-        // ]);
         $this->layout = 'layout_admin3';
         $model = Karcis::find()->all();
 

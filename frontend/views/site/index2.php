@@ -7,12 +7,7 @@ $this->title = 'Penjadwalan EKA MIRA';
 ?>
 <div class="site-index">
 
-    <div class="jumbotron">
-        <h1>SELAMAT DATANG</h1>
-
-        <p class="lead">SISTEM PENJADWALAN EKA MIRA</p>
-
-    </div>
+    <center><h1>Selamat Datang, ADMIN KEUANGAN!</h1></center>
 
     <div class="body-content">
         <?php $form = ActiveForm::begin(['action' => Yii::$app->homeUrl.'site/view-jadwal']); ?>

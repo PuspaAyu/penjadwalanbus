@@ -46,7 +46,7 @@ TemplateAsset::register($this);
                         <i class="fa fa-tasks fa-fw"></i>
                     </a> -->
                     <?= Html::a(
-                        '<i class="fa fa-tasks fa-fw"></i>',
+                        '<i class="fa fa-sign-out fa-fw"></i>',
                         ['/site/logout'],
                         ['data-method' => 'post']
                     )?>
@@ -58,24 +58,11 @@ TemplateAsset::register($this);
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
-                        <li>
-                            <a href="<?=Yii::$app->homeUrl?>keuangan"><i class="fa fa-dashboard fa-fw"></i> Home</a>
-                        </li>
-                        <li><?= Html::a('<i class="fa fa-table fa-fw"></i> Setoran', ['setoran/createsetoran?tanggal='.date("2018-04-27")]); ?></li>
-                        <!-- <li>
-                            <a href="<?=Yii::$app->homeUrl?>/setoran/index"><i class="fa fa-table fa-fw"></i> Setoran</a>
-                        </li> -->
+                        <li><?= Html::a('<i class="fa fa-dashboard fa-fw"></i> Home', ['site/index']); ?></li>
+                       <!--  <li><?= Html::a('<i class="fa fa-table fa-fw"></i> Setoran', ['setoran/createsetoran?tanggal='.date("2018-04-27")]); ?></li> -->
+                        <li><?= Html::a('<i class="fa fa-copy fa-fw"></i> Setor', ['setor/createsetor?tanggal='.date("2018-04-27")]); ?></li>
                         <li><?= Html::a('<i class="fa fa-edit fa-fw"></i> Tpr', ['tpr/index']); ?></li>
-                       <!--  <li>
-                            <a href="<?=Yii::$app->homeUrl?>/setoran/index"><i class="fa fa-table fa-fw"></i> Setoran</a>
-                        </li> -->
-                        <li>
-                            <a href="<?=Yii::$app->homeUrl?>/gaji/index"><i class="fa fa-edit fa-fw"></i> Gaji</a>
-                        </li>
-                                                
-                        <li>
-                            <a href="<?=Yii::$app->homeUrl?>/hutang/index"><i class="fa fa-sitemap fa-fw"></i> Hutang</span></a>
-                        </li>
+                        <li><?= Html::a('<i class="fa fa-money fa-fw"></i> Gaji', ['gaji/index']); ?></li>
                     </ul>
                 </div>
             </div>

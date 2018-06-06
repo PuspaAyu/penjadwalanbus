@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use Yii;
+use frontend\models\Setor;
 use frontend\models\Setoran;
 use frontend\models\SetoranSearch;
 use yii\web\Controller;
@@ -89,63 +90,61 @@ class SetoranController extends Controller
 
         $tipe_karcis = Stok::find()->all();
         $tpkarcis = ArrayHelper::map($tipe_karcis, 'id_stok', 'tipe_karcis');
+        
+        $tempviewjadwal = array();
+        foreach ($jadwal as $key) {
 
-        // echo $tipe_karcis[0]->tipe_karcis;
-        // die();
+            // insert to database
+            $model = new Setor();
 
-        // if ($tanggal) {
+            $model->id_jadwal =  $key->id_jadwal;
+            $model->solar_pergi = 0;
+            $model->nom_solar_pergi = 0;
+            $model->solar_plg = 0;
+            $model->nom_solar_plg = 0;
+            $model->um_sopir = 0;
+            $model->um_kond = 0;
+            $model->cuci_bis = 0;
+            $model->tpr = 0;
+            $model->tol = 0;
+            $model->siaran = 0;
+            $model->lain_lain = 0;
+            $model->potong_minum = 0;
+            $model->pendapatan_kotor = 0;
+            $model->bersih_perjalanan = 0;
+            $model->total_bersih = 0;
 
-        //     // Ketika submit save button
-        //     if (Yii::$app->request->post()) {
-        //         $request = Yii::$app->request->post();
-        //         $model = Karcis::find()->where(['id_karcis' => $request['id_karcis']])->one();
-
-        //         $model->id_stok = $request['tipe_karcis'];
-        //         $model->pergi_awal = $request['Karcis']['pergi_awal'];
-        //         $model->pergi_akhir = $request['Karcis']['pergi_akhir'];
-        //         $model->pulang_awal = $request['Karcis']['pulang_awal'];
-        //         $model->pulang_akhir = $request['Karcis']['pulang_akhir'];
-        //         $model->update();
-        //     }
-
-
-            $tempviewjadwal = array();
-            foreach ($jadwal as $key) {
-
-                //insert to database
-                $model = new Setoran();
-
-                $model->id_jadwal = $key['id_jadwal'];
-                $model->id_karcis = 0;
-                $model->id_bon = 0;
-                $model->id_tpr = 0;
-                $model->id_pengeluaran = 0;
-                $model->pendapatan_kotor = 0;
-                $model->bersih_perjalanan = 0;
-
-                $id_jadwal = Setoran::find()->where(['id_jadwal' => $key['id_jadwal']])->one();
-
-                if ($id_jadwal == null) {
-                    $model->save();
-                }
-
-                $karcis = Setoran::find()->where(['id_jadwal'=>$key->id_jadwal])->one();
-                $bus = Bus::find()->where(['id_bus'=>$key->id_bus])->one();
-                
-                array_push($tempviewjadwal, [
-                    'jam'=>$bus->jam_operasional,
-                    'id_bus'=>$bus->no_polisi, 
-                    'id_jurusan'=>$key->id_jurusan,
-                    'id_sopir'=>$key->id_sopir, 
-                    'id_kondektur'=>$key->id_kondektur,
-                    'id_setoran'=> $karcis->id_setoran,
-                    'id_bon'=> $karcis->id_bon,
-                    'id_tpr'=> $karcis->id_tpr,
-                    'id_pengeluaran'=> $karcis->id_pengeluaran,
-                    'pendapatan_kotor'=> $karcis->pendapatan_kotor,
-                    'bersih_perjalanan'=> $karcis->bersih_perjalanan,
-                ]);
+            if ($model->id_jadwal == null) {
+                $model->save();
             }
+
+            $setoran = Setor::find()->where(['id_jadwal'=>$key->id_jadwal])->one();
+
+            $bus = Bus::find()->where(['id_bus'=>$key->id_bus])->one();
+
+            $karcis = Karcis::find()->where(['id_jadwal'=>$key->id_jadwal])->one();
+            
+            array_push($tempviewjadwal, [
+                'jam'=>$bus->jam_operasional,
+                'id_bus'=>$bus->no_polisi, 
+                'id_jurusan'=>$key->id_jurusan,
+                'id_sopir'=>$key->id_sopir, 
+                'id_kondektur'=>$key->id_kondektur,
+                'id_karcis'=> $karcis->id_karcis,
+                'pulang_awal'=> $karcis->pulang_awal,
+                'pergi_awal'=> $karcis->pergi_awal,
+                'pergi_akhir'=> $karcis->pergi_akhir,
+                'pulang_akhir'=> $karcis->pulang_akhir,
+                'id_stok' => $karcis->id_stok,
+                'id_setoran' => $setoran->id_setor,
+                // 'id_setoran'=> $setoran->id_setoran,
+                // 'id_bon'=> $setoran->id_bon,
+                // 'id_tpr'=> $setoran->id_tpr,
+                // 'id_pengeluaran'=> $setoran->id_pengeluaran,
+                // 'pendapatan_kotor'=> $setoran->pendapatan_kotor,
+                // 'bersih_perjalanan'=> $setoran->bersih_perjalanan,
+            ]);
+        }
 
             return $this->render('createsetoran', [
                 'tempviewjadwal'=> $tempviewjadwal,
@@ -168,8 +167,11 @@ class SetoranController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
+    public function actionUpdate($id, $idkarcis)
     {
+        $karcis = Karcis::find()->where(['id_karcis'=>$idkarcis])->one();
+        $idjadwal = $karcis->id_jadwal;
+
         $this->layout = 'layout_admin2';
         $model = $this->findModel($id);
 
