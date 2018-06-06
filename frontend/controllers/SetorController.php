@@ -133,7 +133,7 @@ class SetorController extends Controller
                 $model->total_bersih = 0;
 
 
-                // $id_jadwal = Setor::find()->where(['id_jadwal' => $key['id_jadwal']])->one();
+                $id_jadwal = Setor::find()->where(['id_jadwal' => $key['id_jadwal']])->one();
 
                 if ($id_jadwal == null) {
                     $model->save();

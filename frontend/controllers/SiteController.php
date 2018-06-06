@@ -99,7 +99,7 @@ class SiteController extends Controller
     {
         $user = Yii::$app->user->isGuest;
         if ($user) {
-            return $this->render('index');
+            return $this->redirect('login');
         }else {
             
             $level = Yii::$app->user->identity->level;
