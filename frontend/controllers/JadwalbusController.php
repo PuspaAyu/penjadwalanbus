@@ -170,23 +170,21 @@ class JadwalbusController extends Controller
         $this->layout = 'layout_admin';
         $totalBus = Bus::find()->count();
         $bus = Bus::find()->all();
+        $request =Yii::$app->request->post();
 
-        if (Yii::$app->request->post()) {
-          $range = $this->generateJadwal(Yii::$app->request->post()['tanggal'], Yii::$app->request->post()['tanggal2']);
-          var_dump($range);
-            // $request = Yii::$app->request->post();
+        if ($request) {
+            // mengambil semua tanggal dari periode tanggal mulai sampai tanggal berakhir
+            $rangeDate = $this->getRangeDate($request['tanggal'], $request['tanggal2']);
 
-            // foreach ($bus as $key) {
-            //   $model = new Jadwalbus();
-            //   $model->tanggal = $request['tanggal'];
+            foreach ($rangeDate as $date) {
+              $this->setShiftSopir($date); // Set Shift Sopir
+              $this->setShiftKondektur($date); // Set Shift Kondektur
+            }
 
-            //   $model->id_bus = $key->id_bus;
-
-            //   $model->save();
-            // }
-
-            // return $this->redirect(['index']);
-        } else {
+            die();
+            return $this->redirect(['view', 'id' => $model->id_jadwal]);
+        }
+        else {
             $model = new Jadwalbus();
             return $this->render('create', [
                 'model' => $model,
@@ -260,7 +258,7 @@ class JadwalbusController extends Controller
 
     }
 
-    private function generateJadwal($begin, $end){
+    private function getRangeDate($begin, $end){
       $begin = new DateTime($begin);
       $end = new DateTime($end);
       $end = $end->modify( '+1 day'); // menambahkan 1 hari
@@ -274,5 +272,110 @@ class JadwalbusController extends Controller
       }
 
       return $range;
+    }
+
+    public function setShiftSopir($date)
+    {
+        $randSopir = Pegawai::find()->where(['id_jabatan' => 1])->orderBy(new Expression('rand()'))->all(); // Random sopir
+        $randSopirCount = count($randSopir); // Total sopir
+
+        $iterasi = 1;
+        foreach ($randSopir as $sopir) {
+          $intval = (int)($randSopirCount/2)+1; // Sebaagi pembatas 2 shift dari total sopir
+          $shift = PegawaiShift::find()->select('shift')->where(['id_pegawai' => $sopir['id_pegawai'] ])->orderBy('id DESC')->one(); // Mengambil last shift dari Pegawai
+          $izin = Izin::find()->where(['id_pegawai' => $sopir['id_pegawai'] ])->one(); // Mengambil tgl_izin pegawai
+
+          if ($izin['tgl_izin'] != $date) { // Mengecek jika ada pegawai yang izin
+            if ($shift == null) {
+              // Menambahkan Shift Pegawai
+              if ($iterasi <= $intval) {
+                $this->savePegawaiShift($sopir['id_pegawai'], $date, 'pagi');
+              }
+              else{
+                $this->savePegawaiShift($sopir['id_pegawai'], $date, 'malam');
+              }
+            }
+            else{
+              if ($shift['shift'] == "pagi") { // Mengecek shift pegawai jika sebelumnya Pagi => Malam
+                $this->savePegawaiShift($sopir['id_pegawai'], $date, 'malam');
+              }
+              else{ // Shift pegawai jika sebelumnya Malam => Pagi
+                $this->savePegawaiShift($sopir['id_pegawai'], $date, 'pagi');
+              }
+            }
+          }
+
+          $iterasi++;
+        }
+    }
+
+    public function setShiftKondektur($date)
+    {
+        $randKondektur = Pegawai::find()->where(['id_jabatan' => 2])->orderBy(new Expression('rand()'))->all(); // Random Kondektur
+        $randKondekturCount = count($randKondektur); // Total Kondektur
+
+        $iterasi = 1;
+        foreach ($randKondektur as $kondektur) {
+          $intval = (int)($randKondekturCount/2)+1; // Sebaagi pembatas 2 shift dari total Kondektur
+          $shift = PegawaiShift::find()->select('shift')->where(['id_pegawai' => $kondektur['id_pegawai'] ])->orderBy('id DESC')->one(); // Mengambil last shift dari Pegawai
+          $izin = Izin::find()->where(['id_pegawai' => $kondektur['id_pegawai'] ])->one(); // Mengambil tgl_izin pegawai
+
+          if ($izin['tgl_izin'] != $date) { // Mengecek jika ada pegawai yang izin
+            if ($shift == null) {
+              // Menambahkan Shift Pegawai
+              if ($iterasi <= $intval) {
+                $this->savePegawaiShift($kondektur['id_pegawai'], $date, 'pagi');
+              }
+              else{
+                $this->savePegawaiShift($kondektur['id_pegawai'], $date, 'malam');
+              }
+            }
+            else{
+              if ($shift['shift'] == "pagi") { // Mengecek shift pegawai jika sebelumnya Pagi => Malam
+                $this->savePegawaiShift($kondektur['id_pegawai'], $date, 'malam');
+              }
+              else{ // Shift pegawai jika sebelumnya Malam => Pagi
+                $this->savePegawaiShift($kondektur['id_pegawai'], $date, 'pagi');
+              }
+            }
+          }
+
+          $iterasi++;
+        }
+    }
+
+    public function savePegawaiShift($id_pegawai, $date, $shift)
+    {
+        $pegawai = new PegawaiShift();
+        $pegawai->id_pegawai  = $id_pegawai;
+        $pegawai->tanggal = $date;
+        $pegawai->shift  = $shift;
+        $pegawai->save();
+    }
+
+    public function setPegawaiBus($pegawai, $shift, $date)
+    {
+        $bus = Bus::find()->where(['status' => 1])->all();
+
+        foreach ($bus as $item) {
+          $pegawai = PegawaiShift::findPegawaiByShift($pegawai, $shift); // Get sopir shift pagi
+
+          foreach ($pegawai as $key) {
+
+            if ($date == $key['tanggal']) {
+
+              $jadwalBus = new Jadwalbus;
+              $jadwalBus->tanggal = $key['tanggal'];
+              $jadwalBus->id_bus = $item['id_bus'];
+              $jadwalBus->id_jurusan = $item['id_jurusan'];
+              $jadwalBus->id_sopir = $key['id_pegawai'];
+              // $jadwalBus->id_kondektur = $key['id_pegawai'];
+              $jadwalBus->save();
+
+              VarDumper::dump($jadwalBus);
+              die();
+            }
+          }
+        }
     }
 }
