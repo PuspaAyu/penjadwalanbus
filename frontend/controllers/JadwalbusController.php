@@ -274,7 +274,7 @@ class JadwalbusController extends Controller
       return $range;
     }
 
-    public function setShiftSopir($date)
+    private function setShiftSopir($date)
     {
         $randSopir = Pegawai::find()->where(['id_jabatan' => 1])->orderBy(new Expression('rand()'))->all(); // Random sopir
         $randSopirCount = count($randSopir); // Total sopir
@@ -309,7 +309,7 @@ class JadwalbusController extends Controller
         }
     }
 
-    public function setShiftKondektur($date)
+    private function setShiftKondektur($date)
     {
         $randKondektur = Pegawai::find()->where(['id_jabatan' => 2])->orderBy(new Expression('rand()'))->all(); // Random Kondektur
         $randKondekturCount = count($randKondektur); // Total Kondektur
@@ -344,7 +344,7 @@ class JadwalbusController extends Controller
         }
     }
 
-    public function savePegawaiShift($id_pegawai, $date, $shift)
+    private function savePegawaiShift($id_pegawai, $date, $shift)
     {
         $pegawai = new PegawaiShift();
         $pegawai->id_pegawai  = $id_pegawai;
@@ -353,7 +353,7 @@ class JadwalbusController extends Controller
         $pegawai->save();
     }
 
-    public function setPegawaiBus($pegawai, $shift, $date)
+    private function setPegawaiBus($pegawai, $shift, $date)
     {
         $bus = Bus::find()->where(['status' => 1])->all();
 
