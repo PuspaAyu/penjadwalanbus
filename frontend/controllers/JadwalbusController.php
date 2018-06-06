@@ -72,7 +72,7 @@ class JadwalbusController extends Controller
 
         //menampung data sopir untuk dilooping dan memasukkan ke dalah wadah
         $tempsopir = array();
-        for ($i=0; $i < count($datasopir); $i++) { 
+        for ($i=0; $i < count($datasopir); $i++) {
           array_push($tempsopir, $datasopir[$i]['id_pegawai']);
         }
 
@@ -85,7 +85,7 @@ class JadwalbusController extends Controller
         $commandkondektur = $querykondektur->createCommand();
         $datakondektur = $commandkondektur->queryAll();
         $tempkondektur = array();
-        for ($i=0; $i < count($datakondektur); $i++) { 
+        for ($i=0; $i < count($datakondektur); $i++) {
           array_push($tempkondektur, $datakondektur[$i]['id_pegawai']);
         }
 
@@ -99,7 +99,7 @@ class JadwalbusController extends Controller
         $datasopirizin = $commandsopirizin->queryAll();
 
         $tempsopirizin = array();
-          for ($i=0; $i < count($datasopirizin); $i++) { 
+          for ($i=0; $i < count($datasopirizin); $i++) {
             array_push($tempsopirizin, $datasopirizin[$i]['id_pegawai']);
           }
 
@@ -109,25 +109,25 @@ class JadwalbusController extends Controller
           ->andWhere("id_pegawai NOT IN (".implode(',', $tempsopir).")")
           ->andWhere("id_pegawai NOT IN (".implode(',', $tempsopirizin).")")
           ->all();
-        
+
         } else {
            $dtsupir = Pegawai::find()->where(['id_jabatan'=>'1'])
           ->where("id_pegawai NOT IN (".implode(',', $tempsopirizin).")")
           ->all();
         }
-        
-       
+
+
         if (count($datakondektur) > 0){
            $dtkond = Pegawai::find()->where(['id_jabatan'=>'2'])
           ->andWhere("id_pegawai NOT IN (".implode(',', $tempkondektur).")")
           ->all();
-        
+
         } else {
            $dtkond = Pegawai::find()->where(['id_jabatan'=>'2'])
           // ->andWhere("id_pegawai NOT IN (".implode(',', $tempkondektur).")")
           ->all();
         }
-        
+
         $supir = ArrayHelper::map($dtsupir, 'id_pegawai', 'nama');
         $kondektur = ArrayHelper::map($dtkond, 'id_pegawai', 'nama');
 
@@ -142,11 +142,11 @@ class JadwalbusController extends Controller
               ->join('LEFT JOIN', 'jurusan', 'jurusan.id_jurusan = bus.id_jurusan')
               ->orderBy('bus.id_bus');
 
-        $command = $query->createCommand(); 
+        $command = $query->createCommand();
         $data = $command->queryAll();
 
         return $this->render('show', [
-            'jadwal' => $data,  
+            'jadwal' => $data,
             'supir'=>$supir,
             'kondektur'=>$kondektur,
             'tempsopir'=>implode(',', $tempsopir),
@@ -176,12 +176,12 @@ class JadwalbusController extends Controller
           var_dump($range);
             // $request = Yii::$app->request->post();
 
-            // foreach ($bus as $key) {              
+            // foreach ($bus as $key) {
             //   $model = new Jadwalbus();
             //   $model->tanggal = $request['tanggal'];
 
             //   $model->id_bus = $key->id_bus;
-             
+
             //   $model->save();
             // }
 
@@ -230,7 +230,7 @@ class JadwalbusController extends Controller
 
             $request = Yii::$app->request->post();
 
-            foreach ($bus as $key) {              
+            foreach ($bus as $key) {
               $model = new Jadwalbus();
               $model->tanggal = $request['JadwalBus']['tanggal'];
               $model->id_bus = $key->id_bus;
@@ -257,7 +257,7 @@ class JadwalbusController extends Controller
         $key->delete();
       }
         return $this->redirect(['index']);
-        
+
     }
 
     private function generateJadwal($begin, $end){
