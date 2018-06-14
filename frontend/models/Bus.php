@@ -67,4 +67,9 @@ class Bus extends \yii\db\ActiveRecord
             return $jurusan->jurusan;
         }
     }
+
+    public function getByStatus($status)
+    {
+        return Bus::find()->where(['status' => $status])->all();
+    }
 }

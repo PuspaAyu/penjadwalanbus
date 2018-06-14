@@ -11,8 +11,11 @@ use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
 use yii\db\Query;
 use frontend\models\Bus;
+use frontend\models\Izin;
 use yii\helpers\ArrayHelper;
 use frontend\models\Pegawai;
+use frontend\models\PegawaiShift;
+use yii\db\Expression;
 use DateTime;
 use DateInterval;
 use DatePeriod;
@@ -168,25 +171,65 @@ class JadwalbusController extends Controller
     public function actionCreate()
     {
         $this->layout = 'layout_admin';
-        $totalBus = Bus::find()->count();
-        $bus = Bus::find()->all();
         $request =Yii::$app->request->post();
 
         if ($request) {
-            // mengambil semua tanggal dari periode tanggal mulai sampai tanggal berakhir
-            $rangeDate = $this->getRangeDate($request['tanggal'], $request['tanggal2']);
+          
+          // $GLOBALS['sopir'] = $this->getRandomSopir();
+          // $GLOBALS['kondektur'] = $this->getRandomKondektur();
+          // $GLOBALS['bus_pagi'] = $this->getBusByStatus(1);
+          // $GLOBALS['bus_malam'] = $this->getBusByStatus(2);
+          // $GLOBALS['izin'] = Izin::find()->orderBy('tgl_izin')->all();
+          // $GLOBALS['shift'] = null;
 
-            foreach ($rangeDate as $date) {
-              $this->setShiftSopir($date); // Set Shift Sopir
-              $this->setShiftKondektur($date); // Set Shift Kondektur
-            }
+          // mengambil semua tanggal dari periode tanggal mulai sampai tanggal berakhir
+          $rangeDate = $this->getRangeDate($request['tanggal'], $request['tanggal2']);
+          
+          $i = 0;
+          foreach ($rangeDate as $date) {
+            $this->setShiftSopir($date); // Set Shift Sopir
+            $this->setShiftKondektur($date); // Set Shift Kondektur
+            $this->setSopirBus('pagi', $date); // Set Sopir Bus Pagi
+            $this->setSopirBus('malam', $date); // Set Sopir Bus Malam
 
-            die();
-            return $this->redirect(['view', 'id' => $model->id_jadwal]);
+            // if ($this->checkDateJadwalBus($date) == null){
+            //   $before = new DateTime($date); 
+            //   $before->modify( '-1 day');
+            //   $beforeDate = $before->format('Y-m-d');
+
+            //   if($this->checkDateJadwalBus($beforeDate) != null){
+                
+            //     $data = $this->getLastShiftPegawai($beforeDate);
+                
+            //   } 
+            //   else{
+            //     if($i == 0){
+            //       $shift = $this->setShiftSopirAwal($date);
+            //       $GLOBALS['shift'] = $shift;
+            //     }else{
+            //       $shift = $this->setShiftSopirNext($date);
+            //       $GLOBALS['shift'] = $shift; 
+            //     }    
+                
+            //     // var_dump($GLOBALS['shift']);
+            //   }         
+
+            //   $data = $this->setSopirBusPagi($GLOBALS['shift'], $date);
+            //   $this->saveToDatabase($data, $date);
+            // }
+            // else{
+            //   echo "Maaf, tanggal sudah ada dalam jadwal !";
+            //   break;
+            // }
+
+            $i++;
+          }
+          
+          return $this->redirect(['index']);
         }
         else {
             $model = new Jadwalbus();
-            return $this->render('create', [
+            return $this->render('index', [
                 'model' => $model,
             ]);
         }
@@ -278,8 +321,11 @@ class JadwalbusController extends Controller
     {
         $randSopir = Pegawai::find()->where(['id_jabatan' => 1])->orderBy(new Expression('rand()'))->all(); // Random sopir
         $randSopirCount = count($randSopir); // Total sopir
+        $array = array();
 
         $iterasi = 1;
+        $tempShift = array();
+        $tempKeys = array();
         foreach ($randSopir as $sopir) {
           $intval = (int)($randSopirCount/2)+1; // Sebaagi pembatas 2 shift dari total sopir
           $shift = PegawaiShift::find()->select('shift')->where(['id_pegawai' => $sopir['id_pegawai'] ])->orderBy('id DESC')->one(); // Mengambil last shift dari Pegawai
@@ -290,7 +336,7 @@ class JadwalbusController extends Controller
               // Menambahkan Shift Pegawai
               if ($iterasi <= $intval) {
                 $this->savePegawaiShift($sopir['id_pegawai'], $date, 'pagi');
-              }
+              } 
               else{
                 $this->savePegawaiShift($sopir['id_pegawai'], $date, 'malam');
               }
@@ -299,7 +345,7 @@ class JadwalbusController extends Controller
               if ($shift['shift'] == "pagi") { // Mengecek shift pegawai jika sebelumnya Pagi => Malam
                 $this->savePegawaiShift($sopir['id_pegawai'], $date, 'malam');
               }
-              else{ // Shift pegawai jika sebelumnya Malam => Pagi
+              else{ // Shift pegawai jika sebelumnya  Malam => Pagi
                 $this->savePegawaiShift($sopir['id_pegawai'], $date, 'pagi');
               }
             }
@@ -353,29 +399,63 @@ class JadwalbusController extends Controller
         $pegawai->save();
     }
 
-    private function setPegawaiBus($pegawai, $shift, $date)
+    private function setSopirBus($shift, $date)
     {
-        $bus = Bus::find()->where(['status' => 1])->all();
-
+        $status = ($shift == 'pagi') ? 1 : 2 ;
+        $bus = Bus::find()->where(['status' => $status])->all();
+        $count = PegawaiShift::findPegawaiByShift(1, $shift, $date);
+        
+        $i = 0;
         foreach ($bus as $item) {
-          $pegawai = PegawaiShift::findPegawaiByShift($pegawai, $shift); // Get sopir shift pagi
+          $sopir = PegawaiShift::findPegawaiByShift(1, $shift, $date); // Get sopir shift pagi
 
-          foreach ($pegawai as $key) {
+          if ($i > count($count)) {
 
-            if ($date == $key['tanggal']) {
+            $jadwalBus = new Jadwalbus;
+            $jadwalBus->tanggal = $key['tanggal'];    
+            $jadwalBus->id_bus = $item['id_bus'];
+            $jadwalBus->id_sopir = 0;
+            $jadwalBus->id_kondektur = 0;
+            $jadwalBus->save();
 
+          }
+          else{
+            foreach ($sopir as $key) {
+            
               $jadwalBus = new Jadwalbus;
-              $jadwalBus->tanggal = $key['tanggal'];
+              $jadwalBus->tanggal = $key['tanggal'];    
               $jadwalBus->id_bus = $item['id_bus'];
-              $jadwalBus->id_jurusan = $item['id_jurusan'];
               $jadwalBus->id_sopir = $key['id_pegawai'];
-              // $jadwalBus->id_kondektur = $key['id_pegawai'];
+              $jadwalBus->id_kondektur = 0;
               $jadwalBus->save();
 
-              VarDumper::dump($jadwalBus);
-              die();
+              $this->setKondekturBus($shift, $date, $jadwalBus->id_jadwal);
+  
+              PegawaiShift::find()->where(['id_pegawai' => $key['id_pegawai'], 'tanggal' => $date])->one()->delete();
+              break;
+  
             }
           }
+          $i++;
         }
     }
+
+    private function setKondekturBus($shift, $date, $id)
+    {
+        $kondektur = PegawaiShift::findPegawaiByShift(2, $shift, $date); // Get sopir shift pagi
+
+        foreach ($kondektur as $key) {
+        
+          $jadwalBus = Jadwalbus::findOne($id);
+          $jadwalBus->id_kondektur = $key['id_pegawai'];
+          $jadwalBus->update();
+
+          PegawaiShift::find()->where(['id_pegawai' => $key['id_pegawai'], 'tanggal' => $date])->one()->delete();
+          break;
+
+        }
+
+    }
+
+    
 }

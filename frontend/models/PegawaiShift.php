@@ -47,4 +47,17 @@ class PegawaiShift extends \yii\db\ActiveRecord
             'shift' => 'Shift',
         ];
     }
+
+    public function findPegawaiByShift($pegawai, $shift, $date)
+    {
+        return PegawaiShift::find()->select('pegawai_shift.*')
+                            ->leftJoin('pegawai', '`pegawai`.`id_pegawai` = `pegawai_shift`.`id_pegawai`')
+                            ->where([
+                                'pegawai.id_jabatan' => $pegawai, 
+                                'pegawai_shift.shift' => $shift,
+                                'pegawai_shift.tanggal' => $date,
+                            ])
+                            ->all();
+    }
+
 }

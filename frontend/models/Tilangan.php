@@ -53,4 +53,17 @@ class Tilangan extends \yii\db\ActiveRecord
             'status' => 'Status',
         ];
     }
+
+    public function getTilangan()
+    {
+        return  (new \yii\db\Query())
+                ->select([
+                    'id_tilangan',
+                    'tanggal_batas_tilang',
+                    new \yii\db\Expression('CURDATE() as tgl_sekarang'),
+                    new \yii\db\Expression('DATEDIFF(CURDATE(), tanggal_batas_tilang) as selisih')
+                ])
+                ->from(self::tableName())
+                ->all();
+    }
 }
