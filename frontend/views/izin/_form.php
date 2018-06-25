@@ -23,7 +23,6 @@ use frontend\models\Pegawai;
             ],
         ]) ?>
 
-    <!-- <?= $form->field($model, 'tgl_izin')->textInput() ?> -->
     <?php echo '<label class="control-label">Tanggal Izin</label>';
 			echo DatePicker::widget([
 				'model' => $model,

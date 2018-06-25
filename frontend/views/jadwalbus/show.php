@@ -10,19 +10,19 @@ use yii\helpers\Url;
 /* @var $searchModel frontend\models\JadwalbusSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Jadwalbuses';
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Jadwal Bus';
+//$this->params['breadcrumbs'][] = $this->title;
 
 ?>
 
 
 <div class="jadwalbus-show">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h4><?= Html::encode($this->title) ?></h4>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Kirim SMS', ['create'], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Kirim SMS', ['create'], ['class' => 'btn btn-danger btn-sm']) ?>
     </p>
     
     <div class="panel panel-primary responsive">
@@ -76,8 +76,8 @@ $this->params['breadcrumbs'][] = $this->title;
                       } ?>
                     </td>
                     <td>
-                      <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
-                      <?= Html::submitButton('Edit', ['class' => 'btn btn-primary']) ?>
+                      <?= Html::submitButton('Save', ['class' => 'btn btn-success btn-xs']) ?>
+                      <?= Html::submitButton('Edit', ['class' => 'btn btn-warning btn-xs']) ?>
                     </td>
                   </form>
                   </tr>

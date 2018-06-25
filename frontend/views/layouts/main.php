@@ -22,6 +22,11 @@ AppAsset::register($this);
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
+    <link href="http://localhost/puspa/penjadwalanbus/vendor/css/landing-page.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="http://localhost/puspa/penjadwalanbus/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
 </head>
 <body>
 <?php $this->beginBody() ?>

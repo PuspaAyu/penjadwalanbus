@@ -3,16 +3,16 @@
 namespace frontend\controllers;
 
 use Yii;
-use frontend\models\Bon;
-use frontend\models\BonSearch;
+use frontend\models\Terminal;
+use frontend\models\TerminalSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * BonController implements the CRUD actions for Bon model.
+ * TerminalController implements the CRUD actions for Terminal model.
  */
-class BonController extends Controller
+class TerminalController extends Controller
 {
     /**
      * @inheritdoc
@@ -30,13 +30,13 @@ class BonController extends Controller
     }
 
     /**
-     * Lists all Bon models.
+     * Lists all Terminal models.
      * @return mixed
      */
     public function actionIndex()
     {
         $this->layout = 'layout_admin2';
-        $searchModel = new BonSearch();
+        $searchModel = new TerminalSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -46,7 +46,7 @@ class BonController extends Controller
     }
 
     /**
-     * Displays a single Bon model.
+     * Displays a single Terminal model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -60,17 +60,17 @@ class BonController extends Controller
     }
 
     /**
-     * Creates a new Bon model.
+     * Creates a new Terminal model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
         $this->layout = 'layout_admin2';
-        $model = new Bon();
+        $model = new Terminal();    
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_bon]);
+            return $this->redirect(['view', 'id' => $model->id_terminal]);
         }
 
         return $this->render('create', [
@@ -79,7 +79,7 @@ class BonController extends Controller
     }
 
     /**
-     * Updates an existing Bon model.
+     * Updates an existing Terminal model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -91,7 +91,7 @@ class BonController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_bon]);
+            return $this->redirect(['index', 'id' => $model->id_terminal]);
         }
 
         return $this->render('update', [
@@ -100,7 +100,7 @@ class BonController extends Controller
     }
 
     /**
-     * Deletes an existing Bon model.
+     * Deletes an existing Terminal model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -114,15 +114,15 @@ class BonController extends Controller
     }
 
     /**
-     * Finds the Bon model based on its primary key value.
+     * Finds the Terminal model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Bon the loaded model
+     * @return Terminal the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Bon::findOne($id)) !== null) {
+        if (($model = Terminal::findOne($id)) !== null) {
             return $model;
         }
 

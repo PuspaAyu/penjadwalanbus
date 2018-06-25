@@ -34,15 +34,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'alamat',
             'no_tlp',
             'jabatan',
-            'riwayat_pendidikan',
-            'riwayat_pekerjaan',
             'tgl_masuk',
-            'jenis_kelamin',
-            'status',
-            'agama',
             'kota',
-            'ktp_habis',
-            'sim_habis',
         ],
     ]) ?>
 

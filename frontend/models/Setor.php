@@ -43,6 +43,7 @@ class Setor extends \yii\db\ActiveRecord
         return [
             [['id_jadwal', 'solar_pergi', 'nom_solar_pergi', 'solar_plg', 'nom_solar_plg', 'um_sopir', 'um_kond', 'cuci_bis', 'tpr', 'tol', 'siaran', 'lain_lain', 'potong_minum', 'pendapatan_kotor', 'bersih_perjalanan', 'total_bersih'], 'required'],
             [['id_jadwal', 'solar_pergi', 'nom_solar_pergi', 'solar_plg', 'nom_solar_plg', 'um_sopir', 'um_kond', 'cuci_bis', 'tpr', 'tol', 'siaran', 'lain_lain', 'potong_minum', 'pendapatan_kotor', 'bersih_perjalanan', 'total_bersih'], 'integer'],
+            [['solar_pergi', 'solar_plg'], 'number'],
         ];
     }
 

@@ -7,8 +7,10 @@ use Yii;
 /**
  * This is the model class for table "komplain".
  *
- * @property integer $id_komplain
+ * @property int $id_komplain
+ * @property int $id_jadwal
  * @property string $isi_komplain
+ * @property string $tgl_komplain
  */
 class Komplain extends \yii\db\ActiveRecord
 {
@@ -26,8 +28,9 @@ class Komplain extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['isi_komplain','tanggal'], 'required'],
-            [['tanggal'], 'safe'],
+            [['id_jadwal', 'isi_komplain', 'tgl_komplain'], 'required'],
+            [['id_jadwal'], 'integer'],
+            [['tgl_komplain'], 'safe'],
             [['isi_komplain'], 'string', 'max' => 20],
         ];
     }
@@ -39,8 +42,9 @@ class Komplain extends \yii\db\ActiveRecord
     {
         return [
             'id_komplain' => 'Id Komplain',
+            'id_jadwal' => 'Id Jadwal',
             'isi_komplain' => 'Isi Komplain',
-            'tanggal' => 'Tanggal'
+            'tgl_komplain' => 'Tgl Komplain',
         ];
     }
 }

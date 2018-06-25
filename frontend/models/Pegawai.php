@@ -40,11 +40,12 @@ class Pegawai extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nama', 'no_induk', 'alamat', 'no_tlp', 'id_jabatan', 'riwayat_pendidikan', 'riwayat_pekerjaan', 'tgl_masuk', 'jenis_kelamin', 'status', 'agama', 'kota', 'ktp_habis', 'sim_habis'], 'required'],
-            [['no_induk', 'no_tlp', 'id_jabatan'], 'integer'],
-            [['tgl_masuk', 'ktp_habis', 'sim_habis'], 'safe'],
-            [['nama', 'alamat', 'riwayat_pendidikan', 'riwayat_pekerjaan', 'kota'], 'string', 'max' => 20],
-            [['jenis_kelamin', 'status', 'agama'], 'string', 'max' => 10],
+            [['nama', 'no_induk', 'alamat', 'no_tlp', 'id_jabatan', 'tgl_masuk', 'kota'], 'required'],
+            [['no_induk', 'id_jabatan'], 'integer'],
+            [['tgl_masuk'], 'safe'],
+            [['nama', 'kota'], 'string', 'max' => 20],
+            [['alamat'], 'string', 'max' => 100],
+            [['no_tlp'], 'string', 'max' => 15],
         ];
     }
 
@@ -60,15 +61,9 @@ class Pegawai extends \yii\db\ActiveRecord
             'alamat' => 'Alamat',
             'no_tlp' => 'No Tlp',
             'id_jabatan' => 'Jabatan',
-            'riwayat_pendidikan' => 'Riwayat Pendidikan',
-            'riwayat_pekerjaan' => 'Riwayat Pekerjaan',
             'tgl_masuk' => 'Tgl Masuk',
-            'jenis_kelamin' => 'Jenis Kelamin',
-            'status' => 'Status',
-            'agama' => 'Agama',
             'kota' => 'Kota',
-            'ktp_habis' => 'Ktp Habis',
-            'sim_habis' => 'Sim Habis',
+           
         ];
     }
 

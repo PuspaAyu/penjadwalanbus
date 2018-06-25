@@ -16,8 +16,7 @@ use yii\widgets\ActiveForm;
     ]); ?>
 
     <?= $form->field($model, 'id_tilangan') ?>
-
-    <?= $form->field($model, 'tanggal_tilangan') ?>
+    <?= $form->field($model, 'id_jadwal') ?>
 
     <?= $form->field($model, 'denda') ?>
 
@@ -25,9 +24,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'tempat_kejadian') ?>
 
-    <?php // echo $form->field($model, 'tanggal_batas_tilang') ?>
+    <?php echo $form->field($model, 'tanggal_batas_tilang') ?>
 
-    <?php // echo $form->field($model, 'status') ?>
+    <?php echo $form->field($model, 'status') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

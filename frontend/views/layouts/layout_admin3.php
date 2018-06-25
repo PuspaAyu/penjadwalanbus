@@ -46,7 +46,7 @@ TemplateAsset::register($this);
                         <i class="fa fa-tasks fa-fw"></i>
                     </a> -->
                     <?= Html::a(
-                        '<i class="fa fa-tasks fa-fw"></i>',
+                        '<i class="fa fa-sign-out fa-fw"></i>',
                         ['/site/logout'],
                         ['data-method' => 'post']
                     )?>
@@ -55,15 +55,26 @@ TemplateAsset::register($this);
             </ul>
             <!-- /.navbar-top-links -->
 
-            <div class="navbar-default sidebar" role="navigation">
+             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
+                        <li class="sidebar-search">
+                            <div class="input-group custom-search-form">
+                                <input type="text" class="form-control" placeholder="Search...">
+                                <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                            </div>
+                            <!-- /input-group -->
+                        </li>
                         <li><?= Html::a('<i class="fa fa-dashboard fa-fw"></i> Home', ['site/index']); ?></li>
                         <li><?= Html::a('<i class="fa fa-table fa-fw"></i> Create Karcis', ['karcis/createkarcis?tanggal='.date("2018-04-27")]); ?></li>
                         <!-- <li><?= Html::a('<i class="fa fa-table fa-fw"></i> Karcis', ['karcis/index?tanggal='.date("2018-04-27")]); ?></li> -->
-                        <li><?= Html::a('<i class="fa fa-edit fa-fw"></i> Karcis', ['karcis/index']); ?></li>
-                        <li><?= Html::a('<i class="fa fa-edit fa-fw"></i> Bon', ['bon/index']); ?></li>
-                        <li><?= Html::a('<i class="fa fa-sitemap fa-fw"></i> Tilangan', ['tilangan/index']); ?></li>
+                        <li><?= Html::a('<i class="fa fa-ticket fa-fw"></i> Karcis', ['karcis/index']); ?></li>
+                       
+                        <li><?= Html::a('<i class="fa fa-legal fa-fw"></i> Tilangan', ['tilangan/index']); ?></li>
                     
                     </ul>
                 </div>

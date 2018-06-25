@@ -55,13 +55,26 @@ TemplateAsset::register($this);
             </ul>
             <!-- /.navbar-top-links -->
 
-            <div class="navbar-default sidebar" role="navigation">
+             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
+                        <li class="sidebar-search">
+                            <div class="input-group custom-search-form">
+                                <input type="text" class="form-control" placeholder="Search...">
+                                <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                            </div>
+                            <!-- /input-group -->
+                        </li>
                         <li><?= Html::a('<i class="fa fa-dashboard fa-fw"></i> Home', ['site/index']); ?></li>
-                       <!--  <li><?= Html::a('<i class="fa fa-table fa-fw"></i> Setoran', ['setoran/createsetoran?tanggal='.date("2018-04-27")]); ?></li> -->
-                        <li><?= Html::a('<i class="fa fa-copy fa-fw"></i> Setor', ['setor/createsetor?tanggal='.date("2018-04-27")]); ?></li>
+                        <li><?= Html::a('<i class="fa fa-table fa-fw"></i> Setoran', ['setor/index']); ?></li>
+                        <!-- <li><?= Html::a('<i class="fa fa-copy fa-fw"></i> Setor', ['setor/createsetor?tanggal='.date("2018-04-27")]); ?></li> -->
+                        <li><?= Html::a('<i class="fa fa-money fa-fw"></i> Bon', ['bon/index']); ?></li>
                         <li><?= Html::a('<i class="fa fa-edit fa-fw"></i> Tpr', ['tpr/index']); ?></li>
+                        <li><?= Html::a('<i class="fa fa-edit fa-fw"></i> Terminal', ['terminal/index']); ?></li>
                         <!-- <li><?= Html::a('<i class="fa fa-money fa-fw"></i> Gaji', ['gaji/index']); ?></li> -->
                     </ul>
                 </div>

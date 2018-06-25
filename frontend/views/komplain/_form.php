@@ -13,10 +13,16 @@ use kartik\date\DatePicker;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?php echo '<label class="control-label">Tanggal Perjalanan</label>';
+    <?= $form->field($model, 'id_jadwal')->textInput() ?>
+
+    <?= $form->field($model, 'isi_komplain')->textInput(['maxlength' => true]) ?>
+
+    <!-- <?= $form->field($model, 'tgl_komplain')->textInput() ?> -->
+
+    <?php echo '<label class="control-label">Tanggal Izin</label>';
 			echo DatePicker::widget([
 				'model' => $model,
-				'attribute' => 'tanggal',
+				'attribute' => 'tgl_komplain',
 			    'name' => 'dp_3',
 			    'type' => DatePicker::TYPE_COMPONENT_APPEND,
 			    'value' => '23-Feb-1982',
@@ -27,10 +33,8 @@ use kartik\date\DatePicker;
 			]); 
 	?>
 
-    <?= $form->field($model, 'isi_komplain')->textInput(['maxlength' => true]) ?>
-
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

@@ -4,24 +4,20 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model frontend\models\KomplainSearch */
+/* @var $model frontend\models\TerminalSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="komplain-search">
+<div class="terminal-search">
 
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
         'method' => 'get',
     ]); ?>
 
-    <?= $form->field($model, 'id_komplain') ?>
+    <?= $form->field($model, 'id_terminal') ?>
 
-    <?= $form->field($model, 'id_jadwal') ?>
-
-    <?= $form->field($model, 'isi_komplain') ?>
-
-    <?= $form->field($model, 'tgl_komplain') ?>
+    <?= $form->field($model, 'terminal') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

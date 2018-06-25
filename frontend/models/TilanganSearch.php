@@ -18,8 +18,8 @@ class TilanganSearch extends Tilangan
     public function rules()
     {
         return [
-            [['id_tilangan'], 'integer'],
-            [['tanggal_tilangan', 'denda', 'jenis_pelanggaran', 'tempat_kejadian', 'tanggal_batas_tilang', 'status'], 'safe'],
+            [['id_tilangan','status'], 'integer'],
+            [['denda', 'jenis_pelanggaran', 'tempat_kejadian', 'tanggal_batas_tilang', 'status'], 'safe'],
         ];
     }
 
@@ -60,7 +60,6 @@ class TilanganSearch extends Tilangan
         // grid filtering conditions
         $query->andFilterWhere([
             'id_tilangan' => $this->id_tilangan,
-            'tanggal_tilangan' => $this->tanggal_tilangan,
             'tanggal_batas_tilang' => $this->tanggal_batas_tilang,
         ]);
 

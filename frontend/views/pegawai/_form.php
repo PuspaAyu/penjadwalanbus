@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\widgets\Select2;
-use kartik\date\DatePicker;
+use kartik\widgets\DatePicker;
 use frontend\models\Jabatan;
 
 /* @var $this yii\web\View */
@@ -27,16 +27,14 @@ use frontend\models\Jabatan;
     <!-- <?= $form->field($model, 'id_jabatan')->textInput() ?> -->
 
     <?= $form->field($model, 'id_jabatan')->widget(Select2::className(),[
-            'data' => \yii\helpers\ArrayHelper::map(Jabatan::find()->all(),'jenis_jabatan','jenis_jabatan'),
+            'data' => \yii\helpers\ArrayHelper::map(Jabatan::find()->all(),'id_jabatan','jenis_jabatan'),
             'options' => ['placeholder' => 'Pilih Jenis Jabatan...'],
             'pluginOptions' => [
                 'allowClear' => true
             ],
         ]) ?>
 
-    <?= $form->field($model, 'riwayat_pendidikan')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'riwayat_pekerjaan')->textInput(['maxlength' => true]) ?>
+    <!-- <?= $form->field($model, 'tgl_masuk')->textInput(['maxlength' => true]) ?> -->
 
     <?php echo '<label class="control-label">Tanggal Masuk</label>';
             echo DatePicker::widget([
@@ -52,18 +50,7 @@ use frontend\models\Jabatan;
             ]); 
     ?>
 
-    <?= $form->field($model, 'jenis_kelamin')->textInput(['maxlength' => true]) ?>
-    
-
-    <?= $form->field($model, 'status')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'agama')->textInput(['maxlength' => true]) ?>
-
     <?= $form->field($model, 'kota')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'ktp_habis')->textInput() ?>
-
-    <?= $form->field($model, 'sim_habis')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

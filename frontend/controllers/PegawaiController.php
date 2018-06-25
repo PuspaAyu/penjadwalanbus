@@ -91,10 +91,11 @@ class PegawaiController extends Controller
      */
     public function actionUpdate($id)
     {
+        $this->layout = 'layout_admin';
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_pegawai]);
+            return $this->redirect(['index', 'id' => $model->id_pegawai]);
         } else {
             return $this->render('update', [
                 'model' => $model,

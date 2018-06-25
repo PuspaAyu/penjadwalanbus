@@ -18,8 +18,8 @@ class PegawaiSearch extends Pegawai
     public function rules()
     {
         return [
-            [['id_pegawai', 'no_induk', 'no_tlp', 'id_jabatan'], 'integer'],
-            [['nama', 'alamat', 'id_jabatan', 'riwayat_pendidikan', 'riwayat_pekerjaan', 'tgl_masuk', 'jenis_kelamin', 'status', 'agama', 'kota', 'ktp_habis', 'sim_habis'], 'safe'],
+            [['id_pegawai', 'no_induk', 'id_jabatan'], 'integer'],
+            [['nama', 'alamat', 'id_jabatan', 'tgl_masuk', 'kota', 'no_tlp',], 'safe'],
         ];
     }
 
@@ -63,18 +63,11 @@ class PegawaiSearch extends Pegawai
             'no_induk' => $this->no_induk,
             'no_tlp' => $this->no_tlp,
             'tgl_masuk' => $this->tgl_masuk,
-            'ktp_habis' => $this->ktp_habis,
-            'sim_habis' => $this->sim_habis,
         ]);
 
         $query->andFilterWhere(['like', 'nama', $this->nama])
             ->andFilterWhere(['like', 'alamat', $this->alamat])
             ->andFilterWhere(['like', 'id_jabatan', $this->id_jabatan])
-            ->andFilterWhere(['like', 'riwayat_pendidikan', $this->riwayat_pendidikan])
-            ->andFilterWhere(['like', 'riwayat_pekerjaan', $this->riwayat_pekerjaan])
-            ->andFilterWhere(['like', 'jenis_kelamin', $this->jenis_kelamin])
-            ->andFilterWhere(['like', 'status', $this->status])
-            ->andFilterWhere(['like', 'agama', $this->agama])
             ->andFilterWhere(['like', 'kota', $this->kota]);
 
         return $dataProvider;

@@ -8,7 +8,6 @@ use Yii;
  * This is the model class for table "tilangan".
  *
  * @property integer $id_tilangan
- * @property string $tanggal_tilangan
  * @property string $denda
  * @property string $jenis_pelanggaran
  * @property string $tempat_kejadian
@@ -31,10 +30,10 @@ class Tilangan extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['tanggal_tilangan', 'denda', 'jenis_pelanggaran', 'tempat_kejadian', 'tanggal_batas_tilang', 'status'], 'required'],
-            [['tanggal_tilangan', 'tanggal_batas_tilang'], 'safe'],
+            [['denda', 'jenis_pelanggaran', 'tempat_kejadian', 'tanggal_batas_tilang', 'status'], 'required'],
+            [['tanggal_batas_tilang'], 'safe'],
             [['denda', 'jenis_pelanggaran', 'tempat_kejadian'], 'string', 'max' => 20],
-            [['status'], 'string', 'max' => 10],
+            [['status'], 'integer'],
         ];
     }
 
@@ -45,7 +44,7 @@ class Tilangan extends \yii\db\ActiveRecord
     {
         return [
             'id_tilangan' => 'Id Tilangan',
-            'tanggal_tilangan' => 'Tanggal Tilangan',
+            'id_jadwal' => 'Id Jadwal',
             'denda' => 'Denda',
             'jenis_pelanggaran' => 'Jenis Pelanggaran',
             'tempat_kejadian' => 'Tempat Kejadian',

@@ -11,7 +11,7 @@ use frontend\model\Jurusan;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Bus';
-$this->params['breadcrumbs'][] = $this->title;
+//$this->params['breadcrumbs'][] = $this->title;
 ?>
 
     <!-- DataTables CSS -->
@@ -25,11 +25,11 @@ $this->params['breadcrumbs'][] = $this->title;
 <script src="http://localhost/puspa/penjadwalanbus/vendor/datatables/js/jquery.js"></script>
 <div class="bus-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h4><?= Html::encode($this->title) ?></h4>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Bus', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Bus', ['create'], ['class' => 'btn btn-success btn-sm']) ?>
     </p>
     
 

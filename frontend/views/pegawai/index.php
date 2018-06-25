@@ -9,16 +9,17 @@ use yii\grid\GridView;
 /* @var $searchModel frontend\models\PegawaiSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Pegawais';
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Pegawai';
+
 ?>
+
 <div class="pegawai-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h4><?= Html::encode($this->title) ?></h4>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Pegawai', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Pegawai', ['create'], ['class' => 'btn btn-success btn-sm']) ?>
     </p>
 <div class="table-responsive">
     <?= GridView::widget([
@@ -34,20 +35,14 @@ $this->params['breadcrumbs'][] = $this->title;
             'no_tlp',
             //'id_jabatan',
             [
-                'label' => 'jabatan',
+                'label' => 'Jabatan',
                 'value' => function($model){
                     return $model->getJabatan();
                 }
             ],
-            // 'riwayat_pendidikan',
-            // 'riwayat_pekerjaan',
-            // 'tgl_masuk',
-            // 'jenis_kelamin',
-            // 'status',
-            // 'agama',
-            // 'kota',
-            // 'ktp_habis',
-            // 'sim_habis',
+            
+            'tgl_masuk',
+            'kota',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

@@ -173,19 +173,18 @@ class JadwalbusController extends Controller
 
         if (Yii::$app->request->post()) {
           $range = $this->generateJadwal(Yii::$app->request->post()['tanggal'], Yii::$app->request->post()['tanggal2']);
-          var_dump($range);
-            // $request = Yii::$app->request->post();
+            $request = Yii::$app->request->post();
 
-            // foreach ($bus as $key) {              
-            //   $model = new Jadwalbus();
-            //   $model->tanggal = $request['tanggal'];
+            foreach ($bus as $key) {              
+              $model = new Jadwalbus();
+              $model->tanggal = $request['tanggal'];
 
-            //   $model->id_bus = $key->id_bus;
+              $model->id_bus = $key->id_bus;
              
-            //   $model->save();
-            // }
+              $model->save();
+            }
 
-            // return $this->redirect(['index']);
+            return $this->redirect(['index']);
         } else {
             $model = new Jadwalbus();
             return $this->render('create', [

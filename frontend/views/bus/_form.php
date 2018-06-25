@@ -19,11 +19,11 @@ use frontend\models\Karcis;
 
     <?php $form = ActiveForm::begin(); ?>
    
-    <div class="col-md-4 col-sm-4 col-xs-6 form-group has-feedback">
+    <div class="col-xs-6 form-group has-feedback">
         <?= $form->field($model, 'no_polisi')->textInput(['maxlength' => true]) ?>
     </div>
 
-    <div class="col-md-4 col-sm-4 col-xs-6 form-group has-feedback">
+    <div class="col-xs-6 form-group has-feedback">
     	<?= $form->field($model, 'jam_operasional')->widget(Select2::className(),[
                 'data' => \yii\helpers\ArrayHelper::map(Bus::find()->all(),'jam_operasional','jam_operasional'),
                 'options' => ['placeholder' => 'Pilih Jam Berangkat'],
@@ -33,7 +33,7 @@ use frontend\models\Karcis;
             ]) ?>
     </div>
 
-    <div class="col-md-4 col-sm-4 col-xs-6 form-group has-feedback">
+    <div class="col-xs-6 form-group has-feedback">
         <?= $form->field($model, 'id_jurusan')->widget(Select2::className(),[
                 'data' => \yii\helpers\ArrayHelper::map(Jurusan::find()->all(),'id_jurusan','jurusan'),
                 'options' => ['placeholder' => 'Pilih Jurusan'],
@@ -43,7 +43,7 @@ use frontend\models\Karcis;
             ]) ?>
     </div>
 
-    <div class="col-md-4 col-sm-4 col-xs-6 form-group has-feedback">
+    <div class="col-xs-6 form-group has-feedback">
         <?= $form->field($model, 'id_karcis')->widget(Select2::className(),[
                 'data' => \yii\helpers\ArrayHelper::map(karcis::find()->all(),'id_karcis','seri'),
                 'options' => ['placeholder' => 'Pilih Karcis'],
@@ -53,8 +53,8 @@ use frontend\models\Karcis;
             ]) ?>
     </div>
 
-    <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+    <div class="col-xs-6 form-group">
+        <?= Html::submitButton($model->isNewRecord ? 'Save' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success ' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

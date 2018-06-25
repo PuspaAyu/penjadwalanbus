@@ -15,18 +15,18 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="tpr-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h4><?= Html::encode($this->title) ?></h4>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Tpr', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Tpr', ['create'], ['class' => 'btn btn-success btn-sm']) ?>
     </p>
 
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                            DATA BUS
+                            DATA TPR
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body responsive">

@@ -7,25 +7,28 @@ use yii\grid\GridView;
 /* @var $searchModel frontend\models\KomplainSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Komplains';
+$this->title = 'Komplain';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="komplain-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h4><?= Html::encode($this->title) ?></h4>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Komplain', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Komplain', ['create'], ['class' => 'btn btn-success btn-sm']) ?>
     </p>
+
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         //'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'tanggal',
+            //'id_komplain',
+            'id_jadwal',
             'isi_komplain',
+            'tgl_komplain',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

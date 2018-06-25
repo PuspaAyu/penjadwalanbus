@@ -5,12 +5,12 @@ namespace frontend\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use frontend\models\Komplain;
+use frontend\models\Jabatan;
 
 /**
- * KomplainSearch represents the model behind the search form of `frontend\models\Komplain`.
+ * JabatanSearch represents the model behind the search form of `frontend\models\Jabatan`.
  */
-class KomplainSearch extends Komplain
+class JabatanSearch extends Jabatan
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class KomplainSearch extends Komplain
     public function rules()
     {
         return [
-            [['id_komplain', 'id_jadwal'], 'integer'],
-            [['isi_komplain', 'tgl_komplain'], 'safe'],
+            [['id_jabatan'], 'integer'],
+            [['jenis_jabatan'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class KomplainSearch extends Komplain
      */
     public function search($params)
     {
-        $query = Komplain::find();
+        $query = Jabatan::find();
 
         // add conditions that should always apply here
 
@@ -59,12 +59,10 @@ class KomplainSearch extends Komplain
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id_komplain' => $this->id_komplain,
-            'id_jadwal' => $this->id_jadwal,
-            'tgl_komplain' => $this->tgl_komplain,
+            'id_jabatan' => $this->id_jabatan,
         ]);
 
-        $query->andFilterWhere(['like', 'isi_komplain', $this->isi_komplain]);
+        $query->andFilterWhere(['like', 'jenis_jabatan', $this->jenis_jabatan]);
 
         return $dataProvider;
     }

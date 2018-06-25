@@ -12,38 +12,102 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="setor-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+
+    <!-- DataTables CSS -->
+<head>
+    <link href="http://localhost/puspa/penjadwalanbus/vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">
+
+    <!-- DataTables Responsive CSS -->
+    <link href="http://localhost/puspa/penjadwalanbus/vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
+</head>
+
+<script src="http://localhost/puspa/penjadwalanbus/vendor/datatables/js/jquery.js"></script>
+<div class="bus-index">
+
+    <h4><?= Html::encode($this->title) ?></h4>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Setor', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Setoran', ['create'], ['class' => 'btn btn-success btn-sm']) ?>
     </p>
+    
 
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
 
-            'id_setor',
-            'id_jadwal',
-            'solar_pergi',
-            'nom_solar_pergi',
-            'solar_plg',
-            //'nom_solar_plg',
-            //'um_sopir',
-            //'um_kond',
-            //'cuci_bis',
-            //'tpr',
-            //'tol',
-            //'siaran',
-            //'lain_lain',
-            //'potong_minum',
-            //'pendapatan_kotor',
-            //'bersih_perjalanan',
-            //'total_bersih',
-
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
+     <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            DATA Setoran
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body responsive">
+                        <div class="table-responsive">
+                            <table width="100%" class="table table-striped table-bordered table-hover table-responsive" id="tabel_setor">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Id jadwal</th>
+                                        <th>Pendapatan Kotor</th>
+                                        <th>Bersih Perjalanan</th>
+                                        <th>Total Bersih</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php $n=0; foreach ($query as $item): $n++;?>
+                                    <tr>
+                                        <td><?= $n; ?></td>
+                                        <td><?= $item['id_jadwal']; ?></td>
+                                        <td><?= $item['pendapatan_kotor']; ?></td>
+                                        <td><?= $item['bersih_perjalanan']; ?></td>
+                                        <td><?= $item['total_bersih']; ?></td>
+                                        <td>
+                                            <?= Html::a('<i class="fa fa-eye"></i>', ['view', 'id'=>$item['id_setor']]) ?>
+                                            <?= Html::a('<i class="fa fa-pencil"></i>', ['update', 'id'=>$item['id_setor']]) ?>
+                                            <?= Html::a('<i class="fa fa-trash-o"></i>', ['delete', 'id'=>$item['id_setor']], ['data-method' => 'post']) ?>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    </div>
+                    </div>
+                </div>
 </div>
+
+
+    <!-- DataTables JavaScript -->
+    <!-- <script src="http://localhost/puspa/penjadwalanbus/vendor/jquery/jquery.min.js"></script> -->
+    
+    <script src="http://localhost/puspa/penjadwalanbus/vendor/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="http://localhost/puspa/penjadwalanbus/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+    <script src="http://localhost/puspa/penjadwalanbus/vendor/datatables-responsive/dataTables.responsive.js"></script>
+    <!-- <script src="http://localhost/puspa/penjadwalanbus/vendor/bootstrap/js/bootstrap.min.js"></script> -->
+    <!-- <script src="http://localhost/puspa/penjadwalanbus/dist/js/sb-admin-2.js"></script> -->
+
+
+<!-- <script>
+    $(document).ready(function() {
+      $('#actionTable').DataTable({
+        responsive: true
+      });
+    });
+</script> -->
+
+<script>
+//$.noConflict();
+jQuery( document ).ready(function( $ ) {
+    $('#tabel_setor').DataTable();
+});
+// Code that uses other library's $ can follow here.
+</script>
+
+   <!--  <script>
+    $(document).ready(function() {
+        $('#tabel_bus').DataTable({
+            responsive: true
+        });
+    });
+    </script> -->

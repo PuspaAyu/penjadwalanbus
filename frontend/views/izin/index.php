@@ -7,16 +7,16 @@ use yii\grid\GridView;
 /* @var $searchModel frontend\models\IzinSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Izins';
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Izin';
+//$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="izin-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h4><?= Html::encode($this->title) ?></h4>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Izin', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Izin', ['create'], ['class' => 'btn btn-success btn-sm']) ?>
     </p>
 
 <div class="table-responsive">

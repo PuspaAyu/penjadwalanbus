@@ -83,24 +83,6 @@ use yii\widgets\ActiveForm;
                             </div>
                         </div>
 
-                        <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">TOTAL</a>
-                            </h4>
-                        </div>
-                        <div id="collapseThree" class="panel-collapse collapse">
-                            <div class="panel-body">
-
-                        <?= $form->field($model, 'pendapatan_kotor')->textInput() ?>
-
-                        <?= $form->field($model, 'bersih_perjalanan')->textInput() ?>
-
-                        <?= $form->field($model, 'total_bersih')->textInput() ?>
-                         </div>
-                        </div>
-                    </div>
-
                     <div class="col-lg-4">
                         <div class="form-group">
                             <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

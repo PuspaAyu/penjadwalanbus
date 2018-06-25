@@ -26,11 +26,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="karcis-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h4><?= Html::encode($this->title) ?></h4>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Karcis', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Karcis', ['create'], ['class' => 'btn btn-success btn-sm']) ?>
     </p>
     
 

@@ -23,6 +23,9 @@ class TemplateAsset extends AssetBundle
         'assetTemplate/css/sb-admin-2.css',
         'assetTemplate/morrisjs/morris.css',
         'assetTemplate/font-awesome/css/font-awesome.min.css',
+
+        
+
     ];
     public $js = [
         'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js',
@@ -33,6 +36,8 @@ class TemplateAsset extends AssetBundle
         'assetTemplate/morrisjs/morris.min.js',
         'assetTemplate/morrisjs/morris.min.js',
         'assetTemplate/js/sb-admin-2.js',
+       
+
     ];
     public $depends = [
         'yii\web\YiiAsset',

@@ -21,12 +21,11 @@ $this->title = 'Jadwal Bus';
 
 
 <div class="jadwalbus-index2">
-
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h4><?= Html::encode($this->title) ?></h4>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">Create Jadwal Bus</button>
+        <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal">Create Jadwal Bus</button>
     </p>
 
     <div class="container">
@@ -57,8 +56,7 @@ $this->title = 'Jadwal Bus';
                             'pluginOptions' => [
                                 'autoclose' => true,
                                 'format' => 'dd-M-yyyy'
-                            ]
-                        ]);
+                            ]                        ]);
                         // echo DatePicker::widget([
                         //   'model' => $model,
                         //   'name' => 'tanggal',                     
@@ -74,7 +72,7 @@ $this->title = 'Jadwal Bus';
                   ?>
                 <br>
                 <div class="form-group">
-                  <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+                  <?= Html::submitButton('Save', ['class' => 'btn btn-success btn-sm']) ?>
                 </div>
                 </form>
               </div>
@@ -106,9 +104,9 @@ $this->title = 'Jadwal Bus';
                     <!-- <td><?= $jadwal['id_jadwal'] ?></td> -->
                     <td><?= date("d-F-Y", strtotime($jadwal['tanggal'])); ?></td>
                     <td>
-                      <?= Html::a('Lihat',['show', 'tanggal'=>$jadwal['tanggal']], ['class' => 'btn btn-success']) ?>
-                      <?= Html::a('Salin jadwal',['salinjadwal', 'id'=>$jadwal['tanggal']], ['class' => 'btn btn-primary']) ?>
-                      <?= Html::a('Hapus',['hapusjadwal', 'id'=>$jadwal['tanggal']], ['class' => 'btn btn-danger']) ?>
+                      <?= Html::a('Lihat',['show', 'tanggal'=>$jadwal['tanggal']], ['class' => 'btn btn-primary btn-sm']) ?>
+                      <?= Html::a('Salin jadwal',['salinjadwal', 'id'=>$jadwal['tanggal']], ['class' => 'btn btn-warning btn-sm']) ?>
+                      <?= Html::a('Hapus',['hapusjadwal', 'id'=>$jadwal['tanggal']], ['class' => 'btn btn-danger btn-sm']) ?>
                     </td>
                   </tr>
                 <?php endforeach; ?>
