@@ -41,7 +41,8 @@ class SetorController extends Controller
 
     public function setor(){
       $query = (new yii\db\Query())
-                ->select(['setor.solar_pergi',
+                ->select(['setor.id_setor',
+                        'setor.solar_pergi',
                         'setor.nom_solar_pergi',
                         'setor.solar_plg',
                         'setor.nom_solar_plg',
@@ -51,6 +52,7 @@ class SetorController extends Controller
                         'setor.tpr',
                         'setor.tol',
                         'setor.siaran',
+                        'setor.parkir',
                         'setor.lain_lain',
                         'setor.potong_minum'])
                 ->from('setor')
@@ -61,7 +63,6 @@ class SetorController extends Controller
 
     public function actionIndex()
     {
-
         $this->layout = 'layout_admin2';
         $model = Setor::find()->all();
         $query = (new yii\db\Query())
@@ -77,12 +78,14 @@ class SetorController extends Controller
                         'setor.tpr',
                         'setor.tol',
                         'setor.siaran',
+                        'setor.parkir',
                         'setor.lain_lain',
                         'setor.potong_minum',
                         'setor.pendapatan_kotor',
                         'setor.bersih_perjalanan',
                         'setor.total_bersih'])
                 ->from('setor')
+                ->join('LEFT JOIN', 'jadwal_bus', 'jadwal_bus.id_jadwal = setor.id_jadwal')
                 ->all();
                 
             return $this->render('index',[
@@ -126,19 +129,19 @@ class SetorController extends Controller
 
     public function actionPenjumlahan()
     {
-        $data['nilai_setor'] = $this->setor();
-        $setor = $data['nilai_setor'];
-        $i=0;
+        $data = $this->setor();
+        $setor = count($data);
 
-        // for ($i=0; $i < count($solar); $i++) { 
-            if($setor[$i]['solar_pergi'])
-                $hasil_solar = $setor[$i]['solar_pergi']+$setor[$i]['solar_plg'];
-                $hasil_nom_solar = $setor[$i]['nom_solar_pergi']+$setor[$i]['nom_solar_plg'];
-                $hasil_lain = $setor[$i]['um_sopir']+$setor[$i]['um_kond']+$setor[$i]['cuci_bis']+$setor[$i]['tpr']
-                                +$setor[$i]['tol']+$setor[$i]['siaran']+$setor[$i]['lain_lain'];
-                $total = $hasil_nom_solar+$hasil_lain;
+        for ($i=0; $i <=$setor-1; $i++) { 
+        // if($setor[$i]['id_s'])
+            $hasil_solar = $setor[$i]['solar_pergi']+$setor[$i]['solar_plg'];
+            $hasil_nom_solar = $setor[$i]['nom_solar_pergi']+$setor[$i]['nom_solar_plg'];
+            $hasil_lain = $setor[$i]['um_sopir']+$setor[$i]['um_kond']+$setor[$i]['cuci_bis']+$setor[$i]['tpr']
+                            +$setor[$i]['tol']+$setor[$i]['siaran']+$setor[$i]['parkir']+$setor[$i]['lain_lain'];
+            $total = $hasil_nom_solar+$hasil_lain;
             var_dump($total);
-            die();
+           
+        }
         
     }
 

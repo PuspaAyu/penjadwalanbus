@@ -41,8 +41,8 @@ class Setor extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_jadwal', 'solar_pergi', 'nom_solar_pergi', 'solar_plg', 'nom_solar_plg', 'um_sopir', 'um_kond', 'cuci_bis', 'tpr', 'tol', 'siaran', 'lain_lain', 'potong_minum', 'pendapatan_kotor', 'bersih_perjalanan', 'total_bersih'], 'required'],
-            [['id_jadwal', 'solar_pergi', 'nom_solar_pergi', 'solar_plg', 'nom_solar_plg', 'um_sopir', 'um_kond', 'cuci_bis', 'tpr', 'tol', 'siaran', 'lain_lain', 'potong_minum', 'pendapatan_kotor', 'bersih_perjalanan', 'total_bersih'], 'integer'],
+            [['id_jadwal', 'solar_pergi', 'nom_solar_pergi', 'solar_plg', 'nom_solar_plg', 'um_sopir', 'um_kond', 'cuci_bis', 'tpr', 'tol', 'siaran', 'parkir', 'lain_lain', 'potong_minum', 'pendapatan_kotor', 'bersih_perjalanan', 'total_bersih'], 'required'],
+            [['id_jadwal','nom_solar_pergi', 'nom_solar_plg', 'um_sopir', 'um_kond', 'cuci_bis', 'tpr', 'tol', 'siaran', 'parkir', 'lain_lain', 'potong_minum', 'pendapatan_kotor', 'bersih_perjalanan', 'total_bersih'], 'integer'],
             [['solar_pergi', 'solar_plg'], 'number'],
         ];
     }
@@ -65,6 +65,7 @@ class Setor extends \yii\db\ActiveRecord
             'tpr' => 'Tpr',
             'tol' => 'Tol',
             'siaran' => 'Siaran',
+            'parkir' => 'Parkir',
             'lain_lain' => 'Lain Lain',
             'potong_minum' => 'Potong Minum',
             'pendapatan_kotor' => 'Pendapatan Kotor',

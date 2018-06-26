@@ -18,7 +18,7 @@ class SetorSearch extends Setor
     public function rules()
     {
         return [
-            [['id_setor', 'id_jadwal', 'nom_solar_pergi', 'nom_solar_plg', 'um_sopir', 'um_kond', 'cuci_bis', 'tpr', 'tol', 'siaran', 'lain_lain', 'potong_minum', 'pendapatan_kotor', 'bersih_perjalanan', 'total_bersih'], 'integer'],
+            [['id_setor', 'id_jadwal', 'nom_solar_pergi', 'nom_solar_plg', 'um_sopir', 'um_kond', 'cuci_bis', 'tpr', 'tol', 'siaran', 'parkir', 'lain_lain', 'potong_minum', 'pendapatan_kotor', 'bersih_perjalanan', 'total_bersih'], 'integer'],
              [['solar_pergi', 'solar_plg'], 'number'],
         ];
     }
@@ -71,6 +71,7 @@ class SetorSearch extends Setor
             'tpr' => $this->tpr,
             'tol' => $this->tol,
             'siaran' => $this->siaran,
+            'parkir' => $this->parkir,
             'lain_lain' => $this->lain_lain,
             'potong_minum' => $this->potong_minum,
             'pendapatan_kotor' => $this->pendapatan_kotor,

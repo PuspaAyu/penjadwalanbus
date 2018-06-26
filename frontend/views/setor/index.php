@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel frontend\models\FrontendSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Setors';
+$this->title = 'Setor';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="setor-index">
