@@ -2,7 +2,9 @@
 
 namespace frontend\models;
 
+
 use Yii;
+use yii\db\Expression;
 use frontend\models\Jabatan;
 
 /**
@@ -70,5 +72,15 @@ class Pegawai extends \yii\db\ActiveRecord
     public function getJabatan(){
         $jabatan = Jabatan::find()->where(['id_jabatan'=>$this->id_jabatan])->one();
             return $jabatan->jenis_jabatan;
+    }
+
+    public function getRandomSopir()
+    {
+        return Pegawai::find()->where(['id_jabatan' => 1])->orderBy(new Expression('rand()'))->all();
+    }
+
+    public function getRandomKondektur()
+    {
+        return Pegawai::find()->where(['id_jabatan' => 2])->orderBy(new Expression('rand()'))->all();
     }
 }
