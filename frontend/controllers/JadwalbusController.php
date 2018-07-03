@@ -43,6 +43,7 @@ class JadwalbusController extends Controller
     public function actionIndex(){
       $this->layout = 'layout_admin';
       $model = Jadwalbus::find()->all();
+      
       $query = (new \yii\db\Query())
          ->select(['*'])
          ->from('jadwal_bus')
@@ -66,7 +67,7 @@ class JadwalbusController extends Controller
         $datasopir = $commandsopir->queryAll();
         //menampung data sopir untuk dilooping dan memasukkan ke dalah wadah
         $tempsopir = array();
-        for ($i=0; $i < count($datasopir); $i++) {
+        for ($i=0; $i < count($datasopir); $i++) { 
           array_push($tempsopir, $datasopir[$i]['id_pegawai']);
         }
         $querykondektur = new Query;
@@ -77,7 +78,7 @@ class JadwalbusController extends Controller
         $commandkondektur = $querykondektur->createCommand();
         $datakondektur = $commandkondektur->queryAll();
         $tempkondektur = array();
-        for ($i=0; $i < count($datakondektur); $i++) {
+        for ($i=0; $i < count($datakondektur); $i++) { 
           array_push($tempkondektur, $datakondektur[$i]['id_pegawai']);
         }
         //Query sopir izin
@@ -89,29 +90,39 @@ class JadwalbusController extends Controller
         $commandsopirizin = $querysopirizin->createCommand();
         $datasopirizin = $commandsopirizin->queryAll();
         $tempsopirizin = array();
-          for ($i=0; $i < count($datasopirizin); $i++) {
+          for ($i=0; $i < count($datasopirizin); $i++) { 
             array_push($tempsopirizin, $datasopirizin[$i]['id_pegawai']);
           }
         //minimal ada 1 maka dia akan menampilkan
         if (count($datasopir) > 0){
-           $dtsupir = Pegawai::find()->where(['id_jabatan'=>'1'])
-          ->andWhere("id_pegawai NOT IN (".implode(',', $tempsopir).")")
-          ->andWhere("id_pegawai NOT IN (".implode(',', $tempsopirizin).")")
-          ->all();
+          
+            $dtsupir = Pegawai::find()->where(['id_jabatan'=>'1']);
+            if (!empty($tempsopir)) {
+              $dtsupir = $dtsupir->andWhere("id_pegawai NOT IN (".implode(',', $tempsopir).")");
+            }
+            if (!empty($tempsopirizin)) {
+              $dtsupir = $dtsupir->andWhere("id_pegawai NOT IN (".implode(',', $tempsopirizin).")");
+            }
+            $dtsupir = $dtsupir->all();
+        
         } else {
            $dtsupir = Pegawai::find()->where(['id_jabatan'=>'1'])
           ->where("id_pegawai NOT IN (".implode(',', $tempsopirizin).")")
           ->all();
         }
+        
+       
         if (count($datakondektur) > 0){
            $dtkond = Pegawai::find()->where(['id_jabatan'=>'2'])
           ->andWhere("id_pegawai NOT IN (".implode(',', $tempkondektur).")")
           ->all();
+        
         } else {
            $dtkond = Pegawai::find()->where(['id_jabatan'=>'2'])
           // ->andWhere("id_pegawai NOT IN (".implode(',', $tempkondektur).")")
           ->all();
         }
+        
         $supir = ArrayHelper::map($dtsupir, 'id_pegawai', 'nama');
         $kondektur = ArrayHelper::map($dtkond, 'id_pegawai', 'nama');
         $query = new Query;
@@ -123,10 +134,10 @@ class JadwalbusController extends Controller
               ->join('LEFT JOIN', 'bus', 'bus.id_bus = jadwal_bus.id_bus')
               ->join('LEFT JOIN', 'jurusan', 'jurusan.id_jurusan = bus.id_jurusan')
               ->orderBy('bus.id_bus');
-        $command = $query->createCommand();
+        $command = $query->createCommand(); 
         $data = $command->queryAll();
         return $this->render('show', [
-            'jadwal' => $data,
+            'jadwal' => $data,  
             'supir'=>$supir,
             'kondektur'=>$kondektur,
             'tempsopir'=>implode(',', $tempsopir),
@@ -136,6 +147,7 @@ class JadwalbusController extends Controller
             // 'model' => $this->findModel($id)
         ]);
     }
+  
     public function actionSupir($id)
     {
       $supir = Pegawai::find()->where('id_pegawai != '.$id)->andWhere(['id_jabatan'=>'1'])->all();
@@ -256,6 +268,7 @@ class JadwalbusController extends Controller
       }
         return $this->redirect(['index']);
     }
+    
     private function getRangeDate($begin, $end){
       $begin = new DateTime($begin);
       $end = new DateTime($end);
@@ -268,6 +281,7 @@ class JadwalbusController extends Controller
       }
       return $range;
     }
+
     private function setShiftSopir($date)
     {
         $randSopir = Pegawai::find()->where(['id_jabatan' => 1])->orderBy(new Expression('rand()'))->all(); // Random sopir
@@ -280,23 +294,28 @@ class JadwalbusController extends Controller
           $intval = (int)($randSopirCount/2)+1; // Sebaagi pembatas 2 shift dari total sopir
           $shift = PegawaiShift::find()->select('shift')->where(['id_pegawai' => $sopir['id_pegawai'] ])->orderBy('id DESC')->one(); // Mengambil last shift dari Pegawai
           $izin = Izin::find()->where(['id_pegawai' => $sopir['id_pegawai'] ])->one(); // Mengambil tgl_izin pegawai
+          // $jadwal_libur = Jadwalbus::find()->where(['id_sopir' => $sopir['id_pegawai']])->count();
           if ($izin['tgl_izin'] != $date) { // Mengecek jika ada pegawai yang izin
-            if ($shift == null) {
-              // Menambahkan Shift Pegawai
-              if ($iterasi <= $intval) {
-                $this->savePegawaiShift($sopir['id_pegawai'], $date, 'pagi');
-              } 
-              else{
-                $this->savePegawaiShift($sopir['id_pegawai'], $date, 'malam');
+            // if ($jadwal_libur <= 10) {
+              if ($shift == null) {
+                // Menambahkan Shift Pegawai
+                if ($iterasi <= $intval) {
+                  $this->savePegawaiShift($sopir['id_pegawai'], $date, 'pagi');
+                } 
+                else{
+                  $this->savePegawaiShift($sopir['id_pegawai'], $date, 'malam');
+                }
               }
-            }
+            // }
             else{
-              if ($shift['shift'] == "pagi") { // Mengecek shift pegawai jika sebelumnya Pagi => Malam
-                $this->savePegawaiShift($sopir['id_pegawai'], $date, 'malam');
-              }
-              else{ // Shift pegawai jika sebelumnya  Malam => Pagi
-                $this->savePegawaiShift($sopir['id_pegawai'], $date, 'pagi');
-              }
+              // if ($jadwal_libur <= 10) {
+                if ($shift['shift'] == "pagi") { // Mengecek shift pegawai jika sebelumnya Pagi => Malam
+                  $this->savePegawaiShift($sopir['id_pegawai'], $date, 'malam');
+                }
+                else{ // Shift pegawai jika sebelumnya  Malam => Pagi
+                  $this->savePegawaiShift($sopir['id_pegawai'], $date, 'pagi');
+                }
+              // }
             }
           }
           $iterasi++;
@@ -352,7 +371,7 @@ class JadwalbusController extends Controller
           $sopir = PegawaiShift::findPegawaiByShift(1, $shift, $date); // Get sopir shift pagi
           if ($i > count($count)) {
             $jadwalBus = new Jadwalbus;
-            $jadwalBus->tanggal = $key['tanggal'];    
+            $jadwalBus->tanggal = $date;    
             $jadwalBus->id_bus = $item['id_bus'];
             $jadwalBus->id_sopir = 0;
             $jadwalBus->id_kondektur = 0;

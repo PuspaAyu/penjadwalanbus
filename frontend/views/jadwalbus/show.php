@@ -52,7 +52,7 @@ $this->title = 'Jadwal Bus';
                     <td><?= $n;?></td>
                     <td>
                       <?= $item['jam_operasional']; ?> 
-                      <span style="float: right;"><?= ($n > 43) ? 'malam': 'pagi'; ?></span>
+                      <span style="float: right;"><?= ($n > 37) ? 'malam': 'pagi'; ?></span>
                     </td>
                     <td><?= $item['no_polisi']; ?></td>
                     <td><?= $item['status']; ?></td>

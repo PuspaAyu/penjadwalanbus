@@ -5,14 +5,14 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Tpr */
 
-$this->title = 'Update Tpr: '.$model->id_tpr;
+$this->title = 'Update Tpr: {nameAttribute}';
 $this->params['breadcrumbs'][] = ['label' => 'Tprs', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id_tpr, 'url' => ['view', 'id' => $model->id_tpr]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
 <div class="tpr-update">
 
-    <h4><?= Html::encode($this->title) ?></h4>
+    <h1><?= Html::encode($this->title) ?></h1>
 
     <?= $this->render('_form', [
         'model' => $model,

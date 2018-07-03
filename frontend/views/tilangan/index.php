@@ -34,6 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     <tr>
                                         <th>No</th>
                                         <th>Id Tilangan</th>
+                                        <th>Id Jadwal</th>
                                         <th>Denda</th>
                                         <th>Jenis Pelanggaran</th>
                                         <th>Tempat Kejadian</th>
@@ -49,6 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     <tr>
                                         <td><?= $n; ?></td>
                                         <td><?= $item['id_tilangan']; ?></td>
+                                        <td><?= $item['id_jadwal']; ?></td>
                                         <td><?= $item['denda']; ?></td>
                                         <td><?= $item['jenis_pelanggaran']; ?></td>
                                         <td><?= $item['tempat_kejadian']; ?></td>

@@ -50,7 +50,7 @@ class BusController extends Controller
              ->select(['bus.id_bus', 'bus.jam_operasional', 'bus.no_polisi','bus.status', 'jurusan.jurusan', 'karcis.seri'])
              ->from('bus')
              ->join('LEFT JOIN', 'jurusan', 'jurusan.id_jurusan=bus.id_jurusan')
-             ->join('LEFT JOIN', 'karcis', 'karcis.id_karcis=bus.id_karcis')
+             ->join('LEFT JOIN', 'karcis', 'karcis.id_stok=bus.id_karcis')
              ->groupBy('id_bus')
              ->all();
           return $this->render('index',[

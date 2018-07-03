@@ -31,7 +31,7 @@ class Bus extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['no_polisi', 'jam_operasional', 'id_jurusan','is_karcis'], 'required'],
+            [['no_polisi', 'jam_operasional', 'id_jurusan','id_karcis'], 'required'],
             [['id_jurusan', 'status', 'id_karcis'], 'integer'],
             [['no_polisi', 'jam_operasional'], 'string', 'max' => 10],
             

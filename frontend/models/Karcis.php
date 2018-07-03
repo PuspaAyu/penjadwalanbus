@@ -39,7 +39,7 @@ class Karcis extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id_karcis' => 'Id Karcis',
+            'id_stok' => 'Id Karcis',
             'seri' => 'Seri',
         ];
     }

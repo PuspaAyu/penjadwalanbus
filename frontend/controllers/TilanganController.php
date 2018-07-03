@@ -48,14 +48,17 @@ class TilanganController extends Controller
           $model = Tilangan::find()->all();
           
           $queryalert = (new \yii\db\Query())
-                    ->select(['tilangan.id_tilangan', 
+                    ->select(['tilangan.id_tilangan',
+                        'tilangan.id_jadwal', 
                         'tilangan.tanggal_batas_tilang',
-                        'tilangan.denda', 'tilangan.jenis_pelanggaran','tilangan.tempat_kejadian', 
+                        'tilangan.denda', 
+                        'tilangan.jenis_pelanggaran',
+                        'tilangan.tempat_kejadian', 
                         'tilangan.status',
                         new \yii\db\Expression('CURDATE()as tgl_sekarang'), 
                         new \yii\db\Expression('DATEDIFF(CURDATE(), tanggal_batas_tilang) as selisih') ])
                     ->from('tilangan')
-                    // ->join('LEFT JOIN', 'jadwal_bus', 'jadwal_bus.id_jadwal=tilangan.id_jadwal')
+                    ->join('LEFT JOIN', 'jadwal_bus', 'jadwal_bus.id_jadwal=tilangan.id_jadwal')
                     // ->groupBy('tanggal')
                     ->all();
 

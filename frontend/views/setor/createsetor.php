@@ -8,101 +8,123 @@ use yii\helpers\Url;
 use frontend\models\Pegawai;
 use frontend\models\Jurusan;
 use kartik\widgets\Select2;
-use frontend\models\Stok;
+use frontend\models\Karcis;
 use yii\widgets\ActiveForm;
-use frontend\models\Setor;
+
 /* @var $this yii\web\View */
-/* @var $searchModel frontend\models\JadwalbusSearch */
+/* @var $searchModel frontend\models\FrontendSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Setoran';
-// print_r($tempviewjadwal);
+$this->title = 'Setor';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
-
-<div class="panel panel-primary">
-  <div class="panel-heading">
-          INPUT SETORAN PER BUS
-        </div>
-
-  <div class = "panel-body">
-    <div class="table-responsive">
-    <table class="table table-bordered table-responsive">
-      <tr>
-        <th rowspan="2" style="text-align: center; padding-top: 25px">No</th>
-        <th rowspan="2" style="text-align: center; padding-top: 25px">Jam</th>
-        <th rowspan="2" style="text-align: center; padding-top: 25px">No Polisi</th>
-        <th rowspan="2" style="text-align: center; padding-top: 25px">Jurusan</th>
-        <th rowspan="2" style="text-align: center; padding-top: 25px">Sopir</th>
-        <th rowspan="2" style="text-align: center; padding-top: 25px">Kondektur</th>
-        <th rowspan="2" style="text-align: center; padding-top: 25px">Tipe Karcis</th>
-        <th colspan="4" style="text-align: center">Karcis</th>
-        <th rowspan="2" style="text-align: center; padding-top: 25px">Aksi</th>
-      </tr>
-      <tr style="text-align: center">
-        <td colspan="2">Pergi</td>
-        <td colspan="2">Pulang</td>
-      </tr>
+<div class="setor-index">
 
 
- <?php $i=0; foreach ($tempviewjadwal as $tempviewjadwal):?>  
-        <?php $nmsopir = Pegawai::find()->where(['id_pegawai'=>$tempviewjadwal['id_sopir']])->one();?>
-        <?php $nmkonde = Pegawai::find()->where(['id_pegawai'=>$tempviewjadwal['id_kondektur']])->one();?>
-        <?php $jur = Jurusan::find()->where(['id_jurusan'=>$tempviewjadwal['id_jurusan']])->one(); ?>
-        <tr>
-          
+    <!-- DataTables CSS -->
+<head>
+    <link href="http://localhost/puspa/penjadwalanbus/vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">
 
-          <input type="hidden" name="id_karcis" value="<?=  $tempviewjadwal['id_karcis'];  ?>" />
-          <td><?= $i+1 ?></td>
-          <td><?= $tempviewjadwal['jam'] ?></td>
-          <td><?= $tempviewjadwal['id_bus'] ?></td>
-          <td><?= $jur['jurusan'] ?></td>
-          <td><?= $nmsopir['nama'] ?></td>
-          <td><?= $nmkonde['nama'] ?></td>
-          <td>
-            <?php 
-              if($tempviewjadwal['id_stok'] > 0){
-                echo $tipe_karcis[$tempviewjadwal['id_stok']]; 
-              }
-               ?>
-           
-          </td>
-          <td>
-            <?php 
-              echo $tempviewjadwal['pergi_awal']; 
-              
-            ?>
-          </td>
-          <td>
-            <?php 
-              echo $tempviewjadwal['pergi_akhir']; 
-              
-            ?>
-          </td>
-          <td>
-            <?php 
-              echo $tempviewjadwal['pulang_awal']; 
-             
-            ?>            
-          </td>
-          <td>
-          <?php
-              echo $tempviewjadwal['pulang_akhir']; 
-            ?>
-          </td>
-          <td>
-            <a href="update?id=<?php echo ($tempviewjadwal['id_setor'].'&'.'idkarcis='.$tempviewjadwal['id_karcis']) ?>" class="btn btn-success">Setor</a>
-          </td>
-          
-        </tr>
-      <?php 
-          $i++;
-        endforeach; 
-      ?>
-    </table>
-  </div>
-    
-  </div>
- 
-    </table>
-  </div>
+    <!-- DataTables Responsive CSS -->
+    <link href="http://localhost/puspa/penjadwalanbus/vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
+</head>
+
+<script src="http://localhost/puspa/penjadwalanbus/vendor/datatables/js/jquery.js"></script>
+<div class="bus-index">
+<!-- 
+    <h4><?= Html::encode($this->title) ?></h4> -->
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+
+<!--     <p>
+        <?= Html::a('Create Setoran', ['create'], ['class' => 'btn btn-success btn-sm']) ?>
+    </p>
+     -->
+
+
+     <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Data Setoran
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body responsive">
+                        <div class="table-responsive">
+                            <table width="100%" class="table table-striped table-bordered table-hover table-responsive" id="tabel_setor">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Id jadwal</th>
+                                        <th>Pendapatan Kotor</th>
+                                        <th>Bersih Perjalanan</th>
+                                        <th>Total Bersih</th>
+                                        <th>Premi Sopir</th>
+                                        <th>Premi Kondektur</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                   <?php $n=0; foreach ($tempviewjadwal as $tempviewjadwal): $n++;?>  
+                           
+                            
+                            <?php $seri = Karcis::find()->where(['id_stok'=>$tempviewjadwal['id_karcis']])->one(); ?>
+                                    
+                                    <tr>
+                                        <td><?= $n; ?></td>
+                                        <td><?= $tempviewjadwal['no_polisi']; ?></td>
+                                        <td><?= $tempviewjadwal['pendapatan_kotor']; ?></td>
+                                        <td><?= $tempviewjadwal['bersih_perjalanan']; ?></td>
+                                        <td><?= $tempviewjadwal['total_bersih']; ?></td>
+                                        <td><?= $tempviewjadwal['premi_sopir']; ?></td>
+                                        <td><?= $tempviewjadwal['premi_kondektur']; ?></td>
+                                        <td>
+                                           
+                                            <?= Html::a('Lihat',['view', 'id'=>$tempviewjadwal['id_setor']], ['class' => 'btn btn-success btn-xs']) ?>
+                                            <?= Html::a('Setoran',['update', 'id'=>$tempviewjadwal['id_setor'], 'tanggal'=>$tempviewjadwal['tanggal'], 'bus'=>$tempviewjadwal['id_bus']], ['class' => 'btn btn-warning btn-xs']) ?>
+                                            
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    </div>
+                    </div>
+                </div>
 </div>
+
+
+    <!-- DataTables JavaScript -->
+    <!-- <script src="http://localhost/puspa/penjadwalanbus/vendor/jquery/jquery.min.js"></script> -->
+    
+    <script src="http://localhost/puspa/penjadwalanbus/vendor/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="http://localhost/puspa/penjadwalanbus/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+    <script src="http://localhost/puspa/penjadwalanbus/vendor/datatables-responsive/dataTables.responsive.js"></script>
+    <!-- <script src="http://localhost/puspa/penjadwalanbus/vendor/bootstrap/js/bootstrap.min.js"></script> -->
+    <!-- <script src="http://localhost/puspa/penjadwalanbus/dist/js/sb-admin-2.js"></script> -->
+
+
+<!-- <script>
+    $(document).ready(function() {
+      $('#actionTable').DataTable({
+        responsive: true
+      });
+    });
+</script> -->
+
+<script>
+//$.noConflict();
+jQuery( document ).ready(function( $ ) {
+    $('#tabel_setor').DataTable();
+});
+// Code that uses other library's $ can follow here.
+</script>
+
+   <!--  <script>
+    $(document).ready(function() {
+        $('#tabel_bus').DataTable({
+            responsive: true
+        });
+    });
+    </script> -->

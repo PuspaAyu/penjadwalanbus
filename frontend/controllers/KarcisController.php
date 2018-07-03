@@ -42,10 +42,8 @@ class KarcisController extends Controller
         $this->layout = 'layout_admin3';
         $model = Karcis::find()->all();
 
-        
-
           $query = (new \yii\db\Query())
-             ->select(['karcis.seri', 'karcis.id_karcis'])
+             ->select(['karcis.seri', 'karcis.id_stok'])
              ->from('karcis')
              ->all();
           return $this->render('index',[

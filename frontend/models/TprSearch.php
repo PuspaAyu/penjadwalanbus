@@ -18,7 +18,7 @@ class TprSearch extends Tpr
     public function rules()
     {
         return [
-            [['id_tpr', 'terminal', 'tpr', 'kemandoran'], 'integer'],
+            [['id_tpr', 'tpr_sby', 'mandor_sby', 'tpr_caruban', 'mandor_caruban', 'tpr_ngawi', 'mandor_ngawi', 'tpr_solo', 'mandor_solo', 'tpr_kartosuro', 'mandor_kartosuro', 'tpr_salatiga', 'mandor_salatiga', 'tpr_semarang', 'mandor_semarang'], 'integer'],
         ];
     }
 
@@ -59,9 +59,20 @@ class TprSearch extends Tpr
         // grid filtering conditions
         $query->andFilterWhere([
             'id_tpr' => $this->id_tpr,
-            'terminal' => $this->terminal,
-            'tpr' => $this->tpr,
-            'kemandoran' => $this->kemandoran,
+            'tpr_sby' => $this->tpr_sby,
+            'mandor_sby' => $this->mandor_sby,
+            'tpr_caruban' => $this->tpr_caruban,
+            'mandor_caruban' => $this->mandor_caruban,
+            'tpr_ngawi' => $this->tpr_ngawi,
+            'mandor_ngawi' => $this->mandor_ngawi,
+            'tpr_solo' => $this->tpr_solo,
+            'mandor_solo' => $this->mandor_solo,
+            'tpr_kartosuro' => $this->tpr_kartosuro,
+            'mandor_kartosuro' => $this->mandor_kartosuro,
+            'tpr_salatiga' => $this->tpr_salatiga,
+            'mandor_salatiga' => $this->mandor_salatiga,
+            'tpr_semarang' => $this->tpr_semarang,
+            'mandor_semarang' => $this->mandor_semarang,
         ]);
 
         return $dataProvider;

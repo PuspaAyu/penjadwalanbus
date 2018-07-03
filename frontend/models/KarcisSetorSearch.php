@@ -5,12 +5,12 @@ namespace frontend\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use frontend\models\Karcis;
+use frontend\models\KarcisSetor;
 
 /**
- * KarcisSearch represents the model behind the search form about `frontend\models\Karcis`.
+ * KarcisSetorSearch represents the model behind the search form of `frontend\models\KarcisSetor`.
  */
-class KarcisSearch extends Karcis
+class KarcisSetorSearch extends KarcisSetor
 {
     /**
      * @inheritdoc
@@ -18,8 +18,7 @@ class KarcisSearch extends Karcis
     public function rules()
     {
         return [
-            [['id_stok'], 'integer'],
-            [['seri'], 'safe'],
+            [['id_karcis', 'pergi_awal', 'pergi_akhir', 'pulang_awal', 'pulang_akhir', 'id_jadwal'], 'integer'],
         ];
     }
 
@@ -41,7 +40,7 @@ class KarcisSearch extends Karcis
      */
     public function search($params)
     {
-        $query = Karcis::find();
+        $query = KarcisSetor::find();
 
         // add conditions that should always apply here
 
@@ -59,8 +58,12 @@ class KarcisSearch extends Karcis
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id_stok' => $this->id_karcis,
-            'seri' => $this->seri
+            'id_karcis' => $this->id_karcis,
+            'pergi_awal' => $this->pergi_awal,
+            'pergi_akhir' => $this->pergi_akhir,
+            'pulang_awal' => $this->pulang_awal,
+            'pulang_akhir' => $this->pulang_akhir,
+            'id_jadwal' => $this->id_jadwal,
         ]);
 
         return $dataProvider;

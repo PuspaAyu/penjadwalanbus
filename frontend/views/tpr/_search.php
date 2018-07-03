@@ -17,11 +17,33 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id_tpr') ?>
 
-    <?= $form->field($model, 'terminal') ?>
+    <?= $form->field($model, 'tpr_sby') ?>
 
-    <?= $form->field($model, 'tpr') ?>
+    <?= $form->field($model, 'mandor_sby') ?>
 
-    <?= $form->field($model, 'kemandoran') ?>
+    <?= $form->field($model, 'tpr_caruban') ?>
+
+    <?= $form->field($model, 'mandor_caruban') ?>
+
+    <?php // echo $form->field($model, 'tpr_ngawi') ?>
+
+    <?php // echo $form->field($model, 'mandor_ngawi') ?>
+
+    <?php // echo $form->field($model, 'tpr_solo') ?>
+
+    <?php // echo $form->field($model, 'mandor_solo') ?>
+
+    <?php // echo $form->field($model, 'tpr_kartosuro') ?>
+
+    <?php // echo $form->field($model, 'mandor_kartosuro') ?>
+
+    <?php // echo $form->field($model, 'tpr_salatiga') ?>
+
+    <?php // echo $form->field($model, 'mandor_salatiga') ?>
+
+    <?php // echo $form->field($model, 'tpr_semarang') ?>
+
+    <?php // echo $form->field($model, 'mandor_semarang') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

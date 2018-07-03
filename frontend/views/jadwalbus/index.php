@@ -22,7 +22,8 @@ $this->title = 'Jadwal Bus';
 
 <div class="jadwalbus-index2">
     <h4><?= Html::encode($this->title) ?></h4>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php  //echo $jadwal//$this->render('_search', ['model' => $searchModel]); ?>
+
 
     <p>
         <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal">Create Jadwal Bus</button>

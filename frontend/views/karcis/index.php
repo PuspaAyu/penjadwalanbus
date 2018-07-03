@@ -57,9 +57,9 @@ $this->params['breadcrumbs'][] = $this->title;
                                         <td><?= $item['seri']; ?></td>
 
                                         <td>
-                                            <?= Html::a('<i class="fa fa-eye"></i>', ['view', 'id'=>$item['id_karcis']]) ?>
-                                            <?= Html::a('<i class="fa fa-pencil"></i>', ['update', 'id'=>$item['id_karcis']]) ?>
-                                            <?= Html::a('<i class="fa fa-trash-o"></i>', ['delete', 'id'=>$item['id_karcis']], ['data-method' => 'post']) ?>
+                                            <?= Html::a('<i class="fa fa-eye"></i>', ['view', 'id'=>$item['id_stok']]) ?>
+                                            <?= Html::a('<i class="fa fa-pencil"></i>', ['update', 'id'=>$item['id_stok']]) ?>
+                                            <?= Html::a('<i class="fa fa-trash-o"></i>', ['delete', 'id'=>$item['id_stok']], ['data-method' => 'post']) ?>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>

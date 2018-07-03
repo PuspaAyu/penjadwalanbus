@@ -23,21 +23,21 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <script src="http://localhost/puspa/penjadwalanbus/vendor/datatables/js/jquery.js"></script>
 <div class="bus-index">
-
-    <h4><?= Html::encode($this->title) ?></h4>
+<!-- 
+    <h4><?= Html::encode($this->title) ?></h4> -->
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
+<!--     <p>
         <?= Html::a('Create Setoran', ['create'], ['class' => 'btn btn-success btn-sm']) ?>
     </p>
-    
+     -->
 
 
      <div class="row">
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            DATA Setoran
+                            Data Setoran
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body responsive">
@@ -50,6 +50,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                         <th>Pendapatan Kotor</th>
                                         <th>Bersih Perjalanan</th>
                                         <th>Total Bersih</th>
+                                        <th>Premi Sopir</th>
+                                        <th>Premi Kondektur</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -61,10 +63,13 @@ $this->params['breadcrumbs'][] = $this->title;
                                         <td><?= $item['pendapatan_kotor']; ?></td>
                                         <td><?= $item['bersih_perjalanan']; ?></td>
                                         <td><?= $item['total_bersih']; ?></td>
+                                        <td><?= $item['premi_sopir']; ?></td>
+                                        <td><?= $item['premi_kondektur']; ?></td>
                                         <td>
-                                            <?= Html::a('<i class="fa fa-eye"></i>', ['view', 'id'=>$item['id_setor']]) ?>
-                                            <?= Html::a('<i class="fa fa-pencil"></i>', ['update', 'id'=>$item['id_setor']]) ?>
-                                            <?= Html::a('<i class="fa fa-trash-o"></i>', ['delete', 'id'=>$item['id_setor']], ['data-method' => 'post']) ?>
+                                            <!-- <?= Html::a('<i class="fa fa-eye"></i>', ['view', 'id'=>$item['id_setor']]) ?> -->
+                                            <?= Html::a('Lihat',['view', 'id'=>$item['id_setor']], ['class' => 'btn btn-success btn-xs']) ?>
+                                            <?= Html::a('Setoran',['update', 'id'=>$item['id_setor']], ['class' => 'btn btn-warning btn-xs']) ?>
+                                            <!-- <?= Html::a('<i class="fa fa-trash-o"></i>', ['delete', 'id'=>$item['id_setor']], ['data-method' => 'post']) ?> -->
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
