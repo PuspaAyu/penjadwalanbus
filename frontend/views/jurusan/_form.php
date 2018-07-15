@@ -11,11 +11,9 @@ use yii\widgets\ActiveForm;
 <div class="jurusan-form">
 
     <?php $form = ActiveForm::begin(); ?>
-
-    <?= $form->field($model, 'jurusan')->textInput(['maxlength' => true]) ?>
-
-    <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+    <div class="col-md-4 col-sm-4  form-group has-feedback">
+	    <?= $form->field($model, 'jurusan')->textInput(['maxlength' => true]) ?>
+	    <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

@@ -171,7 +171,41 @@ class JadwalbusController extends Controller
           $rangeDate = $this->getRangeDate($request['tanggal'], $request['tanggal2']);
           
           $i = 0;
+          // $sopir = Pegawai::find()->where(['id_jabatan' => 1])->all(); // Random sopir
+          // $kondektur = Pegawai::find()->where(['id_jabatan' => 2])->all(); // Random Kondektur
+          // $ran_num_s = [];
+          // $ran_num_k = [];
           foreach ($rangeDate as $date) {
+            // for($n = 1; $n <= 5; $n++){
+            //   $sopir_found = false;
+            //   while (!$sopir_found){
+            //     $num = rand(1, count($sopir));
+            //     if(!in_array($num, $ran_num_s)){
+            //       array_push($ran_num_s, $num);
+            //       $sopir_found = true;
+            //     }
+            //   }
+
+            //   $kondektur_found = false;
+            //   while (!$kondektur_found) {
+            //     $num = rand(1, count($kondektur));
+            //     if(!in_array($num, $ran_num_k)){
+            //       array_push($ran_num_k, $num);
+            //       $kondektur_found = true;
+            //     }
+            //   }
+
+            // }
+            // $randSopir = [];
+            // $randKondektur = [];
+            // foreach ($ran_num_s as $random) {
+            //   array_push($randSopir, $sopir[$random - 1]);
+            // }
+
+            // foreach ($ran_num_k as $random) {
+            //   array_push($randKondektur, $kondektur[$random - 1]);
+            // }
+            
             $this->setShiftSopir($date); // Set Shift Sopir
             $this->setShiftKondektur($date); // Set Shift Kondektur
             $this->setSopirBus('pagi', $date); // Set Sopir Bus Pagi
@@ -285,7 +319,8 @@ class JadwalbusController extends Controller
     private function setShiftSopir($date)
     {
         $randSopir = Pegawai::find()->where(['id_jabatan' => 1])->orderBy(new Expression('rand()'))->all(); // Random sopir
-        $randSopirCount = count($randSopir); // Total sopir
+        $randSopirCount = count($randSopir); // Total sopi
+
         $array = array();
         $iterasi = 1;
         $tempShift = array();
@@ -362,6 +397,40 @@ class JadwalbusController extends Controller
     }
     private function setSopirBus($shift, $date)
     {
+       $status = ($shift == 'pagi') ? 1 : 2 ;
+        $bus = Bus::find()->where(['status' => $status])->all();
+        $sopir = PegawaiShift::findPegawaiByShift(1, $shift, $date);
+        $kondektur = PegawaiShift::findPegawaiByShift(2, $shift, $date); // Get sopir shift pagi
+        
+        echo $status."<br>";
+        // $i = 0;
+        // foreach ($bus as $item) {
+        //   // $sopir = PegawaiShift::findPegawaiByShift(1, $shift, $date); // Get sopir shift pagi
+        //   if ($i > count($sopir) || $i > count($kondektur)) {
+        //     $jadwalBus = new Jadwalbus;
+        //     $jadwalBus->tanggal = $date;    
+        //     $jadwalBus->id_bus = $item['id_bus'];
+        //     $jadwalBus->id_sopir = 0;
+        //     $jadwalBus->id_kondektur = 0;
+        //     $jadwalBus->save();
+        //   }
+        //   else{
+        //     foreach ($sopir as $key) {
+            
+        //       $jadwalBus = new Jadwalbus;
+        //       $jadwalBus->tanggal = $sopir[$i]['tanggal'];    
+        //       $jadwalBus->id_bus = $item['id_bus'];
+        //       $jadwalBus->id_sopir = $sopir[$i]['id_pegawai'];
+        //       $jadwalBus->id_kondektur = $kondektur[$i]['id_pegawai'];
+        //       $jadwalBus->save();
+        //       $this->setKondekturBus($shift, $date, $jadwalBus->id_jadwal);
+        //       PegawaiShift::find()->where(['id_pegawai' => $sopir[$i]['id_pegawai'], 'tanggal' => $date])->one()->delete();
+        //       PegawaiShift::find()->where(['id_pegawai' => $kondektur[$i]['id_pegawai'], 'tanggal' => $date])->one()->delete();
+
+        //     }
+        //   }
+        //   $i++;
+        // }
         $status = ($shift == 'pagi') ? 1 : 2 ;
         $bus = Bus::find()->where(['status' => $status])->all();
         $count = PegawaiShift::findPegawaiByShift(1, $shift, $date);

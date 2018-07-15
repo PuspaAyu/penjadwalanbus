@@ -76,7 +76,7 @@ class KarcisController extends Controller
         $model = new Karcis();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index', 'id' => $model->id_karcis]);
+            return $this->redirect(['index', 'id' => $model->id_stok]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -96,7 +96,7 @@ class KarcisController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_karcis]);
+            return $this->redirect(['view', 'id' => $model->id_stok]);
         } else {
             return $this->render('update', [
                 'model' => $model,

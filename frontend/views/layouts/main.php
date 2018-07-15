@@ -37,7 +37,7 @@ AppAsset::register($this);
     "3"=>"KARCIS");
 
     //isGuest = ketika belum login
-    if(Yii::$app->user->isGuest) $judulnya = "SISEKAMIRA"; 
+    if(Yii::$app->user->isGuest) $judulnya = "SIMEKAMIRA"; 
     else $judulnya = $level[Yii::$app->user->identity->level];
 
     NavBar::begin([
@@ -49,8 +49,8 @@ AppAsset::register($this);
     ]);
     $menuItems = [
         ['label' => 'Home', 'url' => ['/site/index']],
-        ['label' => 'About', 'url' => ['/site/about']],
-        ['label' => 'Contact', 'url' => ['/site/contact']],
+        // ['label' => 'About', 'url' => ['/site/about']],
+        // ['label' => 'Contact', 'url' => ['/site/contact']],
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];

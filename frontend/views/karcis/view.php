@@ -6,17 +6,17 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Karcis */
 
-$this->title = $model->id_karcis;
+$this->title = $model->id_stok;
 $this->params['breadcrumbs'][] = ['label' => 'Karcis', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="karcis-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h4><?= Html::encode($this->title) ?></h4>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id_karcis], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id_karcis], [
+        <?= Html::a('Update', ['update', 'id' => $model->id_stok], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Delete', ['delete', 'id' => $model->id_stok], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',
@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id_karcis',
+            'id_stok',
             'seri',
             
         ],

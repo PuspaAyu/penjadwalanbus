@@ -16,6 +16,9 @@ use frontend\models\Jadwalbus;
 use frontend\models\Bus;
 use frontend\models\Jurusan;
 use frontend\models\Pegawai;
+use frontend\models\Izin;
+use frontend\models\Komplain;
+
 
 /**
  * Site controller
@@ -98,14 +101,29 @@ class SiteController extends Controller
     public function actionIndexadmin()
     {
         $user = Yii::$app->user->isGuest;
+
         if ($user) {
             return $this->redirect('login');
         }else {
-            
             $level = Yii::$app->user->identity->level;
+
             if ($level == 1) {
                 $this->layout = 'layout_admin';
-                return $this->render('indexadmin');
+                $model = Bus::find()->all();
+                $crew = Pegawai::find()->all();
+                $izin = Izin::find()->all();
+                $komplain = Komplain::find()->all();
+                $query = count($model);
+                $total_crew = count($crew);
+                $total_izin = count($izin);
+                $total_komplain = count($komplain);
+                return $this->render('indexadmin',[
+                    'query'=>$query,
+                    'model'=>$model,
+                    'total_crew'=>$total_crew,
+                    'total_izin'=>$total_izin,
+                    'total_komplain'=>$total_komplain,
+                  ]);
             }else if ($level == 2) {
                 $this->layout = 'layout_admin2';
                 return $this->render('index2');
@@ -113,7 +131,15 @@ class SiteController extends Controller
                 $this->layout = 'layout_admin3';
                 return $this->render('index3');
             }     
-        }        
+        }
+
+        
+          
+          // return $this->render('indexadmin',[
+          //   'query'=>$query,
+          //   'model'=>$model,
+          // ]);
+
     }
 
     /**

@@ -44,7 +44,7 @@ class Izin extends \yii\db\ActiveRecord
             'id_izin' => 'Id Izin',
             'tgl_izin' => 'Tgl Izin',
             'jenis_izin' => 'Jenis Izin',
-            'id_pegawai' => 'Id Pegawai',
+            'id_pegawai' => 'Nama',
         ];
     }
 

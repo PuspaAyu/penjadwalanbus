@@ -12,9 +12,8 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'jenis_jabatan')->textInput(['maxlength' => true]) ?>
-
-    <div class="form-group">
+	<div class="col-md-4 col-sm-4  form-group has-feedback">
+    	<?= $form->field($model, 'jenis_jabatan')->textInput(['maxlength' => true]) ?>
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 

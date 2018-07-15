@@ -45,7 +45,7 @@ use frontend\models\Karcis;
 
     <div class="col-xs-6 form-group has-feedback">
         <?= $form->field($model, 'id_karcis')->widget(Select2::className(),[
-                'data' => \yii\helpers\ArrayHelper::map(karcis::find()->all(),'id_karcis','seri'),
+                'data' => \yii\helpers\ArrayHelper::map(karcis::find()->all(),'id_stok','seri'),
                 'options' => ['placeholder' => 'Pilih Karcis'],
                 'pluginOptions' => [
                     'allowClear' => true

@@ -14,12 +14,9 @@ use frontend\models\Stok;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <div class="col-md-4 col-sm-4 col-xs-6 form-group has-feedback">
+    <div class="col-md-4 col-sm-4  form-group has-feedback">
         <?= $form->field($model, 'seri')->textInput() ?>
-    </div>
-
-    <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?> 
     </div>
 
     <?php ActiveForm::end(); ?>

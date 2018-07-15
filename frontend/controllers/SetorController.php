@@ -395,7 +395,13 @@ class SetorController extends Controller
 
             $total_bon = $bon_sopir + $bon_kondektur;
 
-            $total_bersih = $bersih_perjalanan - $total_bon + 37500;
+            $cuci_garasi = 37500;
+            
+            if($bersih_perjalanan == 0){
+                $total_bersih = 0;
+            }else{
+                $total_bersih = $bersih_perjalanan - $total_bon + $cuci_garasi;
+            }
 
 
 

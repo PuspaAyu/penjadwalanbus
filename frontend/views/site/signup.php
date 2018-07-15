@@ -13,6 +13,10 @@ $this->title = 'Signup';
 <div class="site-signup">
     <br>
     <br>
+    <br>
+    <br>
+    <br>
+    <br>
     
     <div class="container">
     <div class="col-md-4 col-md-offset-4">
