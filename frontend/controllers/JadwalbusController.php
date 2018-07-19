@@ -158,24 +158,48 @@ class JadwalbusController extends Controller
     public function actionCreate()
     {
         $this->layout = 'layout_admin';
-        $request =Yii::$app->request->post();
+        $request = Yii::$app->request->post();
+        $message = "";
+
         if ($request) {
-          
-          // $GLOBALS['sopir'] = $this->getRandomSopir();
-          // $GLOBALS['kondektur'] = $this->getRandomKondektur();
-          // $GLOBALS['bus_pagi'] = $this->getBusByStatus(1);
-          // $GLOBALS['bus_malam'] = $this->getBusByStatus(2);
-          // $GLOBALS['izin'] = Izin::find()->orderBy('tgl_izin')->all();
-          // $GLOBALS['shift'] = null;
+
+          $GLOBALS['sopir'] = $this->getRandomSopir();
+          $GLOBALS['kondektur'] = $this->getRandomKondektur();
+          $GLOBALS['bus_pagi'] = $this->getBusByStatus(1);
+          $GLOBALS['bus_malam'] = $this->getBusByStatus(2);
+          $GLOBALS['izin'] = Izin::find()->orderBy('tgl_izin')->all();
+          $GLOBALS['shift'] = null;
+          $GLOBALS['log'] = array();
+
           // mengambil semua tanggal dari periode tanggal mulai sampai tanggal berakhir
           $rangeDate = $this->getRangeDate($request['tanggal'], $request['tanggal2']);
-          
-          $i = 0;
-          // $sopir = Pegawai::find()->where(['id_jabatan' => 1])->all(); // Random sopir
-          // $kondektur = Pegawai::find()->where(['id_jabatan' => 2])->all(); // Random Kondektur
+          $i = 0;          
           // $ran_num_s = [];
           // $ran_num_k = [];
           foreach ($rangeDate as $date) {
+            //$classes = $GLOBALS['sopir'];
+            //$logs = $GLOBALS['log'];
+
+            // array_push($GLOBALS['log'], $classes);
+            // while($sopir == null){
+            //   for ($i=0; $i < 10; $i++) { 
+            //     # code...
+            //     $randomIndexsopir = rand(0, sizeof($classes) - 1);
+
+            //     if($classes[$randomIndexsopir] != null){
+            //       $sopir = $classes[$randomIndexsopir];
+            //     }
+
+            //     \yii\helpers\VarDumper::dump($classes);
+            //     echo "<br>";
+
+            //   }
+            //   echo "<br>";
+            
+            // }
+
+            // var_dump(in_array($classes[$randomIndexsopir], $logs));
+
             // for($n = 1; $n <= 5; $n++){
             //   $sopir_found = false;
             //   while (!$sopir_found){
@@ -196,6 +220,8 @@ class JadwalbusController extends Controller
             //   }
 
             // }
+            // print_r($ran_num_s);
+
             // $randSopir = [];
             // $randKondektur = [];
             // foreach ($ran_num_s as $random) {
@@ -206,41 +232,100 @@ class JadwalbusController extends Controller
             //   array_push($randKondektur, $kondektur[$random - 1]);
             // }
             
-            $this->setShiftSopir($date); // Set Shift Sopir
-            $this->setShiftKondektur($date); // Set Shift Kondektur
-            $this->setSopirBus('pagi', $date); // Set Sopir Bus Pagi
-            $this->setSopirBus('malam', $date); // Set Sopir Bus Malam
-            // if ($this->checkDateJadwalBus($date) == null){
-            //   $before = new DateTime($date); 
-            //   $before->modify( '-1 day');
-            //   $beforeDate = $before->format('Y-m-d');
-            //   if($this->checkDateJadwalBus($beforeDate) != null){
+            //$this->setShiftSopir($date); // Set Shift Sopir
+            // $this->setShiftKondektur($date); // Set Shift Kondektur
+            // $this->setSopirBus('pagi', $date); // Set Sopir Bus Pagi
+            // $this->setSopirBus('malam', $date); // Set Sopir Bus Malam
+            // var_dump($GLOBALS['log']);
+
+            $before = new DateTime($date); 
+            $before->modify( '-1 day');
+            $beforeDate = $before->format('Y-m-d');
+            if ($this->checkDateJadwalBus($date) == null){
+
+              if ($this->checkRecord() != null) {
+                if ($i == 0) {
+                  if($this->checkDateJadwalBus($beforeDate) == null){
+                    $message  = "Maaf, generate tanggal harus sesuai urutan!";
+                    echo $message;
+                    die();
+                  }
+                }  
+              } else {
                 
-            //     $data = $this->getLastShiftPegawai($beforeDate);
+              }
+  
+              
+              if($this->checkDateJadwalBus($beforeDate) != null){
                 
-            //   } 
-            //   else{
-            //     if($i == 0){
-            //       $shift = $this->setShiftSopirAwal($date);
-            //       $GLOBALS['shift'] = $shift;
-            //     }else{
-            //       $shift = $this->setShiftSopirNext($date);
-            //       $GLOBALS['shift'] = $shift; 
-            //     }    
+                $sopir = $this->getLastShiftPegawai('sopir', $beforeDate);
+                $kondektur = $this->getLastShiftPegawai('kondektur', $beforeDate);
+
+                $GLOBALS['shift']['sopir'] = $sopir;
+                $GLOBALS['shift']['kondektur'] = $kondektur;
+                $shiftSopir = $this->setShiftSopirNext($date);
+                $shiftKondektur = $this->setShiftKondekturNext($date);
+                $GLOBALS['shift']['sopir'] = $shiftSopir; 
+                $GLOBALS['shift']['kondektur'] = $shiftKondektur;
+               
+              } 
+              else if($this->checkRecord() == null){
+
+                if (count($GLOBALS['log']) == 0) {
+                  $shiftSopir = $this->setShiftSopirAwal($date);
+                  $shiftKondektur = $this->setShiftKondekturAwal($date);
+                  $GLOBALS['shift']['sopir'] = $shiftSopir; 
+                  $GLOBALS['shift']['kondektur'] = $shiftKondektur;
+                } else {
+                  $shiftSopir = $this->setShiftSopirNext($date);
+                  $shiftKondektur = $this->setShiftKondekturNext($date);
+                  $GLOBALS['shift']['sopir'] = $shiftSopir; 
+                  $GLOBALS['shift']['kondektur'] = $shiftKondektur;
+                }
                 
-            //     // var_dump($GLOBALS['shift']);
-            //   }         
-            //   $data = $this->setSopirBusPagi($GLOBALS['shift'], $date);
-            //   $this->saveToDatabase($data, $date);
-            // }
-            // else{
-            //   echo "Maaf, tanggal sudah ada dalam jadwal !";
-            //   break;
-            // }
+              }
+              else{
+                $shiftSopir = $this->setShiftSopirNext($date);
+                $shiftKondektur = $this->setShiftKondekturNext($date);
+                $GLOBALS['shift']['sopir'] = $shiftSopir; 
+                $GLOBALS['shift']['kondektur'] = $shiftKondektur;
+              }      
+
+              $tempSopirP = @$this->setSopirBusPagi($GLOBALS['shift']['sopir'], $date);
+              $tempsopirM = @$this->setSopirBusMalam($GLOBALS['shift']['sopir'], $date);
+              $dataPagi = @$this->setKondekturBusPagi($GLOBALS['shift']['kondektur'], $tempSopirP, $date);
+              $dataMalam = @$this->setKondekturBusMalam($GLOBALS['shift']['kondektur'], $tempsopirM, $date);
+
+              array_push($GLOBALS['log'], [
+                'bus' => [
+                  'pagi' => $dataPagi ,
+                  'malam' => $dataMalam ,
+                ],
+                'tanggal' => $date
+              ]);   
+
+            }
+            else{
+              $message = "Maaf, tanggal sudah ada dalam jadwal !";
+              echo $message;
+              die();
+            }
+
             $i++;
           }
-          
-          return $this->redirect(['index']);
+
+          $this->saveToDatabase($GLOBALS['log']);
+
+          $query = (new \yii\db\Query())
+           ->select(['*'])
+           ->from('jadwal_bus')
+           ->groupBy('tanggal')
+           ->all();
+
+          return $this->render('index', [
+            'data' => $GLOBALS['log'],
+            'query' =>  $query,
+          ]);
         }
         else {
             $model = new Jadwalbus();
@@ -477,5 +562,655 @@ class JadwalbusController extends Controller
           break;
         }
     }
+
+    /* START GENERATE WITH ARRAY */
+
+    private function checkRecord()
+    {
+        $record = JadwalBus::find()->all();
+        return $record;
+    }
+
+    private function checkDateJadwalBus($date)
+    {
+        $tanggal = JadwalBus::find()->select('tanggal')->where(['tanggal' => $date])->one();
+        if ($tanggal['tanggal'] == null) {
+          return $tanggal;
+        }
+
+        return $tanggal;
+    }
+
+    private function checkLastDate()
+    {
+        $tanggal = JadwalBus::find()->orderBy(['id_jadwal'=>SORT_DESC])->one();
+        if ($tanggal['tanggal'] == null) {
+          return $tanggal;
+        }
+
+        return $tanggal;
+    }
+
+    private function getLastShiftPegawai($pegawai, $date=null)
+    {
+        if ($date == null) {
+          $tanggal = $this->checkLastDate();
+          $date = $tanggal['tanggal'];
+        }
+
+        $query = new Query;
+        $query->select(['jadwal_bus.id_bus', 'jadwal_bus.id_sopir', 'jadwal_bus.id_kondektur', 'bus.status'])  
+              ->from('jadwal_bus')
+              ->leftJoin('bus', 'bus.id_bus = jadwal_bus.id_bus')
+              ->where(['jadwal_bus.tanggal' => $date]);
+
+        $command = $query->createCommand();
+        $result = $command->queryAll();
+
+        $array = array();                    
+        foreach ($result as $key) {
+          
+          $id_pegawai = ( $pegawai == 'sopir' ) ? intval($key['id_sopir']) : intval($key['id_kondektur']) ;
+          $status = ( $key['status'] == 1 ) ? 'pagi' : 'malam' ;
+          $data = [
+            'date'         => $date,
+            'id_pegawai'   => $id_pegawai,
+            'shift'        => $status,
+          ];
+          array_push($array, $data);
+                 
+        }
+        
+        return $array;
+    }
+
+    private function getRandomSopir()
+    {
+        $sopir = Pegawai::getRandomSopir();
+        $array = array();
+        foreach ($sopir as $key) {
+          $data = [
+            'id_pegawai'   => $key['id_pegawai'],
+            'id_jabatan'   => $key['id_jabatan'],
+          ];
+          array_push($array, $data);
+        }
+
+        return $array;
+    }
+
+    private function getRandomKondektur()
+    {
+        $kondektur = Pegawai::getRandomKondektur();
+        $array = array();
+
+        foreach ($kondektur as $key) {
+          $data = [
+            'id_pegawai'   => $key['id_pegawai'],
+            'id_jabatan'   => $key['id_jabatan'],
+          ];
+          array_push($array, $data);
+        }
+
+        return $array;
+    }
+
+    private function getBusBystatus($status)
+    {
+        $bus = Bus::getByStatus($status);
+        $array = array();
+
+        foreach ($bus as $key) {
+          $data = [
+            'id_bus'   => $key['id_bus'],
+            'status'   => $key['status'],
+          ];
+          array_push($array, $data);
+        }
+
+        return $array;
+    }
+
+    private function setShiftSopirAwal($date)
+    {
+        $sopir = $GLOBALS['sopir'];
+        $countSopir = count($sopir);
+        $array = array();
+        $index = 0;
+        foreach ($sopir as $key) {
+          $retVal = ($this->checkIzin($key['id_pegawai'], $date)) ? $countSopir-- : $countSopir ;
+        }
+
+        foreach ($sopir as $key) {
+          $idSopir = $key['id_pegawai'];
+          $interval = (int)ceil($countSopir/2); // untuk membagi shift dari total sopir
+
+          // mengecek apakah pegawai memliki izin pada tanggal tsb
+          if (!$this->checkIzin($idSopir, $date)) { // Sopir tidak memiliki izin
+            if ($index <= $interval) { // set setengah total sopir pagi 
+              $data = [
+                'date' => $date,
+                'id_pegawai' => $key['id_pegawai'],
+                'shift' => 'pagi'
+              ];
+              array_push($array, $data); 
+            } 
+            else{ // set setengah total sopir malam
+              $data = [
+                'date' => $date,
+                'id_pegawai' => $key['id_pegawai'],
+                'shift' => 'malam'
+              ];
+              array_push($array, $data);
+            }
+          }
+          
+          $index++;
+        }
+
+        return $array;
+    }
+
+    private function setShiftkondekturAwal($date)
+    {
+        $kondektur = $GLOBALS['kondektur'];
+        $countKondektur = count($kondektur);
+        $array = array();
+        $index = 0;
+        foreach ($kondektur as $key) {
+          $retVal = ($this->checkIzin($key['id_pegawai'], $date)) ? $countKondektur-- : $countKondektur ;
+        }
+
+        foreach ($kondektur as $key) {
+          $idKondektur = $key['id_pegawai'];
+          $interval = (int)ceil($countKondektur/2); // untuk membagi shift dari total sopir
+          
+          // mengecek apakah pegawai memliki izin pada tanggal tsb
+          if (!$this->checkIzin($idKondektur, $date)) { // Sopir tidak memiliki izin
+            if ($index <= $interval) { // set setengah total sopir pagi 
+              $data = [
+                'date' => $date,
+                'id_pegawai' => $key['id_pegawai'],
+                'shift' => 'pagi'
+              ];
+              array_push($array, $data); 
+            } 
+            else{ // set setengah total sopir malam
+              $data = [
+                'date' => $date,
+                'id_pegawai' => $key['id_pegawai'],
+                'shift' => 'malam'
+              ];
+              array_push($array, $data);
+            }
+          }
+          
+          $index++;
+        }
+
+        return $array;
+    }
+
+    private function setShiftSopirNext($date)
+    {
+        $sopir = $GLOBALS['sopir'];
+        $shift = $GLOBALS['shift']['sopir'];
+        $countShift = count($shift); 
+        $countSopir = count($sopir);
+        
+        $array  = array();
+        $index  = 1;
+        $temp   = 0;
+        foreach ($sopir as $key) {
+          $idSopir = $key['id_pegawai'];          
+          $arr  = array_column($sopir, 'id_pegawai'); // mangambil column id_pegawai pada array sopir
+          $arr2 = array_column($shift, 'id_pegawai'); // mangambil column id_pegawai pada array shift
+          $res  = array_diff($arr, $arr2); // mencari perbedaan dari dua column(id_pegawai)
+
+          $i=0;
+          foreach ($shift as $key) {
+            $check = in_array($idSopir, $key);
+            if($check){ // Check apakah sopir sudah dalam array shift
+              // mengecek apakah pegawai memliki izin pada tanggal tsb
+              if(!$this->checkIzin($idSopir, $date)){ // pegawai tidak memiliki izin              
+                if ($key['shift'] == 'pagi') { // cek apakah shift pegawai pagi ?
+                  $data = [
+                    'date' => $date,
+                    'id_pegawai' => $key['id_pegawai'],
+                    'shift' => 'malam'
+                  ];
+                  array_push($array, $data);
+                  break;
+                }
+                else{ // cek apakah shift pegawai malam ?
+                  $data = [
+                    'date' => $date,
+                    'id_pegawai' => $key['id_pegawai'],
+                    'shift' => 'pagi'
+                  ];
+                  array_push($array, $data);
+                                    
+                  break;
+                }
+              }
+            }
+            
+            // looping dari total diff column id_pegawai
+            // foreach($res as $item) {
+
+            //   if($idSopir == $item){ // cek jika id sopir == id sopir yang ada pada array diff
+            //     $idSopir;
+            //     if($key['id_pegawai'] == $item){
+                  
+            //       if($key['shift'] == 'pagi'){ // cek last sopir shift = pagi
+            //         $data = [
+            //           'date' => $date,
+            //           'id_pegawai' => $idSopir,
+            //           'shift' => 'malam'
+            //         ];
+            //         if ($temp == 0) { // cek jika data belum pernah dipush
+            //           array_push($array, $data);
+            //           $temp = 1;
+            //         }
+            //         break;
+            //       }
+            //       elseif($key['shift'] == 'malam') { // cek last sopir shift = malam
+            //         $data = [
+            //           'date' => $date,
+            //           'id_pegawai' => $idSopir,
+            //           'shift' => 'pagi'
+            //         ];
+            //         if ($temp == 0) { // cek jika data belum pernah dipush
+            //           array_push($array, $data);
+            //           $temp = 1;
+            //         }
+            //         break;
+            //       }
+            //     }else{
+            //       $data = [
+            //         'date' => $date,
+            //         'id_pegawai' => $idSopir,
+            //         'shift' => 'pagi'
+            //       ];
+            //       if ($temp == 0) { // cek jika data belum pernah dipush
+            //         array_push($array, $data);
+            //         $temp = 1;
+            //       }
+            //       break;
+            //     }
+                
+            //   }       
+            // }
+                   
+            $i++;
+          }
+          $index++;
+        }        
+
+        return $array;
+    }
+
+    private function setShiftKondekturNext($date)
+    {
+        $kondektur = $GLOBALS['kondektur'];
+        $shift = $GLOBALS['shift']['kondektur'];
+        $countShift = count($shift); 
+        $countKondektur = count($kondektur);
+        
+        $array  = array();
+        $index  = 1;
+        $temp   = 0;
+        foreach ($kondektur as $key) {
+          $idKondektur = $key['id_pegawai'];          
+          $arr  = array_column($kondektur, 'id_pegawai'); // mangambil column id_pegawai pada array kondektur
+          $arr2 = array_column($shift, 'id_pegawai'); // mangambil column id_pegawai pada array shift
+          $res  = array_diff($arr, $arr2); // mencari perbedaan dari dua column(id_pegawai)
+
+          $i=1;
+          foreach ($shift as $key) {
+            $check = in_array($idKondektur, $key);
+            if($check){ // Check apakah sopir sudah dalam array shift
+              // mengecek apakah pegawai memliki izin pada tanggal tsb              
+              if(!$this->checkIzin($idKondektur, $date)){ // pegawai tidak memiliki izin
+                if ($key['shift'] == 'pagi') { // cek apakah shift pegawai pagi ?
+                  $data = [
+                    'date' => $date,
+                    'id_pegawai' => $key['id_pegawai'],
+                    'shift' => 'malam'
+                  ];
+                  array_push($array, $data);
+                  break;
+                }
+                else{ // cek apakah shift pegawai malam ?
+                  $data = [
+                    'date' => $date,
+                    'id_pegawai' => $key['id_pegawai'],
+                    'shift' => 'pagi'
+                  ];
+                  array_push($array, $data);     
+                  break;
+                }
+              }
+            }
+            
+            // looping dari total diff column id_pegawai
+            // foreach($res as $item) {
+              
+            //   if($idKondektur == $item){ // cek jika id sopir == id sopir yang ada pada array diff
+            //     $idKondektur;
+            //     if($key['id_pegawai'] == $item){
+                  
+            //       if($key['shift'] == 'pagi'){ // cek last sopir shift = pagi
+            //         $data = [
+            //           'date' => $date,
+            //           'id_pegawai' => $idKondektur,
+            //           'shift' => 'malam'
+            //         ];
+            //         if ($temp == 0) { // cek jika data belum pernah dipush
+            //           array_push($array, $data);
+            //           $temp = 1;
+            //         }
+            //         break;
+            //       }
+            //       elseif($key['shift'] == 'malam') { // cek last sopir shift = malam
+            //         $data = [
+            //           'date' => $date,
+            //           'id_pegawai' => $idKondektur,
+            //           'shift' => 'malam'
+            //         ];
+            //         if ($temp == 0) { // cek jika data belum pernah dipush
+            //           array_push($array, $data);
+            //           $temp = 1;
+            //         }
+            //         break;
+            //       }
+            //     }else{
+            //       $data = [
+            //         'date' => $date,
+            //         'id_pegawai' => $idKondektur,
+            //         'shift' => 'pagi'
+            //       ];
+            //       if ($temp == 0) { // cek jika data belum pernah dipush
+            //         array_push($array, $data);
+            //         $temp = 1;
+            //       }
+            //       break;
+            //     }
+                
+            //   }       
+            // }
+                   
+            $i++;
+          }
+          $index++;
+        }        
+
+        return $array;
+    }
+
+    private function getShiftSopirById($id, $date)
+    {
+        $shift = $GLOBALS['shift'];
+        $array = array();
+        
+        foreach ($shift as $key) {
+          if($key['id_pegawai'] == $id){
+            if ($key['date'] == $date) {     
+              $data = [
+                'date' => $date,
+                'id_pegawai' => $key['id_pegawai'],
+                'shift' => $key['shift'],
+              ];
+              array_push($array, $data);
+            }
+          }
+        }
+
+        return $array;
+    }
+
+    private function checkIzin($idPegawai, $date)
+    {
+        $izin = $GLOBALS['izin'];
+
+        foreach ($izin as $key) {
+          if ( ($key['id_pegawai'] == $idPegawai) && ($key['tgl_izin'] == $date) ) {
+            return true;
+          }
+        }
+    }
+
+    private function setSopirBusPagi($shifts, $date)
+    {
+        $busPagi = $GLOBALS['bus_pagi'];
+        $shift = $this->getShift('sopir', 'pagi', $date);
+        $shiftMalam = $this->getShift('sopir', 'malam', $date);
+        $countShift = count($this->getShift('sopir', 'pagi', $date)); 
+
+        $retVal = (count($busPagi) < $countShift) ? array_pop($shift) : $shift ;
+        array_push($shiftMalam, $retVal);
+        $count = count($shift);
+
+        $array = array();
+        $index = 1;
+        foreach ($busPagi as $bus) {
+          if ($index > $count ) {
+            $data = [
+              'tanggal' => $date,
+              'id_bus' => $bus['id_bus'],
+              'id_sopir' => 0,
+            ];
+            array_push($array, $data);
+          }
+          else {
+            foreach ($shift as $key) {
+              $data = [
+                'tanggal' => $date,
+                'id_bus' => $bus['id_bus'],
+                'id_sopir' => $key['id_pegawai'],
+              ];
+              array_push($array, $data);
+              $arr = array_shift($shift);
+              break;
+              
+            }
+          }
+          
+          $index++;
+        }
+
+        return $array;
+    }
+
+    private function setSopirBusMalam($shifts, $date)
+    {
+        $busMalam = $GLOBALS['bus_malam'];
+        $shift = $this->getShift('sopir', 'malam', $date);
+        $shiftPagi = $this->getShift('sopir', 'pagi', $date);
+        $countShift = count($this->getShift('sopir', 'malam', $date)); 
+
+        $retVal = (count($busMalam) > $countShift) ? array_pop($shiftPagi) : $shift ;
+        array_push($shift, $retVal);
+        $count = count($shift);
+
+        $array = array();
+        $index = 0;
+        foreach ($busMalam as $bus) {
+          if ($index > $count ) {
+            $data = [
+              'tanggal' => $date,
+              'id_bus' => $bus['id_bus'],
+              'id_sopir' => 0,
+            ];
+            array_push($array, $data);
+          }
+          else {
+            foreach ($shift as $key) {
+              $data = [
+                'tanggal' => $date,
+                'id_bus' => $bus['id_bus'],
+                'id_sopir' => $key['id_pegawai'],
+              ];
+              array_push($array, $data);
+              $arr = array_shift($shift);
+              break;
+              
+            }
+          }
+          
+          $index++;
+        }
+
+        return $array;
+    }
+
+    private function setKondekturBusPagi($shifts, $dataSopirBus, $date)
+    {
+        $busPagi = $GLOBALS['bus_pagi'];
+        $shift = $this->getShift('kondektur', 'pagi', $date);
+        $shiftMalam = $this->getShift('kondektur', 'malam', $date);
+        $countShift = count($this->getShift('kondektur', 'pagi', $date)); 
+        $retVal = (count($busPagi) < $countShift) ? array_pop($shift) : $shift ;
+        array_push($shiftMalam, $retVal);
+        $count = count($shift);
+
+        $array = array();
+        $index = 0;
+        foreach ($busPagi as $bus) {
+          if ($index > $count) {
+            
+            $dataSopirBus[$index]['id_kondektur'] = 0;
+            // $data = [
+            //   'tanggal' => $date,
+            //   'id_bus' => $bus['id_bus'],
+            //   'id_kondektur' => 0,
+            // ];
+            // array_push($array, $data);
+          }
+          else {
+            foreach ($shift as $key) {
+              // $data = [
+              //   'tanggal' => $date,
+              //   'id_bus' => $bus['id_bus'],
+              //   'id_kondektur' => $key['id_pegawai'],
+              // ];
+              // array_push($array, $data);
+              $dataSopirBus[$index]['id_kondektur'] = $key['id_pegawai'];
+              $arr = array_shift($shift);
+              break;
+              
+            }
+          }
+          
+          $index++;
+        }
+
+        return $dataSopirBus;
+    }
+
+    private function setKondekturBusMalam($shifts, $dataSopirBus, $date)
+    {
+        $busMalam = $GLOBALS['bus_malam'];
+        $shift = $this->getShift('kondektur', 'malam', $date);
+        $shiftPagi = $this->getShift('kondektur', 'pagi', $date);
+        $countShift = count($this->getShift('kondektur', 'malam', $date)); 
+
+        $retVal = (count($busMalam) > $countShift) ? array_pop($shiftPagi) : $shift ;
+        array_push($shift, $retVal);
+        $count = count($shift);
+
+        $array = array();
+        $index = 0;
+        foreach ($busMalam as $bus) {
+          if ($index > $count) {
+            
+            // $data = [
+            //   'tanggal' => $date,
+            //   'id_bus' => $bus['id_bus'],
+            //   'id_kondektur' => 0,
+            // ];
+            // array_push($array, $data);
+            $dataSopirBus[$index]['id_kondektur'] = $key['id_pegawai'];
+          }
+          else {
+            foreach ($shift as $key) {
+              // $data = [
+              //   'tanggal' => $date,
+              //   'id_bus' => $bus['id_bus'],
+              //   'id_kondektur' => $key['id_pegawai'],
+              // ];
+              // array_push($array, $data);
+              $dataSopirBus[$index]['id_kondektur'] = $key['id_pegawai'];
+              $arr = array_shift($shift);
+              break;
+              
+            }
+          }
+          
+          $index++;
+        }
+
+        return $dataSopirBus;
+    }
+
+    private function getShift($pegawai,$shift,$date)
+    {
+        // if ($shift == null) {
+          $shifts = $GLOBALS['shift'][$pegawai];
+        // }
+        // else{
+        //   $shifts = $GLOBALS['shift'][$pegawai][$shift];
+        // }
+
+        $arrShift = array();
+        foreach ($shifts as $key) {
+
+          if($key['date'] == $date){
+            if($key['shift'] == $shift){
+              $data = [
+                'date' => $date,
+                'id_pegawai' => $key['id_pegawai'],
+                'shift' => $shift,
+              ];
+              array_push($arrShift, $data);
+            }
+          }
+
+        }
+
+        return $arrShift;
+    }
+
+    private function saveToDatabase($array)
+    { 
+
+      foreach ($array as $item) {
+        foreach ($item['bus'] as $key => $value) {
+          if ($key == 'pagi') {
+            foreach ($value as $data) {
+              $jadwalBus = new Jadwalbus();
+              $jadwalBus->tanggal = $data['tanggal'];    
+              $jadwalBus->id_bus = $data['id_bus'];
+              $jadwalBus->id_sopir = $data['id_sopir'];
+              $jadwalBus->id_kondektur = $data['id_kondektur'];
+              $jadwalBus->save();
+            }
+          }
+          else{
+            foreach ($value as $data) {
+              $jadwalBus = new Jadwalbus();
+              $jadwalBus->tanggal = $data['tanggal'];    
+              $jadwalBus->id_bus = $data['id_bus'];
+              $jadwalBus->id_sopir = $data['id_sopir'];
+              $jadwalBus->id_kondektur = $data['id_kondektur'];
+              $jadwalBus->save();
+            }
+          }
+        }
+      }
+
+    }
+
+    /* END GENERATE WITH ARRAY */
     
 }

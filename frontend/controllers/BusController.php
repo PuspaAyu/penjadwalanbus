@@ -51,8 +51,9 @@ class BusController extends Controller
              ->from('bus')
              ->join('LEFT JOIN', 'jurusan', 'jurusan.id_jurusan=bus.id_jurusan')
              ->join('LEFT JOIN', 'karcis', 'karcis.id_stok=bus.id_karcis')
-             ->groupBy('id_bus')
+             ->groupBy('id_karcis')
              ->all();
+
           return $this->render('index',[
             'query'=>$query,
             'model'=>$model,

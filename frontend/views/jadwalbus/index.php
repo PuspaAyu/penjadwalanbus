@@ -17,6 +17,44 @@ use yii\helpers\Url;
 $this->title = 'Jadwal Bus';
 // $this->params['breadcrumbs'][] = $this->title;
 
+  // print_r($message);
+  // echo "<br>";
+
+  // foreach ($data as $item) {
+  //   foreach ($item['bus'] as $key => $value) {
+  //     if ($key == 'pagi') {
+  //       foreach ($value as $data) {
+        //   $jadwalBus = new Jadwalbus();
+        //   $jadwalBus->tanggal = $data['tanggal'];    
+        //   $jadwalBus->id_bus = $data['id_bus'];
+        //   $jadwalBus->id_sopir = $data['id_sopir'];
+        //   $jadwalBus->id_kondektur = $data['id_kondektur'];
+        //   $jadwalBus->save();
+      //     print_r($data);
+      //     echo "<br>";
+      //   }
+      //   echo "<br>";
+      // }
+      // else{
+      //   foreach ($value as $data) {
+          // $jadwalBus = new Jadwalbus();
+          // $jadwalBus->tanggal = $data['tanggal'];    
+          // $jadwalBus->id_bus = $data['id_bus'];
+          // $jadwalBus->id_sopir = $data['id_sopir'];
+          // $jadwalBus->id_kondektur = $data['id_kondektur'];
+          // $jadwalBus->save();
+  //         print_r($data);
+  //         echo "<br>";
+  //       }
+  //       echo "<br>";
+  //     }
+  //     echo "<br>";
+  //   }
+  //   echo "<br>";
+  // }
+
+  // die();
+
 ?>
 
 
@@ -34,7 +72,6 @@ $this->title = 'Jadwal Bus';
        <!-- Modal -->
       <div class="modal fade" id="myModal" role="dialog">
         <div class="modal-dialog">
-           Modal content
           <div class="modal-content" >
            <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal">&times;</button>

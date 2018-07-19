@@ -28,7 +28,7 @@ class Izin extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['tgl_izin', 'jenis_izin', 'id_pegawai'], 'required'],
+            [['tgl_izin'], 'required'],
             [['tgl_izin'], 'safe'],
             [['id_pegawai'], 'integer'],
             [['jenis_izin'], 'string', 'max' => 20],

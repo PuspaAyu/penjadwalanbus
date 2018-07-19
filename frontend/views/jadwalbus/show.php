@@ -41,7 +41,7 @@ $this->title = 'Jadwal Bus';
                   <th>Jurusan</th>
                   <th>Sopir</th>
                   <th>Kondektur</th>
-                  <th>Aksi</th>
+                  <!-- <th>Aksi</th> -->
                 </tr>
               </thead>
               <tbody>
@@ -75,10 +75,10 @@ $this->title = 'Jadwal Bus';
                         echo Html::input('hidden', 'kondektur', $item['id_kondektur']);
                       } ?>
                     </td>
-                    <td>
+                    <!-- <td>
                       <?= Html::submitButton('Save', ['class' => 'btn btn-success btn-xs']) ?>
                       <?= Html::submitButton('Edit', ['class' => 'btn btn-warning btn-xs']) ?>
-                    </td>
+                    </td> -->
                   </form>
                   </tr>
                 <?php endforeach; ?>

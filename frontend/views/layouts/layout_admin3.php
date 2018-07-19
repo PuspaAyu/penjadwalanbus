@@ -72,7 +72,7 @@ TemplateAsset::register($this);
                         <li><?= Html::a('<i class="fa fa-dashboard fa-fw"></i> Home', ['site/index']); ?></li>
                         <!-- <li><?= Html::a('<i class="fa fa-table fa-fw"></i> Create Karcis', ['karcis/createkarcis?tanggal='.date("2018-06-02")]); ?></li> -->
                         <!-- <li><?= Html::a('<i class="fa fa-table fa-fw"></i> Karcis', ['karcis/index?tanggal='.date("2018-04-27")]); ?></li> -->
-                        <li><?= Html::a('<i class="fa fa-table fa-fw"></i> Create Karcis', ['karcis-setor/createkarcis?tanggal='.date("2018-06-01")]); ?></li>
+                        <li><?= Html::a('<i class="fa fa-table fa-fw"></i> Create Karcis', ['karcis-setor/createkarcis?tanggal='.date("2018-07-01")]); ?></li>
                         <li><?= Html::a('<i class="fa fa-ticket fa-fw"></i> Karcis', ['karcis/index']); ?></li>
                        
                         <li><?= Html::a('<i class="fa fa-legal fa-fw"></i> Tilangan', ['tilangan/index']); ?></li>

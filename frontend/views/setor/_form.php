@@ -10,6 +10,8 @@ use frontend\models\JadwalBus;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Setor */
 /* @var $form yii\widgets\ActiveForm */
+// var_dump($data);
+// die();
 ?>
 
 
@@ -209,7 +211,7 @@ $modelKarcis = KarcisSetor::find()->where(['id_karcis' => $model->id_karcis])->o
                                 </div>
 
                                 <div class="col-md-4 col-sm-4 col-xs-6 form-group has-feedback">
-                                    <?= $form->field($modelKarcis, 'pergi_akhir')->textInput(['value' => 0]) ?>
+                                    <?= $form->field($modelKarcis, 'pergi_akhir')->textInput(['value' => $data['pergi_akhir']]) ?>
                                 </div>
 
                                 <div class="col-md-4 col-sm-4 col-xs-6 form-group has-feedback">
@@ -221,7 +223,7 @@ $modelKarcis = KarcisSetor::find()->where(['id_karcis' => $model->id_karcis])->o
                                 </div>
 
                                 <div class="col-md-4 col-sm-4 col-xs-6 form-group has-feedback">
-                                    <?= $form->field($modelKarcis, 'pulang_akhir')->textInput(['value' => 0]) ?>
+                                    <?= $form->field($modelKarcis, 'pulang_akhir')->textInput(['value' => $data['pulang_akhir']]) ?>
                                 </div>
                                 
                                 <div class="col-md-4 col-sm-4 col-xs-6 form-group has-feedback">

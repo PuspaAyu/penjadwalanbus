@@ -108,7 +108,6 @@ class KarcisSetorController extends Controller
 
             $tempviewjadwal = array();
             foreach ($jadwal as $key) {
-
                 //insert to database
                 $model = new KarcisSetor();
 
@@ -126,6 +125,7 @@ class KarcisSetorController extends Controller
                 }
 
                 $karcis = KarcisSetor::find()->where(['id_jadwal'=>$key->id_jadwal])->one();
+        
                 $bus = Bus::find()->where(['id_bus'=>$key->id_bus])->one();
 
                 $query = (new \yii\db\Query())
@@ -170,10 +170,6 @@ class KarcisSetorController extends Controller
                         // 'id_stok' => $karcis->id_stok,
                     ]);
                 }
-               
-
-                    
-                
             }
             
 

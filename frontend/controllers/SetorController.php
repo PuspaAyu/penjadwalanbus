@@ -313,13 +313,13 @@ class SetorController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id, $tanggal, $bus)
-    {
-        $yesterday = date('Y-m-d', strtotime($tanggal .' -1 day'));
-        // var_dump($tanggal);
-        // die();
+    public function actionUpdate($id, $tanggal, $bus){
+        $today = $tanggal;
+        $yesterday = date('Y-m-d', strtotime($tanggal .' -1 day')); //untuk mendapatakan hari kemarin untuk cek karcis dan di +1
+        
         $this->layout = 'layout_admin2';
         $model = $this->findModel($id);
+
         $data = (new \yii\db\Query())
                      ->select(['karcis_setor.pergi_akhir', 'karcis_setor.pulang_akhir'])
                      ->from('karcis_setor')
@@ -328,14 +328,27 @@ class SetorController extends Controller
                      ->where(['jadwal_bus.tanggal'=>$yesterday, 'jadwal_bus.id_bus'=>$bus])
                      ->one();
 
+        $datatoday = (new \yii\db\Query())
+                     ->select(['karcis_setor.pergi_akhir', 'karcis_setor.pulang_akhir'])
+                     ->from('karcis_setor')
+                     ->join('LEFT JOIN', 'setor', 'setor.id_karcis=karcis_setor.id_karcis')
+                     ->join('LEFT JOIN', 'jadwal_bus', 'jadwal_bus.id_jadwal=karcis_setor.id_jadwal')
+                     ->where(['jadwal_bus.tanggal'=>$today, 'jadwal_bus.id_bus'=>$bus])
+                     ->one();
+
                      $new_pergi_awal = $data['pergi_akhir'] + 1;
                      $new_pulang_awal = $data['pulang_akhir'] + 1;
+                     $pergi_akhir =  $datatoday['pergi_akhir'];
+                     $pulang_akhir = $datatoday['pulang_akhir'];
 
                 $datas = [
                     'pergi_awal'=>$new_pergi_awal,
-                    'pulang_awal'=>$new_pulang_awal
+                    'pulang_awal'=>$new_pulang_awal,
+                    'pergi_akhir'=>$pergi_akhir,
+                    'pulang_akhir'=>$pulang_akhir
                 ];
 
+        if ($model->load(Yii::$app->request->post())) {
             $tpr_sby = $model['tpr_sby'];
             $tpr_caruban = $model['tpr_caruban'];
             $tpr_ngawi = $model['tpr_ngawi'];
@@ -343,6 +356,7 @@ class SetorController extends Controller
             $tpr_kartosuro = $model['tpr_kartosuro'];
             $tpr_salatiga = $model['tpr_salatiga'];
             $tpr_semarang = $model['tpr_semarang'];
+
             $mandor_sby = $model['mandor_sby'];
             $mandor_caruban = $model['mandor_caruban'];
             $mandor_ngawi = $model['mandor_ngawi'];
@@ -367,6 +381,12 @@ class SetorController extends Controller
             $parkir = $model['parkir'];
             $lain_lain = $model['lain_lain'];
             $potong_minum = $model['potong_minum'];
+            $pendapatan_kotor = $model['pendapatan_kotor'];
+            $bersih_perjalanan = $model['bersih_perjalanan'];
+            $dipotong_premi = $model['dipotong_premi'];
+            $total_bersih = $model['total_bersih'];
+            $premi_sopir = $model['premi_sopir'];
+            $premi_kondektur = $model['premi_kondektur'];
 
             $total1 = $mandor_sby+$mandor_caruban+$mandor_ngawi+$mandor_solo+$mandor_kartosuro
                     +$mandor_semarang+$mandor_salatiga;
@@ -396,38 +416,37 @@ class SetorController extends Controller
             $total_bon = $bon_sopir + $bon_kondektur;
 
             $cuci_garasi = 37500;
-            
+
             if($bersih_perjalanan == 0){
                 $total_bersih = 0;
             }else{
                 $total_bersih = $bersih_perjalanan - $total_bon + $cuci_garasi;
             }
 
-
-
-        if ($model->load(Yii::$app->request->post())) {
             $modelKarcis = Yii::$app->request->post()['KarcisSetor'];
 
             $setorKarcis = KarcisSetor::find()->where(['id_karcis' => $model->id_karcis])->one();
-            $setorKarcis['pergi_awal'] = $modelKarcis['pergi_awal'];            
+
+            $setorKarcis['pergi_awal'] = $modelKarcis['pergi_awal'];
             $setorKarcis['pergi_akhir'] = $modelKarcis['pergi_akhir'];            
             $setorKarcis['pulang_awal'] = $modelKarcis['pulang_awal'];            
             $setorKarcis['pulang_akhir'] = $modelKarcis['pulang_akhir'];
-            $setorKarcis->save();
 
-            $model['pendapatan_kotor']  = $pendapatan_kotor;
+            $model['pendapatan_kotor'] = $pendapatan_kotor;
             $model['bersih_perjalanan'] = $bersih_perjalanan;
             $model['dipotong_premi']    = $total_premi;
             $model['total_bersih']      = $total_bersih;
             $model['premi_sopir']       = $premi_sopir;
             $model['premi_kondektur']   = $premi_kondektur;
+           
+            $setorKarcis->save();
 
             $model->save();
+
             return $this->redirect(['view', 'id' => $model->id_setor]);
         }
-
         return $this->render('update', [
-            'model' => $model,
+            'model' => $model,           
             'data' => $datas,
             // 'modelKarcis' => $modelKarcis,
         ]);

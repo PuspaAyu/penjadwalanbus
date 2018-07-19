@@ -8,6 +8,10 @@ use frontend\models\IzinSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use DateTime;
+use DateInterval;
+use DatePeriod;
+use frontend\models\Pegawai;
 
 
 /**
@@ -37,13 +41,23 @@ class IzinController extends Controller
     public function actionIndex()
     {
         $this->layout = 'layout_admin';
-        $searchModel = new IzinSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $model = Izin::find()->all();
+        $pegawai = Pegawai::find()->all();
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+          $query = (new \yii\db\Query())
+             ->select(['izin.id_izin','izin.tgl_izin', 'izin.jenis_izin', 'pegawai.nama'])
+             ->from('izin')
+             ->join('LEFT JOIN', 'pegawai', 'pegawai.id_pegawai=izin.id_pegawai')
+             ->groupBy('tgl_izin')
+             ->all();
+
+          return $this->render('index',[
+            'query'=>$query,
+            'model'=>$model,
+            'pegawai'=>$pegawai
+          ]);
+
+
     }
 
     /**
@@ -67,15 +81,50 @@ class IzinController extends Controller
     public function actionCreate()
     {
         $this->layout = 'layout_admin';
-        $model = new Izin();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
-        } else {
-            return $this->render('create', [
+        
+        $request =Yii::$app->request->post();
+        if ($request){
+            $rangeDate = $this->getRangeDate($request['tgl_izin'], $request['tgl_izin2']);
+            foreach ($rangeDate as $date) {
+                $model = new Izin();
+                $model->tgl_izin=$date;
+                $model->jenis_izin=$request['jenis_izin'];
+                $model->id_pegawai=$request['id_pegawai'];
+                $model->save();
+            
+            }
+        }else {
+            $model = new Izin();
+            
+            $model->save();
+            return $this->render('index', [
                 'model' => $model,
+                
             ]);
         }
+        return $this->redirect(['index'
+            ]);
+
+        // if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        //     return $this->redirect(['index']);
+        // } else {
+        //     return $this->render('create', [
+        //         'model' => $model,
+        //     ]);
+        // }
+    }
+
+     private function getRangeDate($begin, $end){
+      $begin = new DateTime($begin);
+      $end = new DateTime($end);
+      $end = $end->modify( '+1 day'); // menambahkan 1 hari
+      $interval = new DateInterval('P1D'); // 1 Day
+      $dateRange = new DatePeriod($begin, $interval, $end);
+      $range = [];
+      foreach ($dateRange as $date) {
+           $range[] = $date->format('Y-m-d');
+      }
+      return $range;
     }
 
     /**

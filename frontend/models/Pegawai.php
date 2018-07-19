@@ -71,7 +71,7 @@ class Pegawai extends \yii\db\ActiveRecord
 
     public function getJabatan(){
         $jabatan = Jabatan::find()->where(['id_jabatan'=>$this->id_jabatan])->one();
-            return $jabatan->jenis_jabatan;
+        return $jabatan->jenis_jabatan;
     }
 
     public function getRandomSopir()

@@ -23,6 +23,22 @@ use frontend\models\Pegawai;
             ],
         ]) ?>
 
+    <!-- <?php echo '<label class="control-label">Tanggal</label>';
+      echo DatePicker::widget([
+        //'model' => $model,
+        'type' => DatePicker::TYPE_RANGE,
+        'name' => 'tanggal',
+        'value' => '01-Jul-2018',
+        'name2' => 'tanggal2',
+        'value2' => '18-Jul-2018',
+        'separator' => '<i class="glyphicon glyphicon-resize-horizontal"></i>',
+        'pluginOptions' => [
+            'autoclose' => true,
+            'format' => 'dd-M-yyyy'
+        ]
+      ]);
+    ?> -->
+
     <?php echo '<label class="control-label">Tanggal Izin</label>';
 			echo DatePicker::widget([
 				'model' => $model,
@@ -32,7 +48,8 @@ use frontend\models\Pegawai;
 			    'value' => '23-Feb-1982',
 			    'pluginOptions' => [
 			        'autoclose'=>true,
-			        'format' => 'yyyy-mm-dd'
+			   
+                    'format' => 'yyyy-mm-dd'
 			    ]
 			]); 
 	?>
