@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\frontend\models\JadwalBus;
+use yii\frontend\models\Bus;
 
 /**
  * TilanganController implements the CRUD actions for Tilangan model.
@@ -50,6 +51,7 @@ class TilanganController extends Controller
           $queryalert = (new \yii\db\Query())
                     ->select(['tilangan.id_tilangan',
                         'tilangan.id_jadwal', 
+                        'bus.no_polisi',
                         'tilangan.tanggal_batas_tilang',
                         'tilangan.denda', 
                         'tilangan.jenis_pelanggaran',
@@ -58,26 +60,11 @@ class TilanganController extends Controller
                         new \yii\db\Expression('CURDATE()as tgl_sekarang'), 
                         new \yii\db\Expression('DATEDIFF(CURDATE(), tanggal_batas_tilang) as selisih') ])
                     ->from('tilangan')
-                    ->join('LEFT JOIN', 'jadwal_bus', 'jadwal_bus.id_jadwal=tilangan.id_jadwal')
+                    ->join('LEFT JOIN', 'bus', 'bus.id_bus=tilangan.id_jadwal')
+                   
                     // ->groupBy('tanggal')
                     ->all();
 
-
-
-          // $commandqueryalert = $queryalert->createCommand();
-          // $dataqueryalert = $commandqueryalert->queryAll();
-
-          // $expression = new \yii\db\Expression('NOW()');
-          //   $now = (new \yii\db\Query)
-          //       ->select(['tilangan.id_tilangan', 'tilangan.tanggal_batas_tilang', '($expression) as tgl_sekarang', 'new \yii\db\Expression('NOW('date_diff('CURRDATE()')')') as selisih' ])->scalar();  // SELECT NOW();
-          //   echo $now; // prints the current date
-
-          // $query = (new \yii\db\Query())
-          //    ->select(['tilangan.id_tilangan', 'tilangan.denda', 'tilangan.jenis_pelanggaran','tilangan.tempat_kejadian','tilangan.tanggal_batas_tilang', 'jadwal_bus.id_jadwal', 'tilangan.status'])
-          //    ->from('tilangan')
-          //    ->join('LEFT JOIN', 'jadwal_bus', 'jadwal_bus.id_jadwal=tilangan.id_jadwal')
-          //    ->groupBy('tanggal')
-          //    ->all();
           return $this->render('index',[
             //'query'=>$query,
             'model'=>$model,

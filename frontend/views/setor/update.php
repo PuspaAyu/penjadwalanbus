@@ -11,7 +11,7 @@ $this->params['breadcrumbs'][] = ['label' => $model->id_setor, 'url' => ['view',
 $this->params['breadcrumbs'][] = 'Update';
 ?>
 <div class="setor-update">
-
+	<?= Html::a('<i class="fa fa-arrow-left fa-fw" style="font-size:25px;"></i> Back', ['setor/createsetor?tanggal='.date("2018-07-02")]); ?>
     <h4><?= Html::encode($this->title) ?></h4>
 
     <?= $this->render('_form', [

@@ -36,13 +36,24 @@ class KomplainController extends Controller
     public function actionIndex()
     {
         $this->layout = 'layout_admin';
-        $searchModel = new KomplainSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+          $model = Komplain::find()->all();
+          
+          $query = (new \yii\db\Query())
+                    ->select(['komplain.id_komplain',
+                        'komplain.id_jadwal', 
+                        'komplain.isi_komplain', 
+                        'komplain.tgl_komplain', 
+                        'bus.no_polisi'])
+                    ->from('komplain')
+                    ->join('LEFT JOIN', 'bus', 'bus.id_bus=komplain.id_jadwal')
+                    ->all();
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+          return $this->render('index',[
+            //'query'=>$query,
+            'model'=>$model,
+            'query' => $query
+          ]);
+
     }
 
     /**

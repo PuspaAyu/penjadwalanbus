@@ -96,14 +96,27 @@ class KarcisSetorController extends Controller
             // Ketika submit save button
             if (Yii::$app->request->post()) {
                 $request = Yii::$app->request->post();
+                // var_dump($request);
+                // die();
                 $model = KarcisSetor::find()->where(['id_karcis' => $request['id_karcis']])->one();
-            
-                // $model->id_stok = $request['seri'];
-                $model->pergi_awal = $request['KarcisSetor']['pergi_awal'];
-                $model->pergi_akhir = $request['KarcisSetor']['pergi_akhir'];
-                $model->pulang_awal = $request['KarcisSetor']['pulang_awal'];
-                $model->pulang_akhir = $request['KarcisSetor']['pulang_akhir'];
-                $model->update();
+                
+                if(!isset($request['pergi_awal'])){
+                    $model->pergi_awal = $request['KarcisSetor']['pergi_awal'];
+                    $model->pergi_akhir = $request['KarcisSetor']['pergi_akhir'];
+                    $model->pulang_awal = $request['KarcisSetor']['pulang_awal'];
+                    $model->pulang_akhir = $request['KarcisSetor']['pulang_akhir'];
+                    $model->update();
+                }else{
+                    $model->pergi_awal = $request['pergi_awal'];
+                    $model->pergi_akhir = $request['KarcisSetor']['pergi_akhir'];
+                    $model->pulang_awal = $request['pulang_awal'];
+                    $model->pulang_akhir = $request['KarcisSetor']['pulang_akhir'];
+                    $model->update();
+                }
+                // var_dump($model);
+                // die();
+                
+               
             }
 
             $tempviewjadwal = array();
@@ -128,18 +141,23 @@ class KarcisSetorController extends Controller
         
                 $bus = Bus::find()->where(['id_bus'=>$key->id_bus])->one();
 
+                // var_dump($karcis);
+                // die();
+
                 $query = (new \yii\db\Query())
                      ->select(['karcis_setor.pergi_akhir', 'karcis_setor.pulang_akhir'])
                      ->from('karcis_setor')
                      ->join('LEFT JOIN', 'jadwal_bus', 'jadwal_bus.id_jadwal=karcis_setor.id_jadwal')
                      ->where(['jadwal_bus.tanggal'=>$yesterday, 'jadwal_bus.id_bus'=>$key->id_bus])
                      ->one();
+                     // var_dump($yesterday);
+                     // die();
 
                 if($query == null){
                     array_push($tempviewjadwal, [
                         'jam'=>$bus->jam_operasional,
                         'no_polisi'=>$bus->no_polisi,
-                        'id_karcis' => $bus->id_karcis, 
+                        'id_karcis' => $karcis->id_karcis, 
                         'id_jurusan'=>$bus->id_jurusan,
                         'id_sopir'=>$key->id_sopir, 
                         'id_kondektur'=>$key->id_kondektur,
@@ -148,7 +166,7 @@ class KarcisSetorController extends Controller
                         'pergi_awal'=> $karcis->pergi_awal,
                         'pergi_akhir'=> $karcis->pergi_akhir,
                         'pulang_akhir'=> $karcis->pulang_akhir,
-                        // 'id_stok' => $karcis->id_stok,
+                        'id_stok' => $bus->id_karcis,
                     ]);
                 }
                 else{
@@ -158,7 +176,7 @@ class KarcisSetorController extends Controller
                     array_push($tempviewjadwal, [
                         'jam'=>$bus->jam_operasional,
                         'no_polisi'=>$bus->no_polisi,
-                        'id_karcis' => $bus->id_karcis, 
+                        'id_karcis' => $karcis->id_karcis, 
                         'id_jurusan'=>$bus->id_jurusan,
                         'id_sopir'=>$key->id_sopir, 
                         'id_kondektur'=>$key->id_kondektur,
@@ -167,12 +185,12 @@ class KarcisSetorController extends Controller
                         'pergi_awal'=> $pergi_awal_besok,
                         'pergi_akhir'=> $karcis->pergi_akhir,
                         'pulang_akhir'=> $karcis->pulang_akhir,
-                        // 'id_stok' => $karcis->id_stok,
+                        'id_stok' => $bus->id_karcis,
                     ]);
                 }
             }
-            
-
+            // var_dump($tempviewjadwal);
+            // die();
             return $this->render('createkarcis', [
                 'tempviewjadwal'=> $tempviewjadwal,
                 'seri' => $tpkarcis,
@@ -187,53 +205,58 @@ class KarcisSetorController extends Controller
         }
     }
 
-    public function actionSave($id)
-    {
-      $this->layout = 'layout_admin3';
-      $model = KarcisSetor::find()->where(['id_karcis' => $id])->one();
-      $query = (new \yii\db\Query())
-             ->select(['jadwal_bus.tanggal'])
-             ->from('jadwal_bus')
-             ->where(['karcis_setor.id_karcis'=>$id])
-             ->join('LEFT JOIN', 'karcis_setor', 'jadwal_bus.id_jadwal=karcis_setor.id_jadwal')
-             ->all();
+    // public function actionSave($id)
+    // {
+    //     var_dump($id);
+    //     die();
+    //   $this->layout = 'layout_admin3';
+    //   $model = KarcisSetor::find()->where(['id_karcis' => $id])->one();
+    //   $query = (new \yii\db\Query())
+    //          ->select(['jadwal_bus.tanggal'])
+    //          ->from('jadwal_bus')
+    //          ->where(['karcis_setor.id_karcis'=>$id])
+    //          ->join('LEFT JOIN', 'karcis_setor', 'jadwal_bus.id_jadwal=karcis_setor.id_jadwal')
+    //          ->all();
 
-            $command = $query->createCommand();
-            $data = $command->queryAll();
+    //         $command = $query->createCommand();
+    //         $data = $command->queryAll();
        
-      $request = Yii::$app->request->post();
-      if (Yii::$app->request->post()) {
-          if(!empty($request['pergi_awal'])
-                AND !empty($request['pergi_akhir'])
-                AND !empty($request['pulang_awal'])
-                AND !empty($request['pulang_akhir'])
-            ){
-             // $model->seri = 0;
-             $model->pergi_awal = 0;
-             $model->pergi_akhir = 0;
-             $model->pulang_awal = 0;
-             $model->pulang_akhir = 0;
-          } else {
-             // $model->seri = $request['seri'];
-             $model->pergi_awal = $request['pergi_awal'];
-             $model->pergi_akhir = $request['pergi_akhir'];
-             $model->pulang_awal = $request['pulang_awal'];
-             $model->pulang_akhir = $request['pulang_akhir'];
-          }
+    //   $request = Yii::$app->request->post();
 
-          $model->update();
+    //   if (Yii::$app->request->post()) {
+    //       if(!empty($request['pergi_awal'])
+    //             AND !empty($request['pergi_akhir'])
+    //             AND !empty($request['pulang_awal'])
+    //             AND !empty($request['pulang_akhir'])
+    //         ){
+    //          // $model->seri = 0;
+    //          $model->pergi_awal = 0;
+    //          $model->pergi_akhir = 0;
+    //          $model->pulang_awal = 0;
+    //          $model->pulang_akhir = 0;
+    //       } else {
+    //          // $model->seri = $request['seri'];
+    //          $model->pergi_awal = $request['pergi_awal'];
+    //          $model->pergi_akhir = $request['pergi_akhir'];
+    //          $model->pulang_awal = $request['pulang_awal'];
+    //          $model->pulang_akhir = $request['pulang_akhir'];
+    //       }
 
-          return $this->refresh();
 
-      }else{
+    //       $model->update();
 
-          return $this->redirect(['createkarcis', 'tanggal' => $data->tanggal]);
 
-        // return $this->render('index', [
-        //     'model' => $model,
-        // ]);
-      }
-    }
+    //       return $this->refresh();
+
+    //   }else{
+
+    //       return $this->redirect(['createkarcis', 'tanggal' => $data->tanggal]);
+
+    //     // return $this->render('index', [
+    //     //     'model' => $model,
+    //     // ]);
+    //   }
+    // }
 
 
     /**
@@ -245,6 +268,7 @@ class KarcisSetorController extends Controller
      */
     public function actionUpdate($id)
     {
+
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {

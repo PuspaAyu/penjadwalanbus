@@ -32,7 +32,9 @@ class Tilangan extends \yii\db\ActiveRecord
         return [
             [['denda', 'jenis_pelanggaran', 'tempat_kejadian', 'tanggal_batas_tilang', 'status'], 'required'],
             [['tanggal_batas_tilang'], 'safe'],
-            [['denda', 'jenis_pelanggaran', 'tempat_kejadian'], 'string', 'max' => 20],
+            [['id_jadwal'], 'string', 'max' => 11],
+            [['denda', 'tempat_kejadian'], 'string', 'max' => 20],
+            [['jenis_pelanggaran'], 'string', 'max' => 100],
             [['status'], 'integer'],
         ];
     }
@@ -44,7 +46,7 @@ class Tilangan extends \yii\db\ActiveRecord
     {
         return [
             'id_tilangan' => 'Id Tilangan',
-            'id_jadwal' => 'Id Jadwal',
+            'id_jadwal' => 'No Polisi',
             'denda' => 'Denda',
             'jenis_pelanggaran' => 'Jenis Pelanggaran',
             'tempat_kejadian' => 'Tempat Kejadian',

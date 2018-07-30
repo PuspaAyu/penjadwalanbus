@@ -3,6 +3,8 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\date\DatePicker;
+use kartik\widgets\Select2;
+use frontend\models\Bus;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Komplain */
@@ -13,13 +15,19 @@ use kartik\date\DatePicker;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'id_jadwal')->textInput() ?>
+    <?= $form->field($model, 'id_jadwal')->widget(Select2::className(),[
+                'data' => \yii\helpers\ArrayHelper::map(Bus::find()->all(),'id_bus','no_polisi'),
+                'options' => ['placeholder' => 'Pilih No Polisi'],
+                'pluginOptions' => [
+                    'allowClear' => true
+                ],
+            ]) ?>
 
     <?= $form->field($model, 'isi_komplain')->textInput(['maxlength' => true]) ?>
 
     <!-- <?= $form->field($model, 'tgl_komplain')->textInput() ?> -->
 
-    <?php echo '<label class="control-label">Tanggal Izin</label>';
+    <?php echo '<label class="control-label">Tanggal Komplain</label>';
 			echo DatePicker::widget([
 				'model' => $model,
 				'attribute' => 'tgl_komplain',

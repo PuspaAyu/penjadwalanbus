@@ -2,23 +2,18 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use yii\models\Jadwalbus;
-use yii\models\Bus;
-use yii\helpers\Url;
-use frontend\models\Pegawai;
-use frontend\models\Jurusan;
 
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\FrontendSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Jadwalbus';
-
+$this->title = 'Setor';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
-<br>
-<div class="Jadwalbus-index">
+<div class="setor-index">
 
     <?= Html::a('<i class="fa fa-arrow-left fa-fw" style="font-size:25px;"></i> Home', ['site/index']); ?>
+
 
     <!-- DataTables CSS -->
 <head>
@@ -34,10 +29,10 @@ $this->title = 'Jadwalbus';
   <br>  
   
   <div class="row">
-    <div class="col-md-8 col-md-offset-2">
+    <div class="col-md-12">
         <div class="panel panel-info">
             <div class="panel-heading">
-                JADWAL BUS 
+                Data Setoran
             </div>
             <!-- /.panel-heading -->
             <div class="panel-body responsive">
@@ -46,30 +41,26 @@ $this->title = 'Jadwalbus';
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Tanggal</th>
-                            <th>Jam</th>
-                            <th>No Polisi</th>
-                            <th>Jurusan</th>
-                            <th>Sopir</th>
-                            <th>Kondektur</th>
+                            <th>Id jadwal</th>
+                            <th>Pergi Awal</th>
+                            <th>Pergi Akhir</th>
+                            <th>Pulang Awal</th>
+                            <th>Pulang Akhir</th>
                             
                         </tr>
                     </thead>
                     <tbody>
-                        <?php for($i=0; $i < count($tempviewjadwal) ; $i++) { ?>
-                        <?php $nmsopir = Pegawai::find()->where(['id_pegawai'=>$tempviewjadwal[$i]['id_sopir']])->one();?>
-                        <?php $nmkonde = Pegawai::find()->where(['id_pegawai'=>$tempviewjadwal[$i]['id_kondektur']])->one();?>
-                        <?php $jur = Jurusan::find()->where(['id_jurusan'=>$tempviewjadwal[$i]['id_jurusan']])->one(); ?>
+                        <?php $n=0; foreach ($query as $item): $n++;?>
                         <tr>
-                          <td><?= $i+1 ?></td>
-                          <td><?= $tempviewjadwal[$i]['tanggal'] ?></td>
-                          <td><?= $tempviewjadwal[$i]['jam'] ?></td>
-                          <td><?= $tempviewjadwal[$i]['id_bus'] ?></td>
-                          <td><?= $jur['jurusan'] ?></td>
-                          <td><?= $nmsopir['nama'] ?></td>
-                          <td><?= $nmkonde['nama'] ?></td>
+                            <td><?= $n; ?></td>
+                            <td><?= $item['no_polisi']; ?></td>
+                            <td><?= $item['pergi_awal']; ?></td>
+                            <td><?= $item['pergi_akhir']; ?></td>
+                            <td><?= $item['pulang_awal']; ?></td>
+                            <td><?= $item['pulang_akhir']; ?></td>
+                            
                         </tr>
-                      <?php } ?>
+                    <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>

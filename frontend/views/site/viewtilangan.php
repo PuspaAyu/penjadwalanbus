@@ -12,17 +12,11 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="tilangan-index">
 
-    <h4><?= Html::encode($this->title) ?></h4>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <p>
-        <?= Html::a('Create Tilangan', ['create'], ['class' => 'btn btn-success btn-sm']) ?>
-    </p>
-    
+   <br>
     
     <div class="row">
-                <div class="col-lg-12">
-                    <div class="panel panel-default">
+                <div class="col-md-8 col-md-offset-2">
+                    <div class="panel panel-info">
                         <div class="panel-heading">
                             DATA TILANGAN
                         </div>
@@ -41,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                         <th>Tanggal Sekarang</th>
                                         <th>Selisih</th>
                                         <th>Status</th>
-                                        <th>Aksi</th>
+                                        
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -56,11 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                         <td><?= $item['tgl_sekarang']; ?></td>
                                         <td><?= $item['selisih']; ?></td>
                                         <td><?= ($item['status'] == 1) ? "Belum" : "Sudah"; ?></td>
-                                        <td>
-                                            <?= Html::a('<i class="fa fa-eye"></i>', ['view', 'id'=>$item['id_tilangan']]) ?>
-                                            <?= Html::a('<i class="fa fa-pencil"></i>', ['update', 'id'=>$item['id_tilangan']]) ?>
-                                            <?= Html::a('<i class="fa fa-trash-o"></i>', ['delete', 'id'=>$item['id_tilangan']], ['data-method' => 'post']) ?>
-                                        </td>
+                                        
                                     </tr>
                                 <?php endforeach; ?>
                                 </tbody>

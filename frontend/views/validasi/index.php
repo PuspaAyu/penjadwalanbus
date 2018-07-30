@@ -1,24 +1,19 @@
+
 <?php
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use yii\models\Jadwalbus;
-use yii\models\Bus;
-use yii\helpers\Url;
-use frontend\models\Pegawai;
-use frontend\models\Jurusan;
-use kartik\widgets\Select2;
-use frontend\models\Karcis;
-use yii\widgets\ActiveForm;
+use frontend\model\Jadwalbus;
+use frontend\model\Bus;
+use frontend\model\Jurusan;
 
 /* @var $this yii\web\View */
-/* @var $searchModel frontend\models\FrontendSearch */
+/* @var $searchModel frontend\models\BusSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Setor';
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Bus';
+//$this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="setor-index">
 
     <!-- DataTables CSS -->
 <head>
@@ -29,58 +24,41 @@ $this->params['breadcrumbs'][] = $this->title;
 </head>
 
 <script src="http://localhost/puspa/penjadwalanbus/vendor/datatables/js/jquery.js"></script>
-<div class="bus-index">
-<!-- 
-    <h4><?= Html::encode($this->title) ?></h4> -->
+<div class="valiasi-index">
+
+    <!-- <h4><?= Html::encode($this->title) ?></h4> -->
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-<!--     <p>
-        <?= Html::a('Create Setoran', ['create'], ['class' => 'btn btn-success btn-sm']) ?>
-    </p>
-     -->
-
 
      <div class="row">
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Data Setoran
+                            DATA VALIDASI
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body responsive">
                         <div class="table-responsive">
-                            <table width="100%" class="table table-striped table-bordered table-hover table-responsive" id="tabel_setor">
+                            <table width="100%" class="table table-striped table-bordered table-hover" id="tabel_bus">
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Id jadwal</th>
-                                        <th>Pendapatan Kotor</th>
-                                        <th>Bersih Perjalanan</th>
-                                        <th>Total Bersih</th>
-                                        <th>Premi Sopir</th>
-                                        <th>Premi Kondektur</th>
+                                        <th>Nama</th>
+                                        <th>Jabatan</th>
+                                        <th>Jumlah Jadwal</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                   <?php $n=0; foreach ($tempviewjadwal as $tempviewjadwal): $n++;?>  
-                           
-                            
-                            <?php $seri = Karcis::find()->where(['id_stok'=>$tempviewjadwal['id_karcis']])->one(); ?>
-                                    
+                                    <?php $n=0; foreach ($countsopir as $item): $n++;?>
                                     <tr>
                                         <td><?= $n; ?></td>
-                                        <td><?= $tempviewjadwal['no_polisi']; ?></td>
-                                        <td><?= $tempviewjadwal['pendapatan_kotor']; ?></td>
-                                        <td><?= $tempviewjadwal['bersih_perjalanan']; ?></td>
-                                        <td><?= $tempviewjadwal['total_bersih']; ?></td>
-                                        <td><?= $tempviewjadwal['premi_sopir']; ?></td>
-                                        <td><?= $tempviewjadwal['premi_kondektur']; ?></td>
+                                        <td><?= $item['nama']; ?></td>
+                                        <td><?= $item['jml_sopir']; ?></td>
+                                        
                                         <td>
-                                           
-                                            <?= Html::a('Lihat',['view', 'id'=>$tempviewjadwal['id_setor']], ['class' => 'btn btn-success btn-xs']) ?>
-                                            <?= Html::a('Setoran',['update', 'id'=>$tempviewjadwal['id_setor'], 'tanggal'=>$tempviewjadwal['tanggal'], 'bus'=>$tempviewjadwal['id_bus']], ['class' => 'btn btn-warning btn-xs']) ?>
-                                            
+                                            <?= Html::a('<i class="fa fa-eye"></i>', ['view', 'id'=>$item['id_pegawai']]) ?>
+                                            <?= Html::a('<i class="fa fa-pencil"></i>', ['update', 'id'=>$item['id_pegawai']]) ?>
+                                            <?= Html::a('<i class="fa fa-trash-o"></i>', ['delete', 'id'=>$item['id_pegawai']], ['data-method' => 'post']) ?>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
@@ -115,7 +93,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <script>
 //$.noConflict();
 jQuery( document ).ready(function( $ ) {
-    $('#tabel_setor').DataTable();
+    $('#tabel_bus').DataTable();
 });
 // Code that uses other library's $ can follow here.
 </script>

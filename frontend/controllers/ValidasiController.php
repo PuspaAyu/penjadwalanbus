@@ -1,19 +1,21 @@
 <?php
 
 namespace frontend\controllers;
-
 use Yii;
-use frontend\models\Bus;
-use frontend\models\history;
-use frontend\models\BusSearch;
 use yii\web\Controller;
-use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use frontend\models\Bus;
+use yii\helpers\Html;
+use yii\widgets\ActiveForm;
+use kartik\widgets\DatePicker;
+use frontend\models\Jadwalbus;
+use frontend\models\Pegawai;
+use yii\helpers\Url;
 
 /**
  * BusController implements the CRUD actions for Bus model.
  */
-class BusController extends Controller
+class ValidasiController extends Controller
 {
     /**
      * @inheritdoc
@@ -36,27 +38,31 @@ class BusController extends Controller
      */
     public function actionIndex()
     {
-        // $this->layout = 'layout_admin';
-        // $searchModel = new BusSearch();
-        // $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        // return $this->render('index', [
-        //     'searchModel' => $searchModel,
-        //     'dataProvider' => $dataProvider,
-        // ]);
         $this->layout = 'layout_admin';
-          $model = Bus::find()->all();
+            $model = Jadwalbus::find()->all();
 
-          $query = (new \yii\db\Query())
-             ->select(['bus.id_bus', 'bus.jam_operasional', 'bus.no_polisi','bus.status', 'jurusan.jurusan', 'karcis.seri'])
-             ->from('bus')
-             ->join('LEFT JOIN', 'jurusan', 'jurusan.id_jurusan=bus.id_jurusan')
-             ->join('LEFT JOIN', 'karcis', 'karcis.id_stok=bus.id_karcis')
-             ->groupBy('id_bus')
-             ->all();
+            // $query = (new \yii\db\Query())
+            //     ->select(['*'])
+            //     ->from('pegawai')
+            //     ->all();
+
+            $countsopir = (new \yii\db\Query())
+                ->select(['jadwal_bus.id_sopir',
+                        'pegawai.nama', 
+                         
+                        new \yii\db\Expression("count('id_sopir') as jml_sopir")
+    
+                       
+                    ])
+                ->from('jadwal_bus')
+                ->join('LEFT JOIN','pegawai', 'pegawai.id_pegawai = jadwal_bus.id_sopir')
+                ->groupBy('id_sopir')
+                ->all();
+            
 
           return $this->render('index',[
-            'query'=>$query,
+            'countsopir'=>$countsopir,
+            // 'query'=>$query,
             'model'=>$model,
           ]);
     }

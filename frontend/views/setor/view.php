@@ -12,6 +12,8 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="setor-view">
 
+    <?= Html::a('<i class="fa fa-arrow-left fa-fw" style="font-size:25px;"></i> Back', ['setor/createsetor?tanggal='.date("Y-m-d")]); ?>
+
     <h4><?= Html::encode($this->title) ?></h4>
 
     <p>

@@ -47,7 +47,7 @@ $this->title = 'Karcis';
         <?php $nmsopir = Pegawai::find()->where(['id_pegawai'=>$tempviewjadwal['id_sopir']])->one();?>
         <?php $nmkonde = Pegawai::find()->where(['id_pegawai'=>$tempviewjadwal['id_kondektur']])->one();?>
         <?php $jur = Jurusan::find()->where(['id_jurusan'=>$tempviewjadwal['id_jurusan']])->one(); ?>
-        <?php $seri = Karcis::find()->where(['id_stok'=>$tempviewjadwal['id_karcis']])->one(); ?>
+        <?php $seri = Karcis::find()->where(['id_stok'=>$tempviewjadwal['id_stok']])->one(); ?>
 
         <tr>
           <?php $form = ActiveForm::begin(); ?>

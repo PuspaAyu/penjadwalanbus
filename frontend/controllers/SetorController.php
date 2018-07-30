@@ -68,6 +68,32 @@ class SetorController extends Controller
         ]);
     }
 
+     public function actionViewRekapuang(){
+        $this->layout = 'layout_admin2';
+        $model = Setor::find()->all();
+        $query = (new yii\db\Query())
+                ->select(['setor.id_setor',
+                        'setor.id_jadwal',
+                        'setor.id_karcis',
+                        'setor.pendapatan_kotor',
+                        'setor.bersih_perjalanan',
+                        'setor.total_bersih',
+                        'setor.premi_sopir',
+                        'setor.premi_kondektur',
+                        'bus.no_polisi',
+                       ])
+                ->from('setor')
+                ->join('LEFT JOIN', 'jadwal_bus', 'jadwal_bus.id_jadwal = setor.id_jadwal')
+                ->join('RIGHT JOIN', 'bus', 'jadwal_bus.id_bus = bus.id_bus')
+                ->orderBy('id_setor', 'asc')
+                ->all();
+
+            return $this->render('viewrekapuang',[
+            'query'=>$query,
+            'model'=>$model,
+        ]);
+    }
+
     /**
      * Displays a single Setor model.
      * @param integer $id

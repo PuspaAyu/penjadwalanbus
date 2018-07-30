@@ -17,7 +17,9 @@ use yii\helpers\Url;
 $this->title = 'Jadwal Bus';
 // $this->params['breadcrumbs'][] = $this->title;
 
-  // print_r($message);
+  // print_r($countS);
+  // print_r($countK);
+  // echo "<br>";
   // echo "<br>";
 
   // foreach ($data as $item) {
@@ -52,8 +54,8 @@ $this->title = 'Jadwal Bus';
   //   }
   //   echo "<br>";
   // }
-
   // die();
+
 
 ?>
 
@@ -143,7 +145,7 @@ $this->title = 'Jadwal Bus';
                     <td><?= date("d-F-Y", strtotime($jadwal['tanggal'])); ?></td>
                     <td>
                       <?= Html::a('Lihat',['show', 'tanggal'=>$jadwal['tanggal']], ['class' => 'btn btn-primary btn-sm']) ?>
-                      <?= Html::a('Salin jadwal',['salinjadwal', 'id'=>$jadwal['tanggal']], ['class' => 'btn btn-warning btn-sm']) ?>
+                      <!-- <?= Html::a('Salin jadwal',['salinjadwal', 'id'=>$jadwal['tanggal']], ['class' => 'btn btn-warning btn-sm']) ?> -->
                       <?= Html::a('Hapus',['hapusjadwal', 'id'=>$jadwal['tanggal']], ['class' => 'btn btn-danger btn-sm']) ?>
                     </td>
                   </tr>

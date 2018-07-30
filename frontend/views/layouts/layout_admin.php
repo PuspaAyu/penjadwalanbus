@@ -79,6 +79,7 @@ TemplateAsset::register($this);
                         <li><?= Html::a('<i class="fa fa-user fa-fw"></i> Jabatan', ['jabatan/index']); ?></li>
                         <li><?= Html::a('<i class="fa fa-exclamation-triangle fa-fw"></i> Izin', ['izin/index']); ?></li>
                         <li><?= Html::a('<i class="fa fa-comment fa-fw"></i> Komplain', ['komplain/index']); ?></li>
+                        <li><?= Html::a('<i class="fa fa-comment fa-fw"></i> Validasi', ['validasi/index']); ?></li>
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->

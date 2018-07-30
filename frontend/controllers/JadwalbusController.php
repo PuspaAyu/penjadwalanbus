@@ -2,6 +2,8 @@
 namespace frontend\controllers;
 use Yii;
 use frontend\models\Jadwalbus;
+use frontend\models\history;
+use frontend\models\jurusan;
 use frontend\models\JadwalbusSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -25,8 +27,7 @@ class JadwalbusController extends Controller
     /**
      * @inheritdoc
      */
-    public function behaviors()
-    {
+    public function behaviors(){
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -54,8 +55,7 @@ class JadwalbusController extends Controller
         'model'=>$model
       ]);
     }
-    public function actionShow($tanggal)
-    {
+    public function actionShow($tanggal){
         $this->layout = 'layout_admin';
         //join->dimana tanggal di tabel jadwal bus apakah ada id pegawai di tabel pegawai
         $querysopir = new Query;
@@ -65,11 +65,14 @@ class JadwalbusController extends Controller
                   ->where(['pegawai.id_jabatan' => '1', 'jadwal_bus.tanggal' => $tanggal]);
         $commandsopir = $querysopir->createCommand();
         $datasopir = $commandsopir->queryAll();
+
         //menampung data sopir untuk dilooping dan memasukkan ke dalah wadah
         $tempsopir = array();
         for ($i=0; $i < count($datasopir); $i++) { 
           array_push($tempsopir, $datasopir[$i]['id_pegawai']);
         }
+
+        //join->dimana tanggal di tabel jadwal bus apakah ada id kondektur di tabel pegawai
         $querykondektur = new Query;
         $querykondektur->select(['pegawai.id_pegawai'])
                   ->from('pegawai')
@@ -77,10 +80,13 @@ class JadwalbusController extends Controller
                   ->where(['pegawai.id_jabatan' => '2', 'jadwal_bus.tanggal' => $tanggal]);
         $commandkondektur = $querykondektur->createCommand();
         $datakondektur = $commandkondektur->queryAll();
+
+        //menampung data kondektur untuk dilooping dan memasukkan ke dalah wadah
         $tempkondektur = array();
         for ($i=0; $i < count($datakondektur); $i++) { 
           array_push($tempkondektur, $datakondektur[$i]['id_pegawai']);
         }
+        
         //Query sopir izin
         $querysopirizin = new Query;
         $querysopirizin->select(['pegawai.id_pegawai'])
@@ -107,14 +113,14 @@ class JadwalbusController extends Controller
         
         } else {
            $dtsupir = Pegawai::find()->where(['id_jabatan'=>'1'])
-          ->where("id_pegawai NOT IN (".implode(',', $tempsopirizin).")")
+          ->where("id_pegawai NOT IN (".implode(',', $tempsopirizin).")") //implode untuk memecah array id pegawai yang izin
           ->all();
         }
         
        
         if (count($datakondektur) > 0){
            $dtkond = Pegawai::find()->where(['id_jabatan'=>'2'])
-          ->andWhere("id_pegawai NOT IN (".implode(',', $tempkondektur).")")
+          ->andWhere("id_pegawai NOT IN (".implode(',', $tempkondektur).")")//implode untuk memecah arrat id kondektur
           ->all();
         
         } else {
@@ -126,6 +132,10 @@ class JadwalbusController extends Controller
         $supir = ArrayHelper::map($dtsupir, 'id_pegawai', 'nama');
         $kondektur = ArrayHelper::map($dtkond, 'id_pegawai', 'nama');
         $query = new Query;
+
+        $history = history::find()->all();
+
+        //query saat lihat jadwal
         $query->select(['jadwal_bus.id_jadwal', 'jadwal_bus.id_sopir','jadwal_bus.id_kondektur','bus.jam_operasional', 'bus.no_polisi', 'sopir.nama as sopir', 'kondektur.nama as kondektur', 'jurusan.jurusan', 'bus.status'])
               ->from('jadwal_bus')
               ->where(['jadwal_bus.tanggal' => $tanggal])
@@ -133,9 +143,28 @@ class JadwalbusController extends Controller
               ->join('LEFT JOIN', 'pegawai kondektur', 'kondektur.id_pegawai = jadwal_bus.id_kondektur')
               ->join('LEFT JOIN', 'bus', 'bus.id_bus = jadwal_bus.id_bus')
               ->join('LEFT JOIN', 'jurusan', 'jurusan.id_jurusan = bus.id_jurusan')
+              // ->join('LEFT JOIN', 'history', 'history.id_bus = jadwal_bus.id_bus')  
               ->orderBy('bus.id_bus');
+
         $command = $query->createCommand(); 
         $data = $command->queryAll();
+
+        $index = 0;
+        foreach ($data as $key => $value) {
+          if ($value['jam_operasional'] == NULL){
+            $history = history::find()->where(['id' => ($key+1)])->one();//untuk menampilkan bus yang telah dihapus pada jadwal lama
+            $jurusan = jurusan::find()->where(['id_jurusan' => $history['id_jurusan']])->one();
+            $data[$key]['jam_operasional'] = $history['jam_operasional'];
+            $data[$key]['no_polisi'] = $history['no_polisi'];
+            $data[$key]['jurusan'] = $jurusan['jurusan'];
+            $data[$key]['status'] = $history['status'];
+          } 
+
+          $index++;
+        }
+
+        $result = asort($data);
+
         return $this->render('show', [
             'jadwal' => $data,  
             'supir'=>$supir,
@@ -146,17 +175,14 @@ class JadwalbusController extends Controller
             // 'datakondektur'=>$datakondektur,
             // 'model' => $this->findModel($id)
         ]);
-    }
-  
-    public function actionSupir($id)
-    {
+    }  
+    public function actionSupir($id){
       $supir = Pegawai::find()->where('id_pegawai != '.$id)->andWhere(['id_jabatan'=>'1'])->all();
       foreach ($supir as $key) {
           echo "<option value='".$key->id_pegawai."'>".$key->nama."</option>";
       }
     }
-    public function actionCreate()
-    {
+    public function actionCreate(){
         $this->layout = 'layout_admin';
         $request = Yii::$app->request->post();
         $message = "";
@@ -169,6 +195,8 @@ class JadwalbusController extends Controller
           $GLOBALS['bus_malam'] = $this->getBusByStatus(2);
           $GLOBALS['izin'] = Izin::find()->orderBy('tgl_izin')->all();
           $GLOBALS['shift'] = null;
+          $GLOBALS['total_sopir'] = $this->checkCountSopir();
+          $GLOBALS['total_kondektur'] = null;
           $GLOBALS['log'] = array();
 
           // mengambil semua tanggal dari periode tanggal mulai sampai tanggal berakhir
@@ -176,6 +204,7 @@ class JadwalbusController extends Controller
           $i = 0;          
           // $ran_num_s = [];
           // $ran_num_k = [];
+
           foreach ($rangeDate as $date) {
             //$classes = $GLOBALS['sopir'];
             //$logs = $GLOBALS['log'];
@@ -237,9 +266,10 @@ class JadwalbusController extends Controller
             // $this->setSopirBus('pagi', $date); // Set Sopir Bus Pagi
             // $this->setSopirBus('malam', $date); // Set Sopir Bus Malam
             // var_dump($GLOBALS['log']);
+            // $GLOBALS['total_sopir'] = $this->checkCountKondektur();
 
             $before = new DateTime($date); 
-            $before->modify( '-1 day');
+            $before->modify('-1 day');
             $beforeDate = $before->format('Y-m-d');
             if ($this->checkDateJadwalBus($date) == null){
 
@@ -252,14 +282,37 @@ class JadwalbusController extends Controller
                   }
                 }  
               } else {
-                
+            
               }
-  
               
               if($this->checkDateJadwalBus($beforeDate) != null){
-                
+
+              //   $arrLibur = $this->checkLiburSopir();
+
+              //   // $GLOBALS['sopir'] = $newSopir;
+
                 $sopir = $this->getLastShiftPegawai('sopir', $beforeDate);
                 $kondektur = $this->getLastShiftPegawai('kondektur', $beforeDate);
+              //   // var_dump($sopir);
+              //   // echo "<br><br>";
+              //   var_dump($GLOBALS['sopir']);die();
+
+              //   foreach ($arrLibur as $item) {
+              //     foreach (array_keys(array_column($sopir, 'id_pegawai'), $item) as $key) {
+              //       $obj = array_pop($GLOBALS['sopir']);
+              //       $data = [
+              //         'date' => $date,
+              //         'id_pegawai' => $obj['id_pegawai'],
+              //         'shift' => 'pagi'
+              //       ];
+              //       array_push($sopir, $data);
+              //       unset($sopir[$key]);
+              //     }
+              //   }
+
+              //   echo "<br><br>";
+              //   // var_dump($sopir);die();
+              //   // NEXT TO DO
 
                 $GLOBALS['shift']['sopir'] = $sopir;
                 $GLOBALS['shift']['kondektur'] = $kondektur;
@@ -267,7 +320,6 @@ class JadwalbusController extends Controller
                 $shiftKondektur = $this->setShiftKondekturNext($date);
                 $GLOBALS['shift']['sopir'] = $shiftSopir; 
                 $GLOBALS['shift']['kondektur'] = $shiftKondektur;
-               
               } 
               else if($this->checkRecord() == null){
 
@@ -282,7 +334,6 @@ class JadwalbusController extends Controller
                   $GLOBALS['shift']['sopir'] = $shiftSopir; 
                   $GLOBALS['shift']['kondektur'] = $shiftKondektur;
                 }
-                
               }
               else{
                 $shiftSopir = $this->setShiftSopirNext($date);
@@ -325,6 +376,8 @@ class JadwalbusController extends Controller
           return $this->render('index', [
             'data' => $GLOBALS['log'],
             'query' =>  $query,
+            'countK' => $this->checkCountKondektur(),
+            'countS' => $this->checkCountSopir()
           ]);
         }
         else {
@@ -334,8 +387,7 @@ class JadwalbusController extends Controller
             ]);
         }
     }
-    public function actionSave($id)
-    {
+    public function actionSave($id){
       $this->layout = 'layout_admin';
       $model = Jadwalbus::find()->where(['id_jadwal' => $id])->one();
       $request = Yii::$app->request->post();
@@ -400,9 +452,7 @@ class JadwalbusController extends Controller
       }
       return $range;
     }
-
-    private function setShiftSopir($date)
-    {
+    private function setShiftSopir($date){
         $randSopir = Pegawai::find()->where(['id_jabatan' => 1])->orderBy(new Expression('rand()'))->all(); // Random sopir
         $randSopirCount = count($randSopir); // Total sopi
 
@@ -441,8 +491,7 @@ class JadwalbusController extends Controller
           $iterasi++;
         }
     }
-    private function setShiftKondektur($date)
-    {
+    private function setShiftKondektur($date){
         $randKondektur = Pegawai::find()->where(['id_jabatan' => 2])->orderBy(new Expression('rand()'))->all(); // Random Kondektur
         $randKondekturCount = count($randKondektur); // Total Kondektur
         $iterasi = 1;
@@ -472,16 +521,14 @@ class JadwalbusController extends Controller
           $iterasi++;
         }
     }
-    private function savePegawaiShift($id_pegawai, $date, $shift)
-    {
+    private function savePegawaiShift($id_pegawai, $date, $shift){
         $pegawai = new PegawaiShift();
         $pegawai->id_pegawai  = $id_pegawai;
         $pegawai->tanggal = $date;
         $pegawai->shift  = $shift;
         $pegawai->save();
     }
-    private function setSopirBus($shift, $date)
-    {
+    private function setSopirBus($shift, $date){
        $status = ($shift == 'pagi') ? 1 : 2 ;
         $bus = Bus::find()->where(['status' => $status])->all();
         $sopir = PegawaiShift::findPegawaiByShift(1, $shift, $date);
@@ -550,8 +597,7 @@ class JadwalbusController extends Controller
           $i++;
         }
     }
-    private function setKondekturBus($shift, $date, $id)
-    {
+    private function setKondekturBus($shift, $date, $id){
         $kondektur = PegawaiShift::findPegawaiByShift(2, $shift, $date); // Get sopir shift pagi
         foreach ($kondektur as $key) {
         
@@ -565,14 +611,12 @@ class JadwalbusController extends Controller
 
     /* START GENERATE WITH ARRAY */
 
-    private function checkRecord()
-    {
+    private function checkRecord(){
         $record = JadwalBus::find()->all();
         return $record;
     }
 
-    private function checkDateJadwalBus($date)
-    {
+    private function checkDateJadwalBus($date){
         $tanggal = JadwalBus::find()->select('tanggal')->where(['tanggal' => $date])->one();
         if ($tanggal['tanggal'] == null) {
           return $tanggal;
@@ -581,8 +625,7 @@ class JadwalbusController extends Controller
         return $tanggal;
     }
 
-    private function checkLastDate()
-    {
+    private function checkLastDate(){
         $tanggal = JadwalBus::find()->orderBy(['id_jadwal'=>SORT_DESC])->one();
         if ($tanggal['tanggal'] == null) {
           return $tanggal;
@@ -591,8 +634,47 @@ class JadwalbusController extends Controller
         return $tanggal;
     }
 
-    private function getLastShiftPegawai($pegawai, $date=null)
-    {
+    private function checkCountSopir(){
+        $query = new Query;
+        //query jumlah sopir berdasarkan id nya
+        $query->select(['count(*) as total', 'id_sopir'])  
+              ->from('jadwal_bus')
+              ->groupBy('id_sopir');
+        $command = $query->createCommand();
+        $result = $command->queryAll();
+        $array = array();
+        foreach ($result as $key => $value) {
+          $data = [
+            'total' => $value['total'] % 10,
+            'id_sopir' => $value['id_sopir'],
+          ];
+          array_push($array, $data);
+        }
+        return $array;
+    }
+
+    private function checkCountKondektur(){
+        $query = new Query;
+        $query->select(['count(*) as total', 'id_kondektur'])  
+              ->from('jadwal_bus')
+              ->groupBy('id_kondektur');
+
+        $command = $query->createCommand();
+        $result = $command->queryAll();
+
+        $array = array();
+        foreach ($result as $key => $value) {
+          $data = [
+            'total' => $value['total'] % 10,
+            'id_kondektur' => $value['id_kondektur'],
+          ];
+          array_push($array, $data);
+        }
+
+        return $array;
+    }
+
+    private function getLastShiftPegawai($pegawai, $date=null){
         if ($date == null) {
           $tanggal = $this->checkLastDate();
           $date = $tanggal['tanggal'];
@@ -624,8 +706,7 @@ class JadwalbusController extends Controller
         return $array;
     }
 
-    private function getRandomSopir()
-    {
+    private function getRandomSopir(){
         $sopir = Pegawai::getRandomSopir();
         $array = array();
         foreach ($sopir as $key) {
@@ -639,8 +720,7 @@ class JadwalbusController extends Controller
         return $array;
     }
 
-    private function getRandomKondektur()
-    {
+    private function getRandomKondektur(){
         $kondektur = Pegawai::getRandomKondektur();
         $array = array();
 
@@ -655,10 +735,9 @@ class JadwalbusController extends Controller
         return $array;
     }
 
-    private function getBusBystatus($status)
-    {
-        $bus = Bus::getByStatus($status);
-        $array = array();
+    private function getBusBystatus($status){
+        $bus = Bus::getByStatus($status);//ambil bus berdasarkan status pagi atau malam
+        $array = array();//ditampung di array dulu
 
         foreach ($bus as $key) {
           $data = [
@@ -671,8 +750,7 @@ class JadwalbusController extends Controller
         return $array;
     }
 
-    private function setShiftSopirAwal($date)
-    {
+    private function setShiftSopirAwal($date){
         $sopir = $GLOBALS['sopir'];
         $countSopir = count($sopir);
         $array = array();
@@ -711,8 +789,7 @@ class JadwalbusController extends Controller
         return $array;
     }
 
-    private function setShiftkondekturAwal($date)
-    {
+    private function setShiftkondekturAwal($date){
         $kondektur = $GLOBALS['kondektur'];
         $countKondektur = count($kondektur);
         $array = array();
@@ -751,8 +828,7 @@ class JadwalbusController extends Controller
         return $array;
     }
 
-    private function setShiftSopirNext($date)
-    {
+    private function setShiftSopirNext($date){
         $sopir = $GLOBALS['sopir'];
         $shift = $GLOBALS['shift']['sopir'];
         $countShift = count($shift); 
@@ -767,12 +843,15 @@ class JadwalbusController extends Controller
           $arr2 = array_column($shift, 'id_pegawai'); // mangambil column id_pegawai pada array shift
           $res  = array_diff($arr, $arr2); // mencari perbedaan dari dua column(id_pegawai)
 
+          // var_dump($sopir);
+          // die();
+
           $i=0;
           foreach ($shift as $key) {
             $check = in_array($idSopir, $key);
             if($check){ // Check apakah sopir sudah dalam array shift
               // mengecek apakah pegawai memliki izin pada tanggal tsb
-              if(!$this->checkIzin($idSopir, $date)){ // pegawai tidak memiliki izin              
+              if( !$this->checkIzin($idSopir, $date) ){ // pegawai tidak memiliki izin              
                 if ($key['shift'] == 'pagi') { // cek apakah shift pegawai pagi ?
                   $data = [
                     'date' => $date,
@@ -795,6 +874,7 @@ class JadwalbusController extends Controller
               }
             }
             
+
             // looping dari total diff column id_pegawai
             // foreach($res as $item) {
 
@@ -850,8 +930,7 @@ class JadwalbusController extends Controller
         return $array;
     }
 
-    private function setShiftKondekturNext($date)
-    {
+    private function setShiftKondekturNext($date){
         $kondektur = $GLOBALS['kondektur'];
         $shift = $GLOBALS['shift']['kondektur'];
         $countShift = count($shift); 
@@ -948,8 +1027,7 @@ class JadwalbusController extends Controller
         return $array;
     }
 
-    private function getShiftSopirById($id, $date)
-    {
+    private function getShiftSopirById($id, $date){
         $shift = $GLOBALS['shift'];
         $array = array();
         
@@ -969,8 +1047,7 @@ class JadwalbusController extends Controller
         return $array;
     }
 
-    private function checkIzin($idPegawai, $date)
-    {
+    private function checkIzin($idPegawai, $date){
         $izin = $GLOBALS['izin'];
 
         foreach ($izin as $key) {
@@ -980,8 +1057,7 @@ class JadwalbusController extends Controller
         }
     }
 
-    private function setSopirBusPagi($shifts, $date)
-    {
+    private function setSopirBusPagi($shifts, $date){
         $busPagi = $GLOBALS['bus_pagi'];
         $shift = $this->getShift('sopir', 'pagi', $date);
         $shiftMalam = $this->getShift('sopir', 'malam', $date);
@@ -1022,8 +1098,7 @@ class JadwalbusController extends Controller
         return $array;
     }
 
-    private function setSopirBusMalam($shifts, $date)
-    {
+    private function setSopirBusMalam($shifts, $date){
         $busMalam = $GLOBALS['bus_malam'];
         $shift = $this->getShift('sopir', 'malam', $date);
         $shiftPagi = $this->getShift('sopir', 'pagi', $date);
@@ -1064,8 +1139,7 @@ class JadwalbusController extends Controller
         return $array;
     }
 
-    private function setKondekturBusPagi($shifts, $dataSopirBus, $date)
-    {
+    private function setKondekturBusPagi($shifts, $dataSopirBus, $date){
         $busPagi = $GLOBALS['bus_pagi'];
         $shift = $this->getShift('kondektur', 'pagi', $date);
         $shiftMalam = $this->getShift('kondektur', 'malam', $date);
@@ -1108,8 +1182,7 @@ class JadwalbusController extends Controller
         return $dataSopirBus;
     }
 
-    private function setKondekturBusMalam($shifts, $dataSopirBus, $date)
-    {
+    private function setKondekturBusMalam($shifts, $dataSopirBus, $date){
         $busMalam = $GLOBALS['bus_malam'];
         $shift = $this->getShift('kondektur', 'malam', $date);
         $shiftPagi = $this->getShift('kondektur', 'pagi', $date);
@@ -1153,8 +1226,7 @@ class JadwalbusController extends Controller
         return $dataSopirBus;
     }
 
-    private function getShift($pegawai,$shift,$date)
-    {
+    private function getShift($pegawai,$shift,$date){
         // if ($shift == null) {
           $shifts = $GLOBALS['shift'][$pegawai];
         // }
@@ -1181,8 +1253,7 @@ class JadwalbusController extends Controller
         return $arrShift;
     }
 
-    private function saveToDatabase($array)
-    { 
+    private function saveToDatabase($array){
 
       foreach ($array as $item) {
         foreach ($item['bus'] as $key => $value) {
@@ -1208,7 +1279,83 @@ class JadwalbusController extends Controller
           }
         }
       }
+    }
+  
+    private function checkLiburSopir()
+    {
+      $sopir = $GLOBALS['sopir'];
+      $countSopir = $GLOBALS['total_sopir'];
+      $array = array();
 
+      $arr  = array_column($sopir, 'id_pegawai'); // mangambil column id_pegawai pada array sopir
+      $arr2 = array_column($countSopir, 'id_sopir'); // mangambil column id_pegawai pada array shift
+      $res  = array_diff($arr, $arr2);
+      
+      $arrLibur = array();
+      foreach ($sopir as $key => $value) {
+        foreach ($countSopir as $key2 => $value2) {
+          if ($value['id_pegawai'] == $value2['id_sopir']) {
+            if ($value2['total'] == 0) {
+              // array_pop($countSopir);
+              array_push($arrLibur, $value2['id_sopir']);
+              break;
+            }
+            else{
+              break;
+            }
+          }
+        }
+      }
+
+      $sisa  = array_diff($arr2, $arrLibur);
+
+      for ($i=0; $i < count($arrLibur); $i++) { 
+        foreach ($res as $key => $value) {
+          $temp[] = array_shift($res);
+          break;
+        }
+        $result = array_push($sisa, $temp[$i]);
+      }
+
+      foreach ($sisa as $item) {
+        foreach ($sopir as $key => $value) {
+          if ( $value['id_pegawai'] == $item ) {
+            $data = [
+              'id_pegawai' => $item
+            ];
+            array_push($array, $data);
+            break;
+          }
+        }
+      }
+
+      // $arr3 = array_column($array, 'id_pegawai');
+      // $diff  = array_diff($arr3, $sisa);
+      // echo "<br>";
+      
+      $index = 0;
+      foreach ($countSopir as $key => $value) {
+        if (in_array($value['id_sopir'], $arrLibur)) {
+          foreach ($temp as $val) {
+            $countSopir[$index]['id_sopir'] = $val;
+            array_shift($temp);
+            break;
+          }
+        }
+        $index++;
+      }
+
+      foreach ($res as $key => $value) {
+        $data = [
+          'id_pegawai' => $value
+        ];
+        array_push($array, $data);
+      }
+
+      $GLOBALS['total_sopir'] = $countSopir;
+      $GLOBALS['sopir'] = $array; 
+
+      return $arrLibur;
     }
 
     /* END GENERATE WITH ARRAY */

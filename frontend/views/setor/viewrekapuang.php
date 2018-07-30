@@ -2,14 +2,6 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use yii\models\Jadwalbus;
-use yii\models\Bus;
-use yii\helpers\Url;
-use frontend\models\Pegawai;
-use frontend\models\Jurusan;
-use kartik\widgets\Select2;
-use frontend\models\Karcis;
-use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\FrontendSearch */
@@ -20,6 +12,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="setor-index">
 
+
     <!-- DataTables CSS -->
 <head>
     <link href="http://localhost/puspa/penjadwalanbus/vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">
@@ -29,20 +22,15 @@ $this->params['breadcrumbs'][] = $this->title;
 </head>
 
 <script src="http://localhost/puspa/penjadwalanbus/vendor/datatables/js/jquery.js"></script>
-<div class="bus-index">
-<!-- 
-    <h4><?= Html::encode($this->title) ?></h4> -->
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-<!--     <p>
-        <?= Html::a('Create Setoran', ['create'], ['class' => 'btn btn-success btn-sm']) ?>
-    </p>
-     -->
+<div class="rekapuang-index">
 
 
+    <?= Html::a('<i class="fa fa-arrow-left fa-fw" style="font-size:25px;"></i> Home', ['site/index']); ?>
+    <br>
+    <br>
      <div class="row">
                 <div class="col-lg-12">
-                    <div class="panel panel-default">
+                    <div class="panel panel-info">
                         <div class="panel-heading">
                             Data Setoran
                         </div>
@@ -59,29 +47,20 @@ $this->params['breadcrumbs'][] = $this->title;
                                         <th>Total Bersih</th>
                                         <th>Premi Sopir</th>
                                         <th>Premi Kondektur</th>
-                                        <th>Aksi</th>
+                                     
                                     </tr>
                                 </thead>
                                 <tbody>
-                                   <?php $n=0; foreach ($tempviewjadwal as $tempviewjadwal): $n++;?>  
-                           
-                            
-                            <?php $seri = Karcis::find()->where(['id_stok'=>$tempviewjadwal['id_karcis']])->one(); ?>
-                                    
+                                    <?php $n=0; foreach ($query as $item): $n++;?>
                                     <tr>
                                         <td><?= $n; ?></td>
-                                        <td><?= $tempviewjadwal['no_polisi']; ?></td>
-                                        <td><?= $tempviewjadwal['pendapatan_kotor']; ?></td>
-                                        <td><?= $tempviewjadwal['bersih_perjalanan']; ?></td>
-                                        <td><?= $tempviewjadwal['total_bersih']; ?></td>
-                                        <td><?= $tempviewjadwal['premi_sopir']; ?></td>
-                                        <td><?= $tempviewjadwal['premi_kondektur']; ?></td>
-                                        <td>
-                                           
-                                            <?= Html::a('Lihat',['view', 'id'=>$tempviewjadwal['id_setor']], ['class' => 'btn btn-success btn-xs']) ?>
-                                            <?= Html::a('Setoran',['update', 'id'=>$tempviewjadwal['id_setor'], 'tanggal'=>$tempviewjadwal['tanggal'], 'bus'=>$tempviewjadwal['id_bus']], ['class' => 'btn btn-warning btn-xs']) ?>
-                                            
-                                        </td>
+                                        <td><?= $item['no_polisi']; ?></td>
+                                        <td><?= $item['pendapatan_kotor']; ?></td>
+                                        <td><?= $item['bersih_perjalanan']; ?></td>
+                                        <td><?= $item['total_bersih']; ?></td>
+                                        <td><?= $item['premi_sopir']; ?></td>
+                                        <td><?= $item['premi_kondektur']; ?></td>
+                                       
                                     </tr>
                                 <?php endforeach; ?>
                                 </tbody>

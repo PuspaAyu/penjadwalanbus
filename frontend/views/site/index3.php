@@ -20,12 +20,12 @@ $this->title = 'Penjadwalan EKA MIRA';
         <!-- <div class="row"> -->
         <div class="row" style="margin-top: 5%">
             
-            <div class="col-lg-3">
-                <center><?= Html::submitButton('Rekap Karcis', ['class' => 'btn btn-lg btn-success','value'=>2, 'name'=>'rekapkarcis']); ?></center>
+            <div class="col-md-4 col-md-offset-1">
+                <center><?= Html::a('Rekap Karcis', ['view-karcis'], ['class' => 'btn btn-lg btn-success','value'=>2, 'name'=>'rekapkarcis']); ?></center>
             </div>
             
-            <div class="col-lg-3">
-                <center><?= Html::submitButton('Tilangan', ['class' => 'btn btn-lg btn-success','value'=>3, 'name'=>'Tilangan']); ?></center>
+            <div class="col-md-4 col-md-offset-1">
+                <center><?= Html::a('Tilangan', ['tilangan/index'], ['class' => 'btn btn-lg btn-success','value'=>3, 'name'=>'Tilangan']); ?></center>
             </div>
         </div>
 

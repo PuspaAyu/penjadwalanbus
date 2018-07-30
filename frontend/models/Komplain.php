@@ -42,7 +42,7 @@ class Komplain extends \yii\db\ActiveRecord
     {
         return [
             'id_komplain' => 'Id Komplain',
-            'id_jadwal' => 'Masukkan nomer jadwal',
+            'id_jadwal' => 'Masukkan Nomer Polisi',
             'isi_komplain' => 'Isi Komplain',
             'tgl_komplain' => 'Tgl Komplain',
         ];

@@ -2,11 +2,11 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use kartik\time\TimePicker;
 use kartik\widgets\Select2;
 use frontend\models\Jurusan;
 use frontend\models\Bus;
 use frontend\models\Karcis;
+use kartik\widgets\TimePicker;
 
 
 /* @var $this yii\web\View */
@@ -23,13 +23,17 @@ use frontend\models\Karcis;
         <?= $form->field($model, 'no_polisi')->textInput(['maxlength' => true]) ?>
     </div>
 
+   
     <div class="col-xs-6 form-group has-feedback">
-    	<?= $form->field($model, 'jam_operasional')->widget(Select2::className(),[
+    	<?= $form->field($model, 'jam_operasional')->widget(TimePicker::className(),[
                 'data' => \yii\helpers\ArrayHelper::map(Bus::find()->all(),'jam_operasional','jam_operasional'),
                 'options' => ['placeholder' => 'Pilih Jam Berangkat'],
+                'name' => 't1',
                 'pluginOptions' => [
-                    'allowClear' => true
-                ],
+                    'showSeconds' => true,
+                    'showMeridian' => false,
+                    'minuteStep' => 1,
+                    'secondStep' => 5,],
             ]) ?>
     </div>
 

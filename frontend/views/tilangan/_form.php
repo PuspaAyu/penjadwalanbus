@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\widgets\Select2;
 use frontend\models\Tilangan;
+use frontend\models\Bus;
 use kartik\widgets\DatePicker;
 
 /* @var $this yii\web\View */
@@ -15,7 +16,17 @@ use kartik\widgets\DatePicker;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'id_jadwal')->textInput(['maxlength' => true]) ?>
+    
+     
+        <?= $form->field($model, 'id_jadwal')->widget(Select2::className(),[
+                'data' => \yii\helpers\ArrayHelper::map(Bus::find()->all(),'id_bus','no_polisi'),
+                'options' => ['placeholder' => 'Pilih No Polisi'],
+                'pluginOptions' => [
+                    'allowClear' => true
+                ],
+            ]) ?>
+
+   
     <?= $form->field($model, 'denda')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'jenis_pelanggaran')->textInput(['maxlength' => true]) ?>
@@ -24,7 +35,7 @@ use kartik\widgets\DatePicker;
 
     <!-- <?= $form->field($model, 'tanggal_batas_tilang')->textInput() ?> -->
 
-    <?php echo '<label class="control-label">Tanggal Izin</label>';
+    <?php echo '<label class="control-label">Tanggal Batas Tilang</label>';
             echo DatePicker::widget([
                 'model' => $model,
                 'attribute' => 'tanggal_batas_tilang',
@@ -38,15 +49,11 @@ use kartik\widgets\DatePicker;
             ]); 
     ?>
 
+    <?= $form->field($model, 'status')->dropDownList(['1'=> 'belum', '2'=> 'sudah']) ?>
+
  
     
-        <?= $form->field($model, 'status')->widget(Select2::className(),[
-                'data' => \yii\helpers\ArrayHelper::map(Tilangan::find()->all(),'id_tilangan','status'),
-                'options' => ['placeholder' => 'Pilih Status'],
-                'pluginOptions' => [
-                    'allowClear' => true
-                ],
-            ]) ?>
+     
 
 
 

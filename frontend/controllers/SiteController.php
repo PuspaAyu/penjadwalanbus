@@ -18,6 +18,11 @@ use frontend\models\Jurusan;
 use frontend\models\Pegawai;
 use frontend\models\Izin;
 use frontend\models\Komplain;
+use frontend\models\Karcis;
+use frontend\models\Setor;
+use frontend\models\Tilangan;
+use frontend\models\KarcisSetor;
+
 
 
 /**
@@ -280,21 +285,140 @@ class SiteController extends Controller
 
     public function actionViewJadwal(){
         // $jadwal = Jadwalbus::find()->where(['tanggal'=>'2018-06-09'])->all();
-        $jadwal = Jadwalbus::find()->where(['tanggal'=>date('Y-m-d')])->all();
+        $jadwal = Jadwalbus::find()->all();
 
         $tempviewjadwal = array();
         foreach ($jadwal as $key) {
             $bus = Bus::find()->where(['id_bus'=>$key->id_bus])->one();
+
+
+            $jurusan = Jurusan::find()->where(['id_jurusan'=>$bus->id_jurusan])->one();
+
+
             array_push($tempviewjadwal, [
                 'jam'=>$bus->jam_operasional,
                 'id_bus'=>$bus->no_polisi, 
-                'id_jurusan'=>$key->id_jurusan,
+                'id_jurusan'=>$jurusan->id_jurusan,
                 'id_sopir'=>$key->id_sopir, 
-                'id_kondektur'=>$key->id_kondektur
+                'id_kondektur'=>$key->id_kondektur,
+                'tanggal'=>$key->tanggal
             ]);
         }
+
+
         return $this->render('viewjadwal',
         ['tempviewjadwal'=>$tempviewjadwal,
         ]);
+
+        // $query = (new \yii\db\Query())
+        //         ->select(['jadwal_bus.id_jadwal',
+        //                  'jadwal_bus.tanggal',
+        //                  'jadwal_bus.id_bus',
+        //                  'jadwal_bus.id_sopir',
+        //                  'jadwal_bus.id_kondektur',
+        //              ])
+        //         ->from('jadwal_bus')
+        //         ->join('LEFT JOIN', 'bus', 'bus.id_bus = jadwal_bus.id_bus')
+        //         ->all();
+
+        // return $this->render('viewjadwal',[
+        //     'tempviewjadwal' => $query,
+        //     'model' => $jadwal,
+        // ]);
     }
+
+    public function actionViewBus(){
+        $model = Bus::find()->all();
+
+        $query = (new \yii\db\Query())
+             ->select(['bus.id_bus', 'bus.jam_operasional', 'bus.no_polisi','bus.status', 'jurusan.jurusan', 'karcis.seri'])
+             ->from('bus')
+             ->join('LEFT JOIN', 'jurusan', 'jurusan.id_jurusan=bus.id_jurusan')
+             ->join('LEFT JOIN', 'karcis', 'karcis.id_stok=bus.id_karcis')
+             ->groupBy('id_bus')
+             ->all();
+
+          return $this->render('viewbus',[
+            'query'=>$query,
+            'model'=>$model,
+          ]);
+    }
+
+    public function actionViewRekapuang(){
+        $model = Setor::find()->all();
+        $query = (new yii\db\Query())
+                ->select(['setor.id_setor',
+                        'setor.id_jadwal',
+                        'setor.id_karcis',
+                        'setor.pendapatan_kotor',
+                        'setor.bersih_perjalanan',
+                        'setor.total_bersih',
+                        'setor.premi_sopir',
+                        'setor.premi_kondektur',
+                        'bus.no_polisi',
+                       ])
+                ->from('setor')
+                ->join('LEFT JOIN', 'jadwal_bus', 'jadwal_bus.id_jadwal = setor.id_jadwal')
+                ->join('RIGHT JOIN', 'bus', 'jadwal_bus.id_bus = bus.id_bus')
+                ->orderBy('id_setor', 'asc')
+                ->all();
+
+            return $this->render('viewrekapuang',[
+            'query'=>$query,
+            'model'=>$model,
+        ]);
+    }
+
+    public function actionViewTilangan(){
+        $model = Tilangan::find()->all();
+          
+          $queryalert = (new \yii\db\Query())
+                    ->select(['tilangan.id_tilangan',
+                        'tilangan.id_jadwal', 
+                        'bus.no_polisi',
+                        'tilangan.tanggal_batas_tilang',
+                        'tilangan.denda', 
+                        'tilangan.jenis_pelanggaran',
+                        'tilangan.tempat_kejadian', 
+                        'tilangan.status',
+                        new \yii\db\Expression('CURDATE()as tgl_sekarang'), 
+                        new \yii\db\Expression('DATEDIFF(CURDATE(), tanggal_batas_tilang) as selisih') ])
+                    ->from('tilangan')
+                    ->join('LEFT JOIN', 'bus', 'bus.id_bus=tilangan.id_jadwal')
+                   
+                    // ->groupBy('tanggal')
+                    ->all();
+
+          return $this->render('viewtilangan',[
+            //'query'=>$query,
+            'model'=>$model,
+            'alert' => $queryalert
+          ]);
+    }
+
+    public function actionViewKarcis(){
+        $this->layout = 'layout_admin3';
+        $model = KarcisSetor::find()->all();
+        $query = (new yii\db\Query())
+                ->select(['karcis_setor.id_karcis',
+                        'karcis_setor.pergi_awal',
+                        'karcis_setor.pergi_akhir',
+                        'karcis_setor.pulang_awal',
+                        'karcis_setor.pulang_akhir',
+                        'bus.no_polisi',
+                        'karcis_setor.id_jadwal',
+                       ])
+                ->from('karcis_setor')
+                ->join('LEFT JOIN', 'jadwal_bus', 'jadwal_bus.id_jadwal = karcis_setor.id_jadwal')
+                ->join('RIGHT JOIN', 'bus', 'jadwal_bus.id_bus = bus.id_bus')
+                ->orderBy('id_karcis', 'asc')
+                ->all();
+             
+            return $this->render('viewkarcis',[
+            'query'=>$query,
+            'model'=>$model,
+        ]);
+    }
+
+   
 }
