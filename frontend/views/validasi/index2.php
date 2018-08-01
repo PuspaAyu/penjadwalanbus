@@ -49,7 +49,7 @@ $this->title = 'VALIDASI';
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php $n=0; foreach ($countsopir as $item): $n++;?>
+                                    <?php $n=0; foreach ($countkondektur as $item): $n++;?>
                                     <tr>
                                         <?php $bus = frontend\models\Bus::getShift($item['id_bus']); ?>
                                         <td><?= $n; ?></td>
@@ -64,10 +64,11 @@ $this->title = 'VALIDASI';
                                             }
                                             ?>
                                         </td>
+                                        
                                         <td>
-                                            <?= Html::a('<i class="fa fa-eye"></i>', ['view', 'id'=>$item['id_sopir']]) ?>
-                                            <?= Html::a('<i class="fa fa-pencil"></i>', ['update', 'id'=>$item['id_sopir']]) ?>
-                                            <?= Html::a('<i class="fa fa-trash-o"></i>', ['delete', 'id'=>$item['id_sopir']], ['data-method' => 'post']) ?>
+                                            <?= Html::a('<i class="fa fa-eye"></i>', ['view', 'id'=>$item['id_kondektur']]) ?>
+                                            <?= Html::a('<i class="fa fa-pencil"></i>', ['update', 'id'=>$item['id_kondektur']]) ?>
+                                            <?= Html::a('<i class="fa fa-trash-o"></i>', ['delete', 'id'=>$item['id_kondektur']], ['data-method' => 'post']) ?>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>

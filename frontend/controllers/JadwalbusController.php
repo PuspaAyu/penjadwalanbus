@@ -136,7 +136,7 @@ class JadwalbusController extends Controller
         $history = history::find()->all();
 
         //query saat lihat jadwal
-        $query->select(['jadwal_bus.id_jadwal', 'jadwal_bus.id_sopir','jadwal_bus.id_kondektur','bus.jam_operasional', 'bus.no_polisi', 'sopir.nama as sopir', 'kondektur.nama as kondektur', 'jurusan.jurusan', 'bus.status'])
+        $query->select(['jadwal_bus.id_jadwal', 'jadwal_bus.tanggal', 'jadwal_bus.id_sopir','jadwal_bus.id_kondektur','bus.jam_operasional', 'bus.no_polisi', 'sopir.nama as sopir', 'kondektur.nama as kondektur', 'jurusan.jurusan', 'bus.status'])
               ->from('jadwal_bus')
               ->where(['jadwal_bus.tanggal' => $tanggal])
               ->join('LEFT JOIN', 'pegawai sopir', 'sopir.id_pegawai = jadwal_bus.id_sopir')

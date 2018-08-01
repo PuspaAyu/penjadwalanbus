@@ -40,28 +40,99 @@ class ValidasiController extends Controller
     {
         $this->layout = 'layout_admin';
             $model = Jadwalbus::find()->all();
-
-            // $query = (new \yii\db\Query())
-            //     ->select(['*'])
-            //     ->from('pegawai')
-            //     ->all();
-
             $countsopir = (new \yii\db\Query())
                 ->select(['jadwal_bus.id_sopir',
-                        'pegawai.nama', 
-                         
-                        new \yii\db\Expression("count('id_sopir') as jml_sopir")
-    
-                       
+                        'pegawai.nama',       
+                        'jadwal_bus.tanggal',       
+                        'jadwal_bus.id_bus',       
+                        // new \yii\db\Expression("count('id_sopir') as jml_sopir")
                     ])
                 ->from('jadwal_bus')
                 ->join('LEFT JOIN','pegawai', 'pegawai.id_pegawai = jadwal_bus.id_sopir')
-                ->groupBy('id_sopir')
+                // ->groupBy('id_sopir')
                 ->all();
-            
 
           return $this->render('index',[
             'countsopir'=>$countsopir,
+            // 'query'=>$query,
+            'model'=>$model,
+          ]);
+    }
+
+    public function actionIndex2()
+    {
+        $this->layout = 'layout_admin';
+            $model = Jadwalbus::find()->all();
+            $countkondektur = (new \yii\db\Query())
+                ->select(['jadwal_bus.id_kondektur',
+                        'pegawai.nama',       
+                        'jadwal_bus.tanggal',       
+                        'jadwal_bus.id_bus',
+                    ])
+                ->from('jadwal_bus')
+                ->join('LEFT JOIN','pegawai', 'pegawai.id_pegawai = jadwal_bus.id_kondektur')
+                ->all();
+
+          return $this->render('index2',[
+            'countkondektur'=>$countkondektur,
+            // 'query'=>$query,
+            'model'=>$model,
+          ]);
+    }
+
+    public function actionIndex3()
+    {
+        $this->layout = 'layout_admin';
+            $model = Pegawai::find()->all();
+            $sopirkosong = (new \yii\db\Query())
+                ->select(['pegawai.id_pegawai',
+                    'pegawai.nama',
+                    ])
+                ->from('pegawai')
+                ->where(['id_jabatan' => 1])
+                ->andWhere([
+                    'not in',
+                    'id_pegawai',
+                    (new \yii\db\Query())
+                        ->select('id_sopir')
+                        ->from('jadwal_bus')
+                        ->join('LEFT JOIN', 'pegawai', 'pegawai.id_pegawai=jadwal_bus.id_sopir')
+                ])
+                ->all();
+
+               
+          return $this->render('index3',[
+            'sopirkosong'=>$sopirkosong,
+            // 'query'=>$query,
+            'model'=>$model,
+          ]);
+    }
+
+    public function actionIndex4()
+    {
+        $this->layout = 'layout_admin';
+            $model = Pegawai::find()->all();
+            $konkosong = (new \yii\db\Query())
+                ->select(['pegawai.id_pegawai',
+                    'pegawai.nama',
+                    // 'jadwal_bus.tanggal'
+                    ])
+                ->from('pegawai')
+                ->where(['id_jabatan' => 2])
+                ->andWhere([
+                    'not in',
+                    'id_pegawai',
+                    (new \yii\db\Query())
+                        ->select('id_kondektur')
+                        ->from('jadwal_bus')
+                        ->join('LEFT JOIN', 'pegawai', 'pegawai.id_pegawai=jadwal_bus.id_kondektur')
+                ])
+                // ->where("pegawai.id_pegawai NOT IN (SELECT id_kondektur as id_pegawai FROM jadwal_bus JOIN pegawai.id_pegawai=jadwal_bus.id_sopir)")
+                // ->join('LEFT JOIN', 'jadwal_bus', 'pegawai.id_pegawai=jadwal_bus.id_kondektur')
+                ->all();
+               
+          return $this->render('index4',[
+            'konkosong'=>$konkosong,
             // 'query'=>$query,
             'model'=>$model,
           ]);

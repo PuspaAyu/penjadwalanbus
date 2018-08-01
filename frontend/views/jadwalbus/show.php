@@ -25,7 +25,7 @@ use yii\widgets\ActiveForm;
 
 <script src="http://localhost/puspa/penjadwalanbus/vendor/datatables/js/jquery.js"></script>
 
- <div class="row">
+<!--  <div class="row">
   <div class="col-lg-12">
     <div class="col-lg-6 col-md-6">
       <select class="form-control" name="id_pegawai">
@@ -41,7 +41,7 @@ use yii\widgets\ActiveForm;
 
     
   </div>
-</div>
+</div> -->
 
 <div class="row jadwalbus-show">
 
@@ -58,7 +58,7 @@ use yii\widgets\ActiveForm;
               <thead>
                 <tr>
                   <th>No</th>
-                  
+                  <th>Tanggal</th>
                   <th>Jam Operasional</th>
                   <th>No Polisi</th>
                   <th>Status</th>
@@ -74,7 +74,7 @@ use yii\widgets\ActiveForm;
                   <form method="post" action="<?= Url::to(['jadwalbus/save', 'id' => $item['id_jadwal']]); ?>">
                     <input type="hidden" name="<?= Yii::$app->request->csrfParam; ?>" value="<?= Yii::$app->request->csrfToken; ?>" />
                     <td><?= $n;?></td>
-                   
+                    <td><?= $item['tanggal'];?></td>
                     <td>
                       <?= $item['jam_operasional']; ?> 
                       <span style="float: right;"><?= ($n > 37) ? 'malam': 'pagi'; ?></span>

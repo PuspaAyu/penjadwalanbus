@@ -43,31 +43,19 @@ $this->title = 'VALIDASI';
                                     <tr>
                                         <th>No</th>
                                         <th>Nama</th>
-                                        <th>Tanggal Jadwal</th>
-                                        <th>Shift</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php $n=0; foreach ($countsopir as $item): $n++;?>
+                                    <?php $n=0; foreach ($sopirkosong as $item): $n++;?>
                                     <tr>
-                                        <?php $bus = frontend\models\Bus::getShift($item['id_bus']); ?>
                                         <td><?= $n; ?></td>
                                         <td><?= $item['nama']; ?></td>
-                                        <td><?= $item['tanggal']; ?></td>
+                                        
                                         <td>
-                                            <?php 
-                                            if($bus['status'] == 1){
-                                                echo "pagi";
-                                            } else {
-                                                echo "malam";
-                                            }
-                                            ?>
-                                        </td>
-                                        <td>
-                                            <?= Html::a('<i class="fa fa-eye"></i>', ['view', 'id'=>$item['id_sopir']]) ?>
-                                            <?= Html::a('<i class="fa fa-pencil"></i>', ['update', 'id'=>$item['id_sopir']]) ?>
-                                            <?= Html::a('<i class="fa fa-trash-o"></i>', ['delete', 'id'=>$item['id_sopir']], ['data-method' => 'post']) ?>
+                                            <?= Html::a('<i class="fa fa-eye"></i>', ['view', 'id'=>$item['id_pegawai']]) ?>
+                                            <?= Html::a('<i class="fa fa-pencil"></i>', ['update', 'id'=>$item['id_pegawai']]) ?>
+                                            <?= Html::a('<i class="fa fa-trash-o"></i>', ['delete', 'id'=>$item['id_pegawai']], ['data-method' => 'post']) ?>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>

@@ -79,7 +79,27 @@ TemplateAsset::register($this);
                         <li><?= Html::a('<i class="fa fa-user fa-fw"></i> Jabatan', ['jabatan/index']); ?></li>
                         <li><?= Html::a('<i class="fa fa-exclamation-triangle fa-fw"></i> Izin', ['izin/index']); ?></li>
                         <li><?= Html::a('<i class="fa fa-comment fa-fw"></i> Komplain', ['komplain/index']); ?></li>
-                        <li><?= Html::a('<i class="fa fa-comment fa-fw"></i> Validasi', ['validasi/index']); ?></li>
+                        <li>
+                            <a href="#"><i class="fa fa-exclamation fa-fw"></i> Validasi<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <?= Html::a('<i class="fa fa-exclamation fa-fw"></i> Jumlah Jadwal Sopir', ['validasi/index']); ?>
+                                </li>
+                                <li>
+                                    <?= Html::a('<i class="fa fa-exclamation fa-fw"></i> Jumlah Jadwal Kondektur', ['validasi/index2']); ?>
+                                </li>
+                                <li>
+                                    <?= Html::a('<i class="fa fa-exclamation fa-fw"></i> Sopir Kosong', ['validasi/index3']); ?>
+                                </li>
+                                <li>
+                                    <?= Html::a('<i class="fa fa-exclamation fa-fw"></i> Kondektur Kosong', ['validasi/index4']); ?>
+                                </li>
+                                
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+                        <!-- <li><?= Html::a('<i class="fa fa-exclamation fa-fw"></i> Validasi Sopir', ['validasi/index']); ?></li> -->
+                        <!-- <li><?= Html::a('<i class="fa fa-exclamation fa-fw"></i> Validasi Kondektur', ['validasi/index2']); ?></li> -->
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->

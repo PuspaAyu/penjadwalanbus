@@ -72,4 +72,10 @@ class Bus extends \yii\db\ActiveRecord
     {
         return Bus::find()->where(['status' => $status])->all();
     }
+
+    public function getShift($idBus)
+    {
+        $shift = Bus::find()->where(['id_bus'=> $idBus])->one();
+        return $shift;
+    }
 }
